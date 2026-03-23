@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Trip Plans</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --accent: #ffd700;
+            --accent-rgb: 255, 215, 0;
+            --ink: #1a237e;
+            --ink-rgb: 26, 35, 126;
+            --overlay-top: rgba(26, 35, 126, 0.62);
+            --overlay-bottom: rgba(9, 14, 48, 0.94);
+            --panel: rgba(255, 255, 255, 0.1);
+            --panel-border: rgba(255, 255, 255, 0.2);
+            --panel-strong: rgba(255, 255, 255, 0.18);
+        }
+
+        ::selection {
+            background: rgba(var(--accent-rgb), 0.85);
+            color: rgb(var(--ink-rgb));
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glass {
+            background: var(--panel);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--panel-border);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.52);
+        }
+
+        .hero-tint {
+            background: linear-gradient(to bottom, var(--overlay-top), transparent 42%, var(--overlay-bottom));
+        }
+
+        .hero-multiply {
+            background: rgba(var(--ink-rgb), 0.34);
+            mix-blend-mode: multiply;
+        }
+
+        .accent-text {
+            color: var(--accent);
+        }
+
+        .accent-soft {
+            color: rgba(var(--accent-rgb), 0.82);
+        }
+
+        .accent-surface {
+            background: rgba(var(--accent-rgb), 0.14);
+            border-color: rgba(var(--accent-rgb), 0.24);
+        }
+
+        .accent-dot {
+            background: var(--accent);
+        }
+
+        .accent-chip {
+            background: rgba(var(--accent-rgb), 0.18);
+            color: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(var(--accent-rgb), 0.3);
+        }
+
+        .accent-icon {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .map-link:hover {
+            color: var(--accent);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .next-item {
+            background: rgba(var(--accent-rgb), 0.12);
+            border: 1px solid rgba(var(--accent-rgb), 0.8);
+            box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45);
+            animation: pulse-glow 2.2s infinite;
+        }
+
+        .destination-card {
+            min-width: 122px;
+            text-align: left;
+            border-radius: 18px;
+            padding: 0.9rem 0.95rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(var(--accent-rgb), 0.4);
+            background: rgba(255, 255, 255, 0.13);
+        }
+
+        .destination-card.active {
+            background: rgba(var(--accent-rgb), 0.15);
+            border-color: rgba(var(--accent-rgb), 0.72);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35);
+            }
+
+            50% {
+                box-shadow: 0 0 22px 0 rgba(var(--accent-rgb), 0.52);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-50 antialiased overflow-x-hidden">
+    <div class="fixed inset-0 z-0 h-[100svh]">
+        <img id="hero-image" src="" alt="" class="w-full h-full object-cover">
+        <div class="absolute inset-0 hero-multiply"></div>
+        <div class="absolute inset-0 hero-tint"></div>
+    </div>
+
+    <div class="max-w-md mx-auto min-h-screen relative z-10 flex flex-col">
+        <div id="header-container"
+            class="sticky top-0 z-50 bg-slate-950/20 backdrop-blur-xl border-b border-white/5 shadow-2xl pb-3">
+            <div class="px-6 pt-6 pb-2">
+                <div class="glass rounded-3xl p-5 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full accent-dot"></div>
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <div id="phrase-label" class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-2">
+                                Local phrase
+                            </div>
+                            <div id="local-phrase" class="text-lg font-serif font-bold text-white italic mb-1"></div>
+                            <div id="local-pron" class="text-sm accent-text font-medium mb-1"></div>
+                            <div id="local-meaning" class="text-xs text-white/70"></div>
+                        </div>
+                        <button id="phrase-refresh-btn"
+                            class="shrink-0 rounded-full bg-white/5 border border-white/10 p-2 text-white/40 hover:text-white transition-colors"
+                            aria-label="새 문구 보기">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 pt-2 pb-2 text-white">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass rounded-2xl p-4 text-center">
+                        <div class="text-xs accent-text font-bold uppercase tracking-wider mb-1">Seoul</div>
+                        <div id="time-seoul" class="text-2xl font-bold font-serif">--:--</div>
+                        <div id="date-seoul" class="text-[10px] text-white/70">---</div>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center">
+                        <div id="destination-clock-label"
+                            class="text-xs accent-text font-bold uppercase tracking-wider mb-1">Paris</div>
+                        <div id="time-destination" class="text-2xl font-bold font-serif">--:--</div>
+                        <div id="date-destination" class="text-[10px] text-white/70">---</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 pb-2">
+                <div class="glass rounded-2xl p-3 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div id="currency-symbol-badge"
+                            class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg"
+                            style="background: rgba(var(--ink-rgb), 0.88);">€</div>
+                        <div class="flex flex-col min-w-0">
+                            <span id="base-currency-label"
+                                class="text-[10px] accent-text uppercase tracking-wider font-bold">1 EUR</span>
+                            <span id="rate-to-krw" class="text-sm font-bold text-white truncate">... ₩</span>
+                        </div>
+                    </div>
+
+                    <div class="w-[1px] h-8 bg-white/10"></div>
+
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="flex flex-col items-end min-w-0">
+                            <span class="text-[10px] text-white/60 uppercase tracking-wider font-bold">1,000 KRW</span>
+                            <span id="rate-from-krw" class="text-sm font-bold text-white truncate">...</span>
+                        </div>
+                        <div
+                            class="w-9 h-9 rounded-full bg-slate-700 border border-white/20 flex items-center justify-center text-white font-bold text-xs shadow-lg">
+                            ₩
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 pt-2">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-[0.28em] text-white/45">Destinations</div>
+                        <div class="text-sm text-white/80">대표 도시 기준으로 빠르게 비교</div>
+                    </div>
+                    <div id="destination-count" class="text-xs accent-text font-semibold"></div>
+                </div>
+                <div id="destination-selector" class="flex gap-3 overflow-x-auto hide-scrollbar pb-2"></div>
+            </div>
+        </div>
+
+        <section class="px-6 pt-6 pb-24 flex-1">
+            <div class="glass rounded-[28px] p-5 mb-6 reveal active">
+                <div id="trip-country-chip"
+                    class="inline-flex items-center gap-2 rounded-full accent-chip px-3 py-1 text-[11px] uppercase tracking-[0.22em] font-semibold mb-4">
+                </div>
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h1 id="trip-title" class="text-3xl font-serif font-bold text-white mb-2"></h1>
+                        <p id="trip-summary" class="text-sm text-white/72 leading-6"></p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3 mt-5">
+                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
+                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Trip Length</div>
+                        <div id="trip-length" class="text-sm font-semibold text-white"></div>
+                    </div>
+                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
+                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Window</div>
+                        <div id="trip-window" class="text-sm font-semibold text-white"></div>
+                    </div>
+                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
+                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Weather</div>
+                        <div id="trip-weather-label" class="text-sm font-semibold text-white">Forecast</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative space-y-8" id="itinerary-container">
+                <div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-white/20"></div>
+            </div>
+        </section>
+
+        <footer class="py-8 text-center text-white/40 text-xs">
+            <p id="footer-note" class="font-serif italic">Next city, next story.</p>
+        </footer>
+    </div>
+
+    <script src="./app.js" defer></script>
+</body>
+
+</html>
