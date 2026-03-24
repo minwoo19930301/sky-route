@@ -1140,6 +1140,7 @@ const appState = {
     itinerary: [],
     currentWeather: null,
     weatherMode: 'loading',
+    phraseIndex: 0,
     hasStarted: false,
     customized: false
 };
@@ -1201,7 +1202,11 @@ const ui = {
     tripLength: document.getElementById('trip-length'),
     tripWindow: document.getElementById('trip-window'),
     tripWeatherLabel: document.getElementById('trip-weather-label'),
+    phraseLabel: document.getElementById('phrase-label'),
+    phraseText: document.getElementById('phrase-text'),
+    phraseMeta: document.getElementById('phrase-meta'),
     sharePlanBtn: document.getElementById('share-plan-btn'),
+    resetPlanBtn: document.getElementById('reset-plan-btn'),
     shareStatus: document.getElementById('share-status'),
     itineraryContainer: document.getElementById('itinerary-container'),
     footerNote: document.getElementById('footer-note'),
@@ -1469,6 +1474,23 @@ function getDirectionsUrl(origin, destination) {
     return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
 }
 
+function getDayDirectionsUrl(activities = []) {
+    const validLocations = activities.map((activity) => activity.location?.trim()).filter(Boolean);
+    if (validLocations.length < 2) return '';
+
+    const origin = validLocations[0];
+    const destination = validLocations[validLocations.length - 1];
+    const waypoints = validLocations.slice(1, -1);
+    const url = new URL('https://www.google.com/maps/dir/');
+    url.searchParams.set('api', '1');
+    url.searchParams.set('origin', origin);
+    url.searchParams.set('destination', destination);
+    if (waypoints.length) {
+        url.searchParams.set('waypoints', waypoints.join('|'));
+    }
+    return url.toString();
+}
+
 function getMapPreviewEmbedUrl(latitude, longitude) {
     const latDelta = 0.01;
     const lonDelta = 0.015;
@@ -1509,10 +1531,10 @@ function updateExchangeOutputs() {
     const krwAmount = parseAmountInput(ui.rateKrwInput.value);
 
     if (baseAmount === null) {
-        ui.rateToKrw.textContent = `숫자를 입력하면 KRW로 계산됩니다.`;
+        ui.rateToKrw.textContent = '숫자를 입력하면 ₩로 계산됩니다.';
     } else {
         const convertedKrw = baseAmount * currentExchangeRate;
-        ui.rateToKrw.textContent = `= ${formatExchangeValue(convertedKrw, 'ko-KR', 2)} KRW`;
+        ui.rateToKrw.textContent = `= ${formatExchangeValue(convertedKrw, 'ko-KR', 2)} ₩`;
     }
 
     if (krwAmount === null) {
@@ -1633,12 +1655,29 @@ function applyActivityIconSelection(value) {
     renderIconPicker();
 }
 
+function setRandomPhrase(destinationId) {
+    const destination = getDestination(destinationId);
+    const phraseCount = Array.isArray(destination.phrases) ? destination.phrases.length : 0;
+    appState.phraseIndex = phraseCount ? Math.floor(Math.random() * phraseCount) : 0;
+}
+
+function renderPhrase() {
+    const destination = getDestination(appState.destinationId);
+    const phrases = Array.isArray(destination.phrases) ? destination.phrases : [];
+    const phrase = phrases[appState.phraseIndex] || phrases[0];
+
+    ui.phraseLabel.textContent = destination.phraseLabel || 'Useful phrase';
+    ui.phraseText.textContent = phrase?.text || destination.city;
+    ui.phraseMeta.textContent = phrase ? `${phrase.pron} · ${phrase.meaning}` : '';
+}
+
 function renderUtilityInfo() {
     const destination = getDestination(appState.destinationId);
-    ui.destinationClockLabel.textContent = 'Local';
+    ui.destinationClockLabel.textContent = 'Destination';
     ui.baseCurrencyLabel.textContent = destination.currency.code;
     ui.currencySymbolBadge.textContent = destination.currency.symbol;
     updateExchangeOutputs();
+    renderPhrase();
 }
 
 function renderDestinationSelector() {
@@ -1852,9 +1891,9 @@ function buildHourlyWeatherHtml(day, activity) {
     const temp = Math.round(appState.currentWeather.hourly.temperature_2m[index]);
 
     return `
-        <div class="absolute -left-[48px] top-3.5 hidden md:flex flex-col items-end justify-center w-[36px] z-10">
-            <i data-lucide="${weatherInfo.icon}" class="w-5 h-5 mb-0.5" style="color:${weatherInfo.color}"></i>
-            <span class="text-[10px] font-bold text-white/90">${temp}°</span>
+        <div class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 border border-white/10">
+            <i data-lucide="${weatherInfo.icon}" class="w-3.5 h-3.5" style="color:${weatherInfo.color}"></i>
+            <span class="text-[11px] font-bold text-white/90">${temp}°</span>
         </div>
     `;
 }
@@ -1867,55 +1906,57 @@ function renderItinerary() {
     appState.itinerary.forEach((day, dayIndex) => {
         const dayElement = document.createElement('div');
         dayElement.className = 'relative pl-8 reveal';
+        const dayDirectionsUrl = getDayDirectionsUrl(day.activities);
 
         const activitiesHtml = day.activities.map((activity, activityIndex) => {
             const nextActivity = day.activities[activityIndex + 1];
             const betweenStopsHtml = nextActivity ? `
-                <div class="flex justify-center my-2">
+                <div class="flex justify-center mb-3 -mt-1">
                     <a
                         href="${getDirectionsUrl(activity.location, nextActivity.location)}"
                         target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-2 text-[11px] font-semibold text-white/82 hover:bg-white/10 transition-colors">
+                        data-skip-edit="true"
+                        class="inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[11px] font-semibold text-white hover:bg-white/10 transition-colors"
+                        style="border: 1px solid rgba(var(--accent-rgb), 0.42); background: rgba(var(--accent-rgb), 0.14);">
                         <i data-lucide="route" class="w-3.5 h-3.5"></i>
-                        <span>${escapeHtml(activity.title)} -> ${escapeHtml(nextActivity.title)} 길찾기</span>
+                        <span>다음 장소 길찾기</span>
                     </a>
                 </div>
             ` : '';
 
             return `
             <div>
-                <div class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3">
-                ${buildHourlyWeatherHtml(day, activity)}
-                <div class="flex items-center gap-3 flex-1 min-w-0">
-                    <div class="p-2 rounded-xl accent-icon shrink-0">
-                        <i data-lucide="${getRenderableActivityIcon(activity.type)}" class="w-4 h-4"></i>
+                <div
+                    class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3 cursor-pointer hover:bg-white/[0.08] transition-colors"
+                    data-action="edit-activity"
+                    data-day-index="${dayIndex}"
+                    data-activity-id="${activity.id}">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <div class="p-2 rounded-xl accent-icon shrink-0">
+                            <i data-lucide="${getRenderableActivityIcon(activity.type)}" class="w-4 h-4"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <div class="text-sm font-bold text-white">${escapeHtml(activity.time)}</div>
+                                ${buildHourlyWeatherHtml(day, activity)}
+                            </div>
+                            <div class="text-sm text-white/88 mt-1">${escapeHtml(activity.title)}</div>
+                            <div class="text-xs text-white/52 truncate mt-1">${escapeHtml(activity.location)}</div>
+                            ${activity.memo ? `<div class="text-xs text-white/62 mt-1 leading-5">${escapeHtml(activity.memo)}</div>` : ''}
+                        </div>
                     </div>
-                    <div class="min-w-0">
-                        <div class="text-sm font-bold text-white">${escapeHtml(activity.time)}</div>
-                        <div class="text-sm text-white/88">${escapeHtml(activity.title)}</div>
-                        <div class="text-xs text-white/52 truncate mt-1">${escapeHtml(activity.location)}</div>
-                        ${activity.memo ? `<div class="text-xs text-white/62 mt-1 leading-5">${escapeHtml(activity.memo)}</div>` : ''}
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="${getMapsSearchUrl(activity.location)}"
+                            target="_blank"
+                            rel="noreferrer"
+                            data-skip-edit="true"
+                            class="map-link p-2 text-white/36 transition-colors"
+                            title="구글 맵에서 보기">
+                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.location)}"
-                        target="_blank"
-                        class="map-link p-2 text-white/30 transition-colors"
-                        title="구글 맵에서 보기">
-                        <i data-lucide="map-pin" class="w-5 h-5"></i>
-                    </a>
-                    <button
-                        type="button"
-                        class="rounded-full border border-white/10 bg-white/6 p-2 text-white/45 hover:text-white transition-colors"
-                        title="일정 편집"
-                        data-action="edit-activity"
-                        data-day-index="${dayIndex}"
-                        data-activity-id="${activity.id}">
-                        <i data-lucide="pencil" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
                 ${betweenStopsHtml}
             </div>
         `;
@@ -1933,19 +1974,22 @@ function renderItinerary() {
                         <h3 class="text-2xl font-serif font-bold text-white">${escapeHtml(day.day)}</h3>
                         <span class="text-sm text-white/70 font-medium">${formatMonthDay(parseYmd(day.date))}</span>
                     </div>
-                    <div class="text-xs uppercase tracking-[0.22em] text-white/45 mt-2">${escapeHtml(day.title)}</div>
                 </div>
 
                 <div class="flex flex-col items-end gap-2">
                     ${buildDailyWeatherHtml(day)}
                     <div class="flex gap-2">
-                        <button
-                            type="button"
-                            class="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-white/10 transition-colors"
-                            data-action="rename-day"
-                            data-day-index="${dayIndex}">
-                            제목
-                        </button>
+                        ${dayDirectionsUrl ? `
+                            <a
+                                href="${dayDirectionsUrl}"
+                                target="_blank"
+                                rel="noreferrer"
+                                data-skip-edit="true"
+                                class="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-white/10 transition-colors inline-flex items-center gap-1.5">
+                                <i data-lucide="route" class="w-3.5 h-3.5"></i>
+                                <span>길찾기</span>
+                            </a>
+                        ` : ''}
                         <button
                             type="button"
                             class="rounded-full px-3 py-1.5 text-[11px] font-semibold text-slate-950 transition-colors"
@@ -2035,9 +2079,37 @@ function applySetupSelection() {
     appState.startDate = startDate;
     appState.endDate = endDate;
     appState.itinerary = buildItineraryFromRange(appState.destinationId, appState.startDate, appState.endDate);
+    setRandomPhrase(appState.destinationId);
     appState.hasStarted = true;
     appState.customized = false;
 
+    setShareStatus('');
+    refreshPlan();
+}
+
+function resetToSetup() {
+    const shouldReset = window.confirm('현재 일정을 닫고 처음 화면으로 돌아갈까요?');
+    if (!shouldReset) return;
+
+    const destination = getDestination(DEFAULT_DESTINATION_ID);
+    const { startDate, endDate } = getSuggestedDateRange(destination);
+
+    setupSelection.destinationId = destination.id;
+    setupSelection.startDate = startDate;
+    setupSelection.endDate = endDate;
+
+    appState.destinationId = destination.id;
+    appState.startDate = startDate;
+    appState.endDate = endDate;
+    appState.itinerary = [];
+    appState.currentWeather = null;
+    appState.weatherMode = 'loading';
+    appState.hasStarted = false;
+    appState.customized = false;
+    setRandomPhrase(destination.id);
+
+    const cleanUrl = `${window.location.pathname}${window.location.hash}`;
+    window.history.replaceState({}, '', cleanUrl);
     setShareStatus('');
     refreshPlan();
 }
@@ -2114,15 +2186,15 @@ function saveActivityEditor() {
     const location = ui.activityLocation.value.trim();
     const time = ui.activityTime.value;
 
-    if (!title || !location || !time) {
-        window.alert('시간, 제목, 장소는 비워둘 수 없습니다.');
+    if (!location || !time) {
+        window.alert('시간과 장소는 비워둘 수 없습니다.');
         return;
     }
 
     const nextActivity = {
         id: activityEditorState.activityId || createId('activity'),
         time,
-        title,
+        title: title || location || '일정',
         location,
         type: activityEditorState.icon || '',
         memo: ui.activityMemo.value.trim()
@@ -2164,6 +2236,10 @@ function renameDay(dayIndex) {
 }
 
 function handleItineraryClick(event) {
+    if (event.target.closest('[data-skip-edit]')) {
+        return;
+    }
+
     const editButton = event.target.closest('[data-action="edit-activity"]');
     if (editButton) {
         openActivityEditor(Number(editButton.dataset.dayIndex), editButton.dataset.activityId);
@@ -2176,10 +2252,6 @@ function handleItineraryClick(event) {
         return;
     }
 
-    const renameButton = event.target.closest('[data-action="rename-day"]');
-    if (renameButton) {
-        renameDay(Number(renameButton.dataset.dayIndex));
-    }
 }
 
 function bootstrapFromUrl() {
@@ -2196,6 +2268,7 @@ function bootstrapFromUrl() {
             appState.startDate = startDate;
             appState.endDate = endDate;
             appState.itinerary = buildItineraryFromSharedPayload(destination.id, startDate, endDate, Array.isArray(payload.i) ? payload.i : []);
+            setRandomPhrase(destination.id);
             appState.hasStarted = true;
             appState.customized = true;
 
@@ -2215,6 +2288,7 @@ function bootstrapFromUrl() {
     appState.startDate = startDate;
     appState.endDate = endDate;
     appState.itinerary = buildItineraryFromRange(destination.id, startDate, endDate);
+    setRandomPhrase(destination.id);
     appState.hasStarted = false;
     appState.customized = false;
 
@@ -2247,6 +2321,7 @@ ui.setupEndDate.addEventListener('input', () => {
 
 ui.applyPlanBtn.addEventListener('click', applySetupSelection);
 ui.sharePlanBtn.addEventListener('click', sharePlan);
+ui.resetPlanBtn.addEventListener('click', resetToSetup);
 
 ui.activityCloseBtn.addEventListener('click', closeActivityEditor);
 ui.activityCancelBtn.addEventListener('click', closeActivityEditor);

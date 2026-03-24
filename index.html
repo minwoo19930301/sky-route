@@ -227,38 +227,38 @@
     <div id="trip-shell" class="relative z-10 min-h-screen hidden">
         <main class="px-4 pt-4 pb-24 sm:px-6 lg:px-8">
             <div class="max-w-5xl mx-auto">
-                <section class="glass-panel rounded-[28px] p-4 mb-3 sm:mb-4">
+                <section class="glass-panel rounded-[26px] p-3 mb-3">
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="rounded-[22px] border border-white/10 bg-white/5 p-3 sm:p-4">
+                        <div class="rounded-[20px] border border-white/10 bg-white/5 p-3">
                             <div class="flex items-center gap-3 mb-3">
                                 <div id="currency-symbol-badge"
-                                    class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg"
+                                    class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg"
                                     style="background: rgba(var(--ink-rgb), 0.88);">€</div>
                                 <div class="min-w-0">
                                     <div class="text-[10px] uppercase tracking-[0.24em] text-white/52 mb-1">Currency</div>
-                                    <div id="base-currency-label" class="text-base sm:text-lg font-semibold text-white">EUR</div>
+                                    <div id="base-currency-label" class="text-sm sm:text-base font-semibold text-white">EUR</div>
                                 </div>
                             </div>
-                            <input id="rate-base-input" type="number" min="0" step="any" value="1" class="input-shell text-base sm:text-lg font-semibold py-3">
-                            <div id="rate-to-krw" class="text-sm font-semibold text-white/84 mt-3">...</div>
+                            <input id="rate-base-input" type="number" min="0" step="any" value="1" class="input-shell text-base font-semibold py-2.5">
+                            <div id="rate-to-krw" class="text-sm font-semibold text-white/84 mt-2.5">...</div>
                         </div>
-                        <div class="rounded-[22px] border border-white/10 bg-white/5 p-3 sm:p-4">
-                            <div class="text-[10px] uppercase tracking-[0.24em] text-white/52 mb-3">Korean Won</div>
-                            <input id="rate-krw-input" type="number" min="0" step="any" value="1" class="input-shell text-base sm:text-lg font-semibold py-3">
-                            <div id="rate-from-krw" class="text-sm font-semibold text-white/84 mt-3">...</div>
+                        <div class="rounded-[20px] border border-white/10 bg-white/5 p-3">
+                            <div class="text-[10px] uppercase tracking-[0.24em] text-white/52 mb-3">₩ KRW</div>
+                            <input id="rate-krw-input" type="number" min="0" step="any" value="1" class="input-shell text-base font-semibold py-2.5">
+                            <div id="rate-from-krw" class="text-sm font-semibold text-white/84 mt-2.5">...</div>
                         </div>
                     </div>
                 </section>
 
-                <section class="grid grid-cols-2 gap-3 mb-4 sm:mb-5">
-                    <div class="glass-panel rounded-[26px] p-4 text-center min-h-[132px] flex flex-col justify-center">
+                <section class="grid grid-cols-2 gap-3 mb-3">
+                    <div class="glass-panel rounded-[24px] p-3 text-center min-h-[100px] flex flex-col justify-center">
                         <div class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-2">Seoul</div>
-                        <div id="time-seoul" class="text-2xl sm:text-3xl font-serif font-bold text-white">--:--</div>
+                        <div id="time-seoul" class="text-xl sm:text-2xl font-serif font-bold text-white">--:--</div>
                         <div id="date-seoul" class="text-xs text-white/68 mt-1">---</div>
                     </div>
-                    <div class="glass-panel rounded-[26px] p-4 text-center min-h-[132px] flex flex-col justify-center">
-                        <div id="destination-clock-label" class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-2">Local</div>
-                        <div id="time-destination" class="text-2xl sm:text-3xl font-serif font-bold text-white">--:--</div>
+                    <div class="glass-panel rounded-[24px] p-3 text-center min-h-[100px] flex flex-col justify-center">
+                        <div id="destination-clock-label" class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-2">Destination</div>
+                        <div id="time-destination" class="text-xl sm:text-2xl font-serif font-bold text-white">--:--</div>
                         <div id="date-destination" class="text-xs text-white/68 mt-1">---</div>
                     </div>
                 </section>
@@ -292,8 +292,16 @@
 
                 <section class="mt-8">
                     <div class="glass-panel rounded-[28px] p-4 sm:p-5">
+                        <div class="rounded-[20px] border border-white/10 bg-white/5 p-4 mb-4">
+                            <div id="phrase-label" class="text-[10px] uppercase tracking-[0.24em] text-white/48 mb-2">Useful phrase</div>
+                            <div id="phrase-text" class="text-lg font-semibold text-white">...</div>
+                            <div id="phrase-meta" class="text-sm text-white/68 mt-1">...</div>
+                        </div>
                         <button id="share-plan-btn" type="button" class="action-btn px-5 py-4 text-base font-semibold w-full">링크로 저장하기 및 공유하기</button>
                         <div id="share-status" class="text-sm text-white/72 mt-4 min-h-[1.5rem]"></div>
+                        <button id="reset-plan-btn" type="button" class="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors mt-2">
+                            처음 화면으로 초기화
+                        </button>
                     </div>
                 </section>
 
@@ -358,27 +366,12 @@
                         <input id="activity-time" type="time" class="input-shell">
                     </div>
                     <div>
-                        <label for="activity-title" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Title</label>
-                        <input id="activity-title" type="text" placeholder="예: 야시장 투어" class="input-shell">
+                        <label for="activity-title" class="sr-only">Activity name</label>
+                        <input id="activity-title" type="text" placeholder="예: 야시장 투어" class="input-shell" aria-label="Activity name">
                     </div>
                     <div>
                         <label for="activity-location" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Location</label>
                         <input id="activity-location" type="text" placeholder="예: Temple Street" class="input-shell">
-                    </div>
-                    <div>
-                        <div class="flex items-center justify-between gap-3 mb-2">
-                            <label class="text-[11px] uppercase tracking-[0.24em] text-white/45 block">Icon <span class="text-white/28">(Optional)</span></label>
-                            <div class="text-[11px] text-white/35">필수 아님</div>
-                        </div>
-                        <button id="activity-icon-trigger" type="button" class="input-shell flex items-center justify-between gap-3 text-left">
-                            <span class="flex items-center gap-3 min-w-0">
-                                <span id="activity-icon-preview" class="p-2 rounded-xl accent-icon shrink-0">
-                                    <i data-lucide="map-pin" class="w-4 h-4"></i>
-                                </span>
-                                <span id="activity-icon-label" class="text-white/82 truncate">아이콘 선택 안 함</span>
-                            </span>
-                            <span class="text-[11px] uppercase tracking-[0.24em] text-white/38 shrink-0">Choose</span>
-                        </button>
                     </div>
                     <div>
                         <div class="flex items-center justify-between gap-3 mb-2">
@@ -400,8 +393,23 @@
                         <div id="activity-map-status" class="text-xs text-white/55 mt-2">장소를 입력하면 여기서 바로 구글 지도를 미리 볼 수 있습니다.</div>
                     </div>
                     <div>
-                        <label for="activity-memo" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Memo</label>
+                        <label for="activity-memo" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Memo <span class="text-white/28">(Optional)</span></label>
                         <textarea id="activity-memo" rows="4" placeholder="준비물, 예약 메모, 이동 팁" class="input-shell"></textarea>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between gap-3 mb-2">
+                            <label class="text-[11px] uppercase tracking-[0.24em] text-white/45 block">Icon <span class="text-white/28">(Optional)</span></label>
+                            <div class="text-[11px] text-white/35">필수 아님</div>
+                        </div>
+                        <button id="activity-icon-trigger" type="button" class="input-shell flex items-center justify-between gap-3 text-left">
+                            <span class="flex items-center gap-3 min-w-0">
+                                <span id="activity-icon-preview" class="p-2 rounded-xl accent-icon shrink-0">
+                                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                </span>
+                                <span id="activity-icon-label" class="text-white/82 truncate">아이콘 선택 안 함</span>
+                            </span>
+                            <span class="text-[11px] uppercase tracking-[0.24em] text-white/38 shrink-0">Choose</span>
+                        </button>
                     </div>
                 </div>
 
