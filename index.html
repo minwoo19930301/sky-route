@@ -29,19 +29,25 @@
 
     <style>
         :root {
-            --accent: #ffd700;
-            --accent-rgb: 255, 215, 0;
-            --ink: #1a237e;
-            --ink-rgb: 26, 35, 126;
-            --overlay-top: rgba(26, 35, 126, 0.62);
-            --overlay-bottom: rgba(9, 14, 48, 0.94);
-            --panel: rgba(255, 255, 255, 0.1);
-            --panel-border: rgba(255, 255, 255, 0.2);
+            --accent: #a78bfa;
+            --accent-rgb: 167, 139, 250;
+            --ink: #1f1833;
+            --ink-rgb: 31, 24, 51;
+            --overlay-top: rgba(31, 24, 51, 0.46);
+            --overlay-bottom: rgba(10, 14, 30, 0.9);
+            --panel: rgba(109, 126, 152, 0.18);
+            --panel-strong: rgba(115, 139, 168, 0.28);
+            --panel-border: rgba(255, 255, 255, 0.16);
+            --text-muted: rgba(255, 255, 255, 0.68);
         }
 
         ::selection {
             background: rgba(var(--accent-rgb), 0.85);
-            color: rgb(var(--ink-rgb));
+            color: rgba(10, 14, 30, 1);
+        }
+
+        body {
+            background: #0f172a;
         }
 
         .hide-scrollbar::-webkit-scrollbar {
@@ -53,20 +59,121 @@
             scrollbar-width: none;
         }
 
-        .glass {
-            background: var(--panel);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--panel-border);
-        }
-
         .hero-multiply {
             background: rgba(var(--ink-rgb), 0.34);
             mix-blend-mode: multiply;
         }
 
         .hero-tint {
-            background: linear-gradient(to bottom, var(--overlay-top), transparent 42%, var(--overlay-bottom));
+            background: linear-gradient(to bottom, var(--overlay-top), transparent 38%, var(--overlay-bottom));
+        }
+
+        .glass-panel {
+            background: linear-gradient(180deg, rgba(140, 156, 179, 0.18), rgba(62, 75, 95, 0.26));
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+        }
+
+        .city-card {
+            text-align: left;
+            border-radius: 26px;
+            padding: 1.25rem 1.35rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+        }
+
+        .city-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(var(--accent-rgb), 0.44);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .city-card.active {
+            background: rgba(var(--accent-rgb), 0.12);
+            border-color: rgba(var(--accent-rgb), 0.72);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .meta-box {
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+            min-height: 144px;
+        }
+
+        .chip {
+            border-radius: 999px;
+            border: 1px solid rgba(var(--accent-rgb), 0.56);
+            background: rgba(var(--accent-rgb), 0.12);
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .action-btn {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.accent {
+            color: var(--accent);
+            border-color: rgba(var(--accent-rgb), 0.42);
+            background: rgba(var(--accent-rgb), 0.12);
+        }
+
+        .action-btn.primary {
+            color: rgba(10, 14, 30, 1);
+            border-color: rgba(var(--accent-rgb), 0.66);
+            background: rgba(var(--accent-rgb), 0.96);
+        }
+
+        .input-shell {
+            width: 100%;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 0.95rem 1rem;
+            outline: none;
+            color-scheme: dark;
+        }
+
+        .input-shell:focus {
+            border-color: rgba(var(--accent-rgb), 0.58);
+            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+        }
+
+        .input-shell::placeholder {
+            color: rgba(255, 255, 255, 0.52);
+        }
+
+        .input-shell::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.92;
+        }
+
+        .input-shell::-webkit-datetime-edit,
+        .input-shell::-webkit-datetime-edit-text,
+        .input-shell::-webkit-datetime-edit-month-field,
+        .input-shell::-webkit-datetime-edit-day-field,
+        .input-shell::-webkit-datetime-edit-year-field,
+        .input-shell::-webkit-datetime-edit-hour-field,
+        .input-shell::-webkit-datetime-edit-minute-field {
+            color: #fff;
+        }
+
+        .input-shell option {
+            color: #fff;
+            background: #1e293b;
         }
 
         .accent-text {
@@ -97,43 +204,6 @@
             transform: translateY(0);
         }
 
-        .destination-card {
-            min-width: 124px;
-            text-align: left;
-            border-radius: 18px;
-            padding: 0.9rem 0.95rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-        }
-
-        .destination-card:hover {
-            transform: translateY(-1px);
-            border-color: rgba(var(--accent-rgb), 0.44);
-            background: rgba(255, 255, 255, 0.14);
-        }
-
-        .destination-card.active,
-        .setup-city-card.active {
-            background: rgba(var(--accent-rgb), 0.14);
-            border-color: rgba(var(--accent-rgb), 0.78);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-        }
-
-        .setup-city-card {
-            border-radius: 20px;
-            padding: 1rem;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-        }
-
-        .setup-city-card:hover {
-            transform: translateY(-1px);
-            border-color: rgba(var(--accent-rgb), 0.44);
-        }
-
         .next-item {
             background: rgba(var(--accent-rgb), 0.12);
             border: 1px solid rgba(var(--accent-rgb), 0.8);
@@ -146,7 +216,7 @@
             }
 
             50% {
-                box-shadow: 0 0 24px 0 rgba(var(--accent-rgb), 0.52);
+                box-shadow: 0 0 24px 0 rgba(var(--accent-rgb), 0.48);
             }
 
             100% {
@@ -156,206 +226,95 @@
     </style>
 </head>
 
-<body class="bg-slate-950 text-slate-50 antialiased overflow-x-hidden">
+<body class="text-slate-50 antialiased overflow-x-hidden">
     <div class="fixed inset-0 z-0 h-[100svh]">
         <img id="hero-image" src="" alt="" class="w-full h-full object-cover">
         <div class="absolute inset-0 hero-multiply"></div>
         <div class="absolute inset-0 hero-tint"></div>
     </div>
 
-    <div class="max-w-md mx-auto min-h-screen relative z-10 flex flex-col">
-        <div id="header-container"
-            class="sticky top-0 z-40 bg-slate-950/20 backdrop-blur-xl border-b border-white/5 shadow-2xl pb-3">
-            <div class="px-6 pt-6 pb-2">
-                <div class="glass rounded-3xl p-5 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1 h-full accent-dot"></div>
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <div id="phrase-label" class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-2">
-                                Local phrase
-                            </div>
-                            <div id="local-phrase" class="text-lg font-serif font-bold text-white italic mb-1"></div>
-                            <div id="local-pron" class="text-sm accent-text font-medium mb-1"></div>
-                            <div id="local-meaning" class="text-xs text-white/70"></div>
-                        </div>
-                        <button id="phrase-refresh-btn"
-                            class="shrink-0 rounded-full bg-white/5 border border-white/10 p-2 text-white/40 hover:text-white transition-colors"
-                            aria-label="새 문구 보기">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 pt-2 pb-2 text-white">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="glass rounded-2xl p-4 text-center">
-                        <div class="text-xs accent-text font-bold uppercase tracking-wider mb-1">Seoul</div>
-                        <div id="time-seoul" class="text-2xl font-bold font-serif">--:--</div>
-                        <div id="date-seoul" class="text-[10px] text-white/70">---</div>
-                    </div>
-                    <div class="glass rounded-2xl p-4 text-center">
-                        <div id="destination-clock-label"
-                            class="text-xs accent-text font-bold uppercase tracking-wider mb-1">Paris</div>
-                        <div id="time-destination" class="text-2xl font-bold font-serif">--:--</div>
-                        <div id="date-destination" class="text-[10px] text-white/70">---</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 pb-2">
-                <div class="glass rounded-2xl p-3 flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div id="currency-symbol-badge"
-                            class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg"
-                            style="background: rgba(var(--ink-rgb), 0.88);">€</div>
-                        <div class="flex flex-col min-w-0">
-                            <span id="base-currency-label"
-                                class="text-[10px] accent-text uppercase tracking-wider font-bold">1 EUR</span>
-                            <span id="rate-to-krw" class="text-sm font-bold text-white truncate">... ₩</span>
-                        </div>
-                    </div>
-
-                    <div class="w-[1px] h-8 bg-white/10"></div>
-
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div class="flex flex-col items-end min-w-0">
-                            <span class="text-[10px] text-white/60 uppercase tracking-wider font-bold">1,000 KRW</span>
-                            <span id="rate-from-krw" class="text-sm font-bold text-white truncate">...</span>
-                        </div>
-                        <div
-                            class="w-9 h-9 rounded-full bg-slate-700 border border-white/20 flex items-center justify-center text-white font-bold text-xs shadow-lg">
-                            ₩
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 pt-2">
-                <div class="flex items-center justify-between mb-3">
+    <div class="relative z-10 min-h-screen">
+        <header id="setup-panel" class="px-4 pt-8 pb-6 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto glass-panel rounded-[36px] px-5 py-6 sm:px-8 sm:py-8">
+                <div class="flex items-start justify-between gap-4 mb-6">
                     <div>
-                        <div class="text-[11px] uppercase tracking-[0.28em] text-white/45">Major cities</div>
-                        <div class="text-sm text-white/80">먼저 도시와 날짜를 고르고 시작</div>
+                        <div class="text-[11px] uppercase tracking-[0.38em] text-white/52 mb-2">Major Cities</div>
+                        <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white">먼저 도시와 날짜를 고르고 시작</h1>
+                        <p class="text-sm sm:text-base text-white/72 mt-3 max-w-2xl leading-7">도시를 고른 뒤 시작일과 종료일을 잡고, 아래 일정 카드에서 시간·장소·메모를 직접 수정하세요.</p>
                     </div>
-                    <div id="destination-count" class="text-xs accent-text font-semibold"></div>
+                    <div id="destination-count" class="shrink-0 text-lg sm:text-2xl font-semibold accent-text"></div>
                 </div>
-                <div id="destination-selector" class="flex gap-3 overflow-x-auto hide-scrollbar pb-2"></div>
-            </div>
-        </div>
 
-        <section class="px-6 pt-6 pb-24 flex-1">
-            <div class="glass rounded-[28px] p-5 mb-6 reveal active">
-                <div id="trip-country-chip"
-                    class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.22em] font-semibold mb-4"
-                    style="background: rgba(var(--accent-rgb), 0.18); border: 1px solid rgba(var(--accent-rgb), 0.3); color: rgba(255,255,255,0.92);">
-                </div>
-                <div class="flex items-start justify-between gap-4">
+                <div id="destination-selector" class="grid grid-cols-2 gap-4 lg:grid-cols-4"></div>
+
+                <div class="grid grid-cols-1 gap-4 mt-6 lg:grid-cols-[1fr_1fr_auto] lg:items-end">
                     <div>
-                        <h1 id="trip-title" class="text-3xl font-serif font-bold text-white mb-2"></h1>
-                        <p id="trip-summary" class="text-sm text-white/72 leading-6"></p>
+                        <label for="setup-start-date" class="text-[11px] uppercase tracking-[0.28em] text-white/48 block mb-3">Start Date</label>
+                        <input id="setup-start-date" type="date" class="input-shell">
                     </div>
+                    <div>
+                        <label for="setup-end-date" class="text-[11px] uppercase tracking-[0.28em] text-white/48 block mb-3">End Date</label>
+                        <input id="setup-end-date" type="date" class="input-shell">
+                    </div>
+                    <button id="apply-plan-btn" type="button" class="action-btn primary px-6 py-4 text-sm font-semibold lg:min-w-[190px]">일정 적용</button>
                 </div>
-                <div class="grid grid-cols-3 gap-3 mt-5">
-                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
-                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Trip Length</div>
-                        <div id="trip-length" class="text-sm font-semibold text-white"></div>
-                    </div>
-                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
-                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Window</div>
-                        <div id="trip-window" class="text-sm font-semibold text-white"></div>
-                    </div>
-                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
-                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Weather</div>
-                        <div id="trip-weather-label" class="text-sm font-semibold text-white">Forecast</div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap gap-2 mt-5">
-                    <button id="open-setup-btn"
-                        class="rounded-full px-4 py-2 text-sm font-semibold text-white border border-white/15 bg-white/8 hover:bg-white/14 transition-colors">
-                        도시 / 날짜 바꾸기
-                    </button>
-                    <button id="reset-plan-btn"
-                        class="rounded-full px-4 py-2 text-sm font-semibold border transition-colors"
-                        style="color: var(--accent); border-color: rgba(var(--accent-rgb), 0.35); background: rgba(var(--accent-rgb), 0.12);">
-                        템플릿으로 초기화
-                    </button>
-                </div>
-                <p class="text-[11px] text-white/52 mt-3">각 일정 카드의 편집 버튼으로 시간, 장소, 메모를 바로 수정할 수 있습니다.</p>
-            </div>
 
-            <div class="relative space-y-8" id="itinerary-container">
-                <div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-white/20"></div>
+                <div class="text-xs text-white/55 mt-4">같은 국가라도 시간대가 다른 도시는 따로 도시 카드로 분리했습니다. 날씨는 대략 앞으로 16일 정도까지만 실시간으로 반영됩니다.</div>
             </div>
-        </section>
+        </header>
 
-        <footer class="py-8 text-center text-white/40 text-xs">
-            <p id="footer-note" class="font-serif italic">Start with a city, then make it yours.</p>
-        </footer>
+        <main class="px-4 pb-24 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <section class="glass-panel rounded-[36px] p-6 sm:p-8 reveal active">
+                    <div id="trip-country-chip" class="chip inline-flex items-center gap-2 px-5 py-2 text-[11px] uppercase tracking-[0.32em] font-semibold mb-5"></div>
+                    <h2 id="trip-title" class="text-5xl sm:text-6xl font-serif font-bold text-white mb-4"></h2>
+                    <p id="trip-summary" class="text-lg text-white/84 leading-8 max-w-3xl"></p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+                        <div class="meta-box p-5 flex flex-col justify-between">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/48">Trip Length</div>
+                            <div id="trip-length" class="text-2xl sm:text-3xl font-bold text-white"></div>
+                        </div>
+                        <div class="meta-box p-5 flex flex-col justify-between">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/48">Window</div>
+                            <div id="trip-window" class="text-2xl sm:text-3xl font-bold text-white leading-tight"></div>
+                        </div>
+                        <div class="meta-box p-5 flex flex-col justify-between">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/48">Weather</div>
+                            <div id="trip-weather-label" class="text-2xl sm:text-3xl font-bold text-white leading-tight">Forecast</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 mt-7 sm:grid-cols-3">
+                        <button id="focus-setup-btn" type="button" class="action-btn px-5 py-4 text-base font-semibold">도시 / 날짜 바꾸기</button>
+                        <button id="share-plan-btn" type="button" class="action-btn accent px-5 py-4 text-base font-semibold">링크로 공유하기</button>
+                        <button id="reset-plan-btn" type="button" class="action-btn accent px-5 py-4 text-base font-semibold">템플릿으로 초기화</button>
+                    </div>
+
+                    <div id="share-status" class="text-sm text-white/72 mt-4 min-h-[1.5rem]"></div>
+                    <p class="text-sm text-white/62 mt-2">각 일정 카드의 편집 버튼으로 시간, 장소, 메모를 바로 수정할 수 있습니다.</p>
+                </section>
+
+                <section class="mt-8">
+                    <div class="relative space-y-8" id="itinerary-container">
+                        <div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-white/20"></div>
+                    </div>
+                </section>
+
+                <footer class="py-8 text-center text-white/42 text-sm">
+                    <p id="footer-note" class="font-serif italic">Start with a city, then make it yours.</p>
+                </footer>
+            </div>
+        </main>
     </div>
 
-    <div id="setup-overlay" class="fixed inset-0 z-[80] hidden">
-        <div class="absolute inset-0 bg-slate-950/72 backdrop-blur-md"></div>
-        <div class="relative z-10 max-w-md mx-auto min-h-screen flex items-center px-6 py-8">
-            <div class="glass rounded-[32px] p-6 w-full">
-                <div class="flex items-start justify-between gap-4 mb-5">
-                    <div>
-                        <div class="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-2">Trip setup</div>
-                        <h2 class="text-3xl font-serif font-bold text-white">도시와 날짜를 먼저 고르세요</h2>
-                        <p class="text-sm text-white/65 mt-2 leading-6">그 다음에는 일정 제목, 장소, 시간, 메모를 직접 커스터마이징할 수 있습니다.</p>
-                    </div>
-                    <button id="setup-close-btn"
-                        class="shrink-0 rounded-full bg-white/5 border border-white/10 p-2 text-white/45 hover:text-white transition-colors"
-                        aria-label="설정 닫기">
-                        <i data-lucide="x" class="w-4 h-4"></i>
-                    </button>
-                </div>
-
-                <div class="mb-5">
-                    <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-3">Choose city</div>
-                    <div id="setup-city-grid" class="grid grid-cols-2 gap-3"></div>
-                </div>
-
-                <div class="mb-4">
-                    <label for="setup-start-date" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Start date</label>
-                    <input id="setup-start-date" type="date"
-                        class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3 mb-5">
-                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
-                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Template</div>
-                        <div id="setup-template-meta" class="text-sm font-semibold text-white"></div>
-                    </div>
-                    <div class="rounded-2xl bg-white/6 border border-white/8 p-3">
-                        <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1">Forecast</div>
-                        <div id="setup-forecast-meta" class="text-sm font-semibold text-white"></div>
-                    </div>
-                </div>
-
-                <p class="text-[11px] text-white/50 leading-5 mb-5">날씨는 대략 앞으로 16일 정도까지만 실시간으로 붙일 수 있습니다. 더 먼 날짜도 일정 편집은 그대로 가능합니다.</p>
-
-                <div class="flex gap-3">
-                    <button id="setup-cancel-btn"
-                        class="flex-1 rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors">
-                        취소
-                    </button>
-                    <button id="setup-apply-btn"
-                        class="flex-1 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition-colors"
-                        style="background: var(--accent);">
-                        이 일정으로 시작
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="activity-modal" class="fixed inset-0 z-[90] hidden">
+    <div id="activity-modal" class="fixed inset-0 z-[90] hidden overflow-y-auto">
         <div class="absolute inset-0 bg-slate-950/68 backdrop-blur-md"></div>
-        <div class="relative z-10 max-w-md mx-auto min-h-screen flex items-center px-6 py-8">
-            <div class="glass rounded-[32px] p-6 w-full">
+        <div class="relative z-10 max-w-2xl mx-auto min-h-screen flex items-start sm:items-center px-4 py-4 sm:py-8 sm:px-6">
+            <div class="glass-panel rounded-[32px] p-6 w-full my-4 max-h-[calc(100svh-2rem)] overflow-y-auto">
                 <div class="flex items-start justify-between gap-4 mb-5">
                     <div>
-                        <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-2">Customize stop</div>
+                        <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-2">Customize Stop</div>
                         <h2 id="activity-modal-title" class="text-2xl font-serif font-bold text-white">일정 편집</h2>
                     </div>
                     <button id="activity-close-btn"
@@ -368,34 +327,29 @@
                 <div class="space-y-4">
                     <div>
                         <label for="activity-time" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Time</label>
-                        <input id="activity-time" type="time"
-                            class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24">
+                        <input id="activity-time" type="time" class="input-shell">
                     </div>
                     <div>
                         <label for="activity-title" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Title</label>
-                        <input id="activity-title" type="text" placeholder="예: 야시장 투어"
-                            class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24">
+                        <input id="activity-title" type="text" placeholder="예: 야시장 투어" class="input-shell">
                     </div>
                     <div>
                         <label for="activity-location" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Location</label>
-                        <input id="activity-location" type="text" placeholder="예: Borough Market"
-                            class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24">
+                        <input id="activity-location" type="text" placeholder="예: Temple Street" class="input-shell">
                     </div>
                     <div>
                         <label for="activity-icon" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Icon</label>
-                        <select id="activity-icon"
-                            class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24"></select>
+                        <select id="activity-icon" class="input-shell"></select>
                     </div>
                     <div>
                         <label for="activity-memo" class="text-[11px] uppercase tracking-[0.24em] text-white/45 block mb-2">Memo</label>
-                        <textarea id="activity-memo" rows="4" placeholder="준비물, 예약 메모, 이동 팁"
-                            class="w-full rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-white outline-none focus:border-white/24"></textarea>
+                        <textarea id="activity-memo" rows="4" placeholder="준비물, 예약 메모, 이동 팁" class="input-shell"></textarea>
                     </div>
                 </div>
 
-                <div class="flex gap-3 mt-6">
+                <div class="flex flex-col gap-3 mt-6 sm:flex-row">
                     <button id="activity-delete-btn"
-                        class="rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-200 hover:bg-red-500/16 transition-colors">
+                        class="rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-200 hover:bg-red-500/16 transition-colors sm:w-auto">
                         삭제
                     </button>
                     <button id="activity-cancel-btn"

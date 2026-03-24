@@ -907,16 +907,239 @@ const DESTINATIONS = {
                 ]
             }
         ]
+    },
+    beijing: {
+        id: 'beijing',
+        city: 'Beijing',
+        country: 'China',
+        summary: '고궁, 후통, 공원, 야경을 묶은 베이징 템플릿입니다.',
+        footer: 'Beijing works when imperial landmarks and hutong streets stay in one loop.',
+        heroImage: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=2070&auto=format&fit=crop',
+        accent: '#F87171',
+        accentRgb: '248, 113, 113',
+        ink: '#450A0A',
+        inkRgb: '69, 10, 10',
+        overlayTop: 'rgba(69, 10, 10, 0.48)',
+        overlayBottom: 'rgba(17, 24, 39, 0.92)',
+        timeZone: 'Asia/Shanghai',
+        weather: { latitude: 39.9042, longitude: 116.4074 },
+        currency: { code: 'CNY', symbol: '¥', locale: 'zh-CN' },
+        startOffsetDays: 7,
+        itineraryTemplate: [
+            {
+                title: '황성 워밍업',
+                activities: [
+                    { time: '09:30', title: '천안문 광장', type: 'landmark', location: 'Tiananmen Square' },
+                    { time: '13:00', title: '자금성', type: 'landmark', location: 'Forbidden City' },
+                    { time: '18:30', title: '왕푸징 야경', type: 'lightbulb', location: 'Wangfujing' }
+                ]
+            },
+            {
+                title: '후통 & 공원',
+                activities: [
+                    { time: '10:00', title: '후통 산책', type: 'map', location: 'Beijing Hutongs' },
+                    { time: '13:30', title: '경산공원', type: 'trees', location: 'Jingshan Park' },
+                    { time: '18:00', title: '북해공원 주변', type: 'camera', location: 'Beihai Park' }
+                ]
+            },
+            {
+                title: '만리장성 & 귀환',
+                activities: [
+                    { time: '08:30', title: '만리장성 이동', type: 'train-front', location: 'Mutianyu Great Wall' },
+                    { time: '11:00', title: '만리장성', type: 'landmark', location: 'Mutianyu Great Wall' },
+                    { time: '18:00', title: '공항 이동', type: 'plane', location: 'Beijing Capital International Airport' }
+                ]
+            }
+        ]
+    },
+    shanghai: {
+        id: 'shanghai',
+        city: 'Shanghai',
+        country: 'China',
+        summary: '번드, 타워, 쇼핑 거리, 강변 야경을 묶은 상하이 템플릿입니다.',
+        footer: 'Shanghai feels strongest when the Bund and the skyline stay in the same frame.',
+        heroImage: 'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?q=80&w=2070&auto=format&fit=crop',
+        accent: '#38BDF8',
+        accentRgb: '56, 189, 248',
+        ink: '#082F49',
+        inkRgb: '8, 47, 73',
+        overlayTop: 'rgba(8, 47, 73, 0.48)',
+        overlayBottom: 'rgba(15, 23, 42, 0.92)',
+        timeZone: 'Asia/Shanghai',
+        weather: { latitude: 31.2304, longitude: 121.4737 },
+        currency: { code: 'CNY', symbol: '¥', locale: 'zh-CN' },
+        startOffsetDays: 7,
+        itineraryTemplate: [
+            {
+                title: '번드 첫인상',
+                activities: [
+                    { time: '10:00', title: '와이탄 산책', type: 'map', location: 'The Bund' },
+                    { time: '13:30', title: '난징동루', type: 'shopping-bag', location: 'Nanjing Road' },
+                    { time: '19:00', title: '번드 야경', type: 'camera', location: 'The Bund' }
+                ]
+            },
+            {
+                title: '푸동 스카이라인',
+                activities: [
+                    { time: '10:30', title: '동방명주', type: 'tower-control', location: 'Oriental Pearl Tower' },
+                    { time: '13:30', title: '루자주이 산책', type: 'building', location: 'Lujiazui' },
+                    { time: '18:30', title: '황푸강 크루즈', type: 'ship', location: 'Huangpu River Cruise' }
+                ]
+            },
+            {
+                title: '마지막 쇼핑 & 이동',
+                activities: [
+                    { time: '10:30', title: '신천지 브런치', type: 'coffee', location: 'Xintiandi' },
+                    { time: '13:30', title: '예원', type: 'landmark', location: 'Yu Garden' },
+                    { time: '17:30', title: '푸동 공항 이동', type: 'plane', location: 'Shanghai Pudong International Airport' }
+                ]
+            }
+        ]
+    },
+    taipei: {
+        id: 'taipei',
+        city: 'Taipei',
+        country: 'Taiwan',
+        summary: '도심 전망, 야시장, 온천, 로컬 먹거리를 묶은 타이베이 템플릿입니다.',
+        footer: 'Taipei works when viewpoints, night markets, and food keep the pace light.',
+        heroImage: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2070&auto=format&fit=crop',
+        accent: '#22D3EE',
+        accentRgb: '34, 211, 238',
+        ink: '#083344',
+        inkRgb: '8, 51, 68',
+        overlayTop: 'rgba(8, 51, 68, 0.48)',
+        overlayBottom: 'rgba(15, 23, 42, 0.92)',
+        timeZone: 'Asia/Taipei',
+        weather: { latitude: 25.0330, longitude: 121.5654 },
+        currency: { code: 'TWD', symbol: 'NT$', locale: 'zh-TW' },
+        startOffsetDays: 6,
+        itineraryTemplate: [
+            {
+                title: '도심 전망',
+                activities: [
+                    { time: '10:00', title: '타이베이 101', type: 'tower-control', location: 'Taipei 101' },
+                    { time: '13:30', title: '신이 지구', type: 'shopping-cart', location: 'Xinyi District' },
+                    { time: '19:00', title: '라오허 야시장', type: 'sparkles', location: 'Raohe Night Market' }
+                ]
+            },
+            {
+                title: '로컬 산책',
+                activities: [
+                    { time: '10:30', title: '중정기념당', type: 'landmark', location: 'Chiang Kai-shek Memorial Hall' },
+                    { time: '13:00', title: '용산사', type: 'landmark', location: 'Lungshan Temple' },
+                    { time: '18:00', title: '시먼딩', type: 'lightbulb', location: 'Ximending' }
+                ]
+            },
+            {
+                title: '온천 & 귀환',
+                activities: [
+                    { time: '10:00', title: '베이터우 온천', type: 'sun', location: 'Beitou Hot Spring' },
+                    { time: '13:30', title: '딘타이펑 런치', type: 'utensils-crossed', location: 'Din Tai Fung Taipei' },
+                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'Taiwan Taoyuan International Airport' }
+                ]
+            }
+        ]
+    },
+    hanoi: {
+        id: 'hanoi',
+        city: 'Hanoi',
+        country: 'Vietnam',
+        summary: '호수, 올드쿼터, 카페, 야시장을 묶은 하노이 템플릿입니다.',
+        footer: 'Hanoi feels best when lakes, old streets, and food stops move at an easy pace.',
+        heroImage: 'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop',
+        accent: '#4ADE80',
+        accentRgb: '74, 222, 128',
+        ink: '#052E16',
+        inkRgb: '5, 46, 22',
+        overlayTop: 'rgba(5, 46, 22, 0.48)',
+        overlayBottom: 'rgba(17, 24, 39, 0.92)',
+        timeZone: 'Asia/Ho_Chi_Minh',
+        weather: { latitude: 21.0278, longitude: 105.8342 },
+        currency: { code: 'VND', symbol: '₫', locale: 'vi-VN' },
+        startOffsetDays: 7,
+        itineraryTemplate: [
+            {
+                title: '호수와 구시가지',
+                activities: [
+                    { time: '10:00', title: '호안끼엠 호수', type: 'map', location: 'Hoan Kiem Lake' },
+                    { time: '13:30', title: '올드쿼터 산책', type: 'store', location: 'Hanoi Old Quarter' },
+                    { time: '18:30', title: '맥주거리', type: 'moon-star', location: 'Ta Hien Street' }
+                ]
+            },
+            {
+                title: '로컬 감도',
+                activities: [
+                    { time: '10:30', title: '문묘', type: 'landmark', location: 'Temple of Literature' },
+                    { time: '13:00', title: '에그커피 카페', type: 'coffee', location: 'Giang Cafe' },
+                    { time: '18:00', title: '야시장', type: 'sparkles', location: 'Hanoi Night Market' }
+                ]
+            },
+            {
+                title: '마지막 한 끼 & 출발',
+                activities: [
+                    { time: '10:30', title: '분짜 런치', type: 'utensils-crossed', location: 'Bun Cha Huong Lien' },
+                    { time: '13:30', title: '기념품 쇼핑', type: 'gift', location: 'Trang Tien Plaza' },
+                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'Noi Bai International Airport' }
+                ]
+            }
+        ]
+    },
+    'ho-chi-minh-city': {
+        id: 'ho-chi-minh-city',
+        city: 'Ho Chi Minh City',
+        country: 'Vietnam',
+        summary: '도심 랜드마크, 카페, 마켓, 강변 야경을 묶은 호치민 템플릿입니다.',
+        footer: 'Ho Chi Minh City works when cafes, markets, and skyline views stay close together.',
+        heroImage: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=2070&auto=format&fit=crop',
+        accent: '#FACC15',
+        accentRgb: '250, 204, 21',
+        ink: '#422006',
+        inkRgb: '66, 32, 6',
+        overlayTop: 'rgba(66, 32, 6, 0.48)',
+        overlayBottom: 'rgba(17, 24, 39, 0.92)',
+        timeZone: 'Asia/Ho_Chi_Minh',
+        weather: { latitude: 10.8231, longitude: 106.6297 },
+        currency: { code: 'VND', symbol: '₫', locale: 'vi-VN' },
+        startOffsetDays: 7,
+        itineraryTemplate: [
+            {
+                title: '도심 중심부',
+                activities: [
+                    { time: '10:00', title: '노트르담 성당', type: 'landmark', location: 'Notre Dame Cathedral of Saigon' },
+                    { time: '13:00', title: '중앙우체국', type: 'building', location: 'Saigon Central Post Office' },
+                    { time: '18:30', title: '응우옌후에 거리', type: 'lightbulb', location: 'Nguyen Hue Walking Street' }
+                ]
+            },
+            {
+                title: '마켓 & 카페',
+                activities: [
+                    { time: '10:30', title: '벤탄시장', type: 'shopping-bag', location: 'Ben Thanh Market' },
+                    { time: '13:30', title: '로컬 카페', type: 'coffee', location: 'District 1 Ho Chi Minh City' },
+                    { time: '18:30', title: '사이공 스카이덱', type: 'binoculars', location: 'Bitexco Financial Tower' }
+                ]
+            },
+            {
+                title: '강변 & 귀환',
+                activities: [
+                    { time: '10:30', title: '투득 강변 산책', type: 'map', location: 'Saigon River' },
+                    { time: '13:30', title: '반미 런치', type: 'utensils-crossed', location: 'District 1 Ho Chi Minh City' },
+                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'Tan Son Nhat International Airport' }
+                ]
+            }
+        ]
     }
 };
 
+const DEFAULT_DESTINATION_ID = DESTINATIONS['hong-kong'] ? 'hong-kong' : Object.keys(DESTINATIONS)[0];
+const ACTIVITY_ICON_VALUES = new Set(ACTIVITY_ICON_OPTIONS.map((option) => option.value));
+
 const appState = {
-    destinationId: 'paris',
+    destinationId: DEFAULT_DESTINATION_ID,
     startDate: '',
+    endDate: '',
     itinerary: [],
     currentWeather: null,
     weatherMode: 'loading',
-    hasStarted: false,
     customized: false
 };
 
@@ -926,12 +1149,13 @@ let activityEditorState = {
 };
 
 let setupSelection = {
-    destinationId: 'paris',
-    startDate: ''
+    destinationId: DEFAULT_DESTINATION_ID,
+    startDate: '',
+    endDate: ''
 };
 
-let userHasScrolled = window.scrollY > 0;
 let idCounter = 0;
+let shareStatusTimer = null;
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -947,40 +1171,24 @@ const observer = new IntersectionObserver((entries) => {
 
 const ui = {
     heroImage: document.getElementById('hero-image'),
-    phraseLabel: document.getElementById('phrase-label'),
-    localPhrase: document.getElementById('local-phrase'),
-    localPron: document.getElementById('local-pron'),
-    localMeaning: document.getElementById('local-meaning'),
-    phraseRefreshBtn: document.getElementById('phrase-refresh-btn'),
-    destinationClockLabel: document.getElementById('destination-clock-label'),
-    timeSeoul: document.getElementById('time-seoul'),
-    dateSeoul: document.getElementById('date-seoul'),
-    timeDestination: document.getElementById('time-destination'),
-    dateDestination: document.getElementById('date-destination'),
-    currencySymbolBadge: document.getElementById('currency-symbol-badge'),
-    baseCurrencyLabel: document.getElementById('base-currency-label'),
-    rateToKrw: document.getElementById('rate-to-krw'),
-    rateFromKrw: document.getElementById('rate-from-krw'),
+    setupPanel: document.getElementById('setup-panel'),
     destinationSelector: document.getElementById('destination-selector'),
     destinationCount: document.getElementById('destination-count'),
+    setupStartDate: document.getElementById('setup-start-date'),
+    setupEndDate: document.getElementById('setup-end-date'),
+    applyPlanBtn: document.getElementById('apply-plan-btn'),
     tripCountryChip: document.getElementById('trip-country-chip'),
     tripTitle: document.getElementById('trip-title'),
     tripSummary: document.getElementById('trip-summary'),
     tripLength: document.getElementById('trip-length'),
     tripWindow: document.getElementById('trip-window'),
     tripWeatherLabel: document.getElementById('trip-weather-label'),
+    sharePlanBtn: document.getElementById('share-plan-btn'),
+    shareStatus: document.getElementById('share-status'),
+    focusSetupBtn: document.getElementById('focus-setup-btn'),
+    resetPlanBtn: document.getElementById('reset-plan-btn'),
     itineraryContainer: document.getElementById('itinerary-container'),
     footerNote: document.getElementById('footer-note'),
-    openSetupBtn: document.getElementById('open-setup-btn'),
-    resetPlanBtn: document.getElementById('reset-plan-btn'),
-    setupOverlay: document.getElementById('setup-overlay'),
-    setupCloseBtn: document.getElementById('setup-close-btn'),
-    setupCancelBtn: document.getElementById('setup-cancel-btn'),
-    setupApplyBtn: document.getElementById('setup-apply-btn'),
-    setupCityGrid: document.getElementById('setup-city-grid'),
-    setupStartDate: document.getElementById('setup-start-date'),
-    setupTemplateMeta: document.getElementById('setup-template-meta'),
-    setupForecastMeta: document.getElementById('setup-forecast-meta'),
     activityModal: document.getElementById('activity-modal'),
     activityCloseBtn: document.getElementById('activity-close-btn'),
     activityCancelBtn: document.getElementById('activity-cancel-btn'),
@@ -1009,7 +1217,7 @@ function escapeHtml(value = '') {
 }
 
 function getDestination(id) {
-    return DESTINATIONS[id] || DESTINATIONS.paris;
+    return DESTINATIONS[id] || DESTINATIONS[DEFAULT_DESTINATION_ID] || DESTINATIONS.paris;
 }
 
 function getLocalNow(timeZone) {
@@ -1038,8 +1246,23 @@ function addDays(date, amount) {
     return next;
 }
 
+function countDaysInclusive(startDate, endDate) {
+    return Math.floor((endDate.getTime() - startDate.getTime()) / 86400000) + 1;
+}
+
 function sortActivities(day) {
     day.activities.sort((left, right) => left.time.localeCompare(right.time));
+}
+
+function cloneTemplateActivity(activity) {
+    return {
+        id: createId('activity'),
+        time: activity.time,
+        title: activity.title,
+        location: activity.location,
+        type: activity.type,
+        memo: activity.memo || ''
+    };
 }
 
 function getSuggestedStartDate(destination) {
@@ -1049,35 +1272,139 @@ function getSuggestedStartDate(destination) {
     return formatYmd(now);
 }
 
-function normalizeStartDate(value, destination) {
-    return parseYmd(value) ? value : getSuggestedStartDate(destination);
+function getSuggestedDateRange(destination) {
+    const startDate = getSuggestedStartDate(destination);
+    const templateLength = Math.max(destination.itineraryTemplate.length, 1);
+    const endDate = formatYmd(addDays(parseYmd(startDate), templateLength - 1));
+    return { startDate, endDate };
 }
 
-function buildItineraryFromTemplate(destinationId, startDate) {
+function normalizeDateRange(startValue, endValue, destination) {
+    const suggested = getSuggestedDateRange(destination);
+    const startDate = parseYmd(startValue) ? startValue : suggested.startDate;
+    let endDate = parseYmd(endValue) ? endValue : formatYmd(addDays(parseYmd(startDate), destination.itineraryTemplate.length - 1));
+
+    if (parseYmd(endDate) < parseYmd(startDate)) {
+        endDate = startDate;
+    }
+
+    return { startDate, endDate };
+}
+
+function buildTemplateTitle(destination, dayIndex) {
+    const templateLength = destination.itineraryTemplate.length;
+    const template = destination.itineraryTemplate[dayIndex % templateLength];
+    const cycle = Math.floor(dayIndex / templateLength);
+    return cycle ? `${template.title} · ${cycle + 1}` : template.title;
+}
+
+function buildItineraryFromRange(destinationId, startDate, endDate) {
     const destination = getDestination(destinationId);
     const baseDate = parseYmd(startDate);
+    const finalDate = parseYmd(endDate);
+    const dayCount = countDaysInclusive(baseDate, finalDate);
+    const templateLength = destination.itineraryTemplate.length;
 
-    return destination.itineraryTemplate.map((dayTemplate, dayIndex) => {
+    return Array.from({ length: dayCount }, (_, dayIndex) => {
         const currentDate = addDays(baseDate, dayIndex);
+        const template = destination.itineraryTemplate[dayIndex % templateLength];
+
         return {
             id: createId('day'),
             date: formatYmd(currentDate),
             day: DAY_LABELS[currentDate.getDay()],
-            title: dayTemplate.title,
-            activities: dayTemplate.activities.map((activity) => ({
-                id: createId('activity'),
-                time: activity.time,
-                title: activity.title,
-                location: activity.location,
-                type: activity.type,
-                memo: activity.memo || ''
-            }))
+            title: buildTemplateTitle(destination, dayIndex),
+            activities: template.activities.map((activity) => cloneTemplateActivity(activity))
         };
     });
 }
 
+function buildItineraryFromSharedPayload(destinationId, startDate, endDate, serializedDays = []) {
+    const templateItinerary = buildItineraryFromRange(destinationId, startDate, endDate);
+
+    return templateItinerary.map((day, dayIndex) => {
+        const sourceDay = serializedDays[dayIndex];
+        if (!sourceDay) return day;
+
+        const nextActivities = Array.isArray(sourceDay.a) && sourceDay.a.length
+            ? sourceDay.a.map((activity) => ({
+                id: createId('activity'),
+                time: typeof activity.h === 'string' && activity.h ? activity.h : '09:00',
+                title: typeof activity.n === 'string' && activity.n ? activity.n : '일정',
+                location: typeof activity.l === 'string' ? activity.l : '',
+                type: typeof activity.k === 'string' && ACTIVITY_ICON_VALUES.has(activity.k) ? activity.k : ACTIVITY_ICON_OPTIONS[0].value,
+                memo: typeof activity.m === 'string' ? activity.m : ''
+            }))
+            : day.activities;
+
+        return {
+            ...day,
+            title: typeof sourceDay.t === 'string' && sourceDay.t.trim() ? sourceDay.t.trim() : day.title,
+            activities: nextActivities
+        };
+    });
+}
+
+function buildSharePayload() {
+    return {
+        v: 1,
+        d: appState.destinationId,
+        s: appState.startDate,
+        e: appState.endDate,
+        i: appState.itinerary.map((day) => ({
+            t: day.title,
+            a: day.activities.map((activity) => ({
+                h: activity.time,
+                n: activity.title,
+                l: activity.location,
+                k: activity.type,
+                m: activity.memo || ''
+            }))
+        }))
+    };
+}
+
+function encodePlan(payload) {
+    const json = JSON.stringify(payload);
+    const bytes = new TextEncoder().encode(json);
+    let binary = '';
+
+    bytes.forEach((byte) => {
+        binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+}
+
+function decodePlan(value) {
+    const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = normalized + '='.repeat((4 - (normalized.length % 4)) % 4);
+    const binary = atob(padded);
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    const json = new TextDecoder().decode(bytes);
+    return JSON.parse(json);
+}
+
 function setScrollLock(locked) {
     document.body.style.overflow = locked ? 'hidden' : '';
+}
+
+function setShareStatus(message = '') {
+    if (shareStatusTimer) {
+        window.clearTimeout(shareStatusTimer);
+        shareStatusTimer = null;
+    }
+
+    ui.shareStatus.textContent = message;
+
+    if (message) {
+        shareStatusTimer = window.setTimeout(() => {
+            ui.shareStatus.textContent = '';
+        }, 3200);
+    }
 }
 
 function applyTheme(destination) {
@@ -1090,8 +1417,35 @@ function applyTheme(destination) {
 
     ui.heroImage.src = destination.heroImage;
     ui.heroImage.alt = `${destination.city}, ${destination.country}`;
-    ui.currencySymbolBadge.style.background = `rgba(${destination.inkRgb}, 0.88)`;
     document.title = `${destination.city} Trip Plan`;
+}
+
+function renderIconOptions() {
+    ui.activityIcon.innerHTML = ACTIVITY_ICON_OPTIONS.map((option) => (
+        `<option value="${option.value}">${option.label}</option>`
+    )).join('');
+}
+
+function renderDestinationSelector() {
+    ui.destinationSelector.innerHTML = '';
+    ui.destinationCount.textContent = `${Object.keys(DESTINATIONS).length} cities`;
+
+    Object.values(DESTINATIONS).forEach((destination) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `city-card ${destination.id === setupSelection.destinationId ? 'active' : ''}`;
+        button.dataset.destination = destination.id;
+        button.innerHTML = `
+            <div class="text-[11px] uppercase tracking-[0.28em] text-white/50 mb-4">${escapeHtml(destination.country)}</div>
+            <div class="text-2xl font-semibold text-white">${escapeHtml(destination.city)}</div>
+        `;
+        ui.destinationSelector.appendChild(button);
+    });
+}
+
+function renderSetupInputs() {
+    ui.setupStartDate.value = setupSelection.startDate;
+    ui.setupEndDate.value = setupSelection.endDate;
 }
 
 function renderStaticSummary() {
@@ -1099,21 +1453,17 @@ function renderStaticSummary() {
     const firstDay = appState.itinerary[0];
     const lastDay = appState.itinerary[appState.itinerary.length - 1];
 
-    ui.phraseLabel.textContent = destination.phraseLabel;
-    ui.destinationClockLabel.textContent = destination.city;
-    ui.baseCurrencyLabel.textContent = `1 ${destination.currency.code}`;
     ui.tripCountryChip.textContent = `${destination.country} · ${destination.city}`;
     ui.tripTitle.textContent = destination.city;
     ui.tripSummary.textContent = destination.summary;
     ui.tripLength.textContent = `${appState.itinerary.length} days`;
-    ui.tripWindow.textContent = `${firstDay.date.slice(5).replace('-', '.')} - ${lastDay.date.slice(5).replace('-', '.')}`;
+    ui.tripWindow.textContent = `${formatMonthDay(parseYmd(firstDay.date))} - ${formatMonthDay(parseYmd(lastDay.date))}`;
     ui.footerNote.textContent = destination.footer;
-    ui.destinationCount.textContent = `${Object.keys(DESTINATIONS).length} cities`;
 }
 
 function renderWeatherStatus() {
     if (appState.weatherMode === 'live') {
-        ui.tripWeatherLabel.textContent = 'Live forecast';
+        ui.tripWeatherLabel.textContent = 'Live Forecast';
         return;
     }
 
@@ -1123,124 +1473,11 @@ function renderWeatherStatus() {
     }
 
     if (appState.weatherMode === 'error') {
-        ui.tripWeatherLabel.textContent = 'Weather error';
+        ui.tripWeatherLabel.textContent = 'Weather Error';
         return;
     }
 
     ui.tripWeatherLabel.textContent = 'Forecast';
-}
-
-function setRandomPhrase() {
-    const destination = getDestination(appState.destinationId);
-    const phrase = destination.phrases[Math.floor(Math.random() * destination.phrases.length)];
-    ui.localPhrase.textContent = phrase.text;
-    ui.localPron.textContent = phrase.pron;
-    ui.localMeaning.textContent = phrase.meaning;
-}
-
-function renderDestinationSelector() {
-    ui.destinationSelector.innerHTML = '';
-
-    Object.values(DESTINATIONS).forEach((destination) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = `destination-card glass ${destination.id === appState.destinationId ? 'active' : ''}`;
-        button.dataset.destination = destination.id;
-        button.innerHTML = `
-            <div class="text-[10px] uppercase tracking-[0.22em] text-white/45 mb-2">${destination.country}</div>
-            <div class="text-sm font-semibold text-white">${destination.city}</div>
-        `;
-        ui.destinationSelector.appendChild(button);
-    });
-}
-
-function renderSetupCityGrid() {
-    ui.setupCityGrid.innerHTML = '';
-
-    Object.values(DESTINATIONS).forEach((destination) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = `setup-city-card ${destination.id === setupSelection.destinationId ? 'active' : ''}`;
-        button.dataset.destination = destination.id;
-        button.innerHTML = `
-            <div class="text-[10px] uppercase tracking-[0.22em] text-white/45 mb-2">${destination.country}</div>
-            <div class="text-sm font-semibold text-white">${destination.city}</div>
-        `;
-        ui.setupCityGrid.appendChild(button);
-    });
-}
-
-function updateSetupMeta() {
-    const destination = getDestination(setupSelection.destinationId);
-    const selectedDate = normalizeStartDate(ui.setupStartDate.value, destination);
-    const itineraryPreview = buildItineraryFromTemplate(destination.id, selectedDate);
-
-    ui.setupTemplateMeta.textContent = `${itineraryPreview.length} days template`;
-    ui.setupForecastMeta.textContent = canFetchWeather(destination.id, selectedDate, itineraryPreview.length)
-        ? 'Live available'
-        : 'Template only';
-}
-
-function updateSetupLockState() {
-    const isLocked = !appState.hasStarted;
-    ui.setupCloseBtn.classList.toggle('hidden', isLocked);
-    ui.setupCancelBtn.classList.toggle('hidden', isLocked);
-    ui.setupApplyBtn.textContent = isLocked ? '이 일정으로 시작' : '적용';
-}
-
-function openSetup(prefillDestinationId = appState.destinationId) {
-    setupSelection.destinationId = prefillDestinationId;
-    const destination = getDestination(setupSelection.destinationId);
-    ui.setupStartDate.value = appState.startDate || getSuggestedStartDate(destination);
-    renderSetupCityGrid();
-    updateSetupMeta();
-    updateSetupLockState();
-    ui.setupOverlay.classList.remove('hidden');
-    setScrollLock(true);
-    lucide.createIcons();
-}
-
-function closeSetup() {
-    if (!appState.hasStarted) return;
-    ui.setupOverlay.classList.add('hidden');
-    setScrollLock(false);
-}
-
-function renderIconOptions() {
-    ui.activityIcon.innerHTML = ACTIVITY_ICON_OPTIONS.map((option) => (
-        `<option value="${option.value}">${option.label}</option>`
-    )).join('');
-}
-
-function updateClocks() {
-    const destination = getDestination(appState.destinationId);
-    const now = new Date();
-
-    ui.timeSeoul.textContent = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Seoul',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    });
-    ui.dateSeoul.textContent = now.toLocaleDateString('en-US', {
-        timeZone: 'Asia/Seoul',
-        month: 'short',
-        day: 'numeric',
-        weekday: 'short'
-    });
-
-    ui.timeDestination.textContent = now.toLocaleTimeString('en-US', {
-        timeZone: destination.timeZone,
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    });
-    ui.dateDestination.textContent = now.toLocaleDateString('en-US', {
-        timeZone: destination.timeZone,
-        month: 'short',
-        day: 'numeric',
-        weekday: 'short'
-    });
 }
 
 function getWeatherInfo(code) {
@@ -1254,13 +1491,13 @@ function getWeatherInfo(code) {
     return { icon: 'cloud', color: '#cbd5e1' };
 }
 
-function canFetchWeather(destinationId, startDate, dayCount) {
+function canFetchWeather(destinationId, startDate, endDate) {
     const destination = getDestination(destinationId);
     const today = getLocalNow(destination.timeZone);
     today.setHours(0, 0, 0, 0);
 
     const tripStart = parseYmd(startDate);
-    const tripEnd = addDays(tripStart, dayCount - 1);
+    const tripEnd = parseYmd(endDate);
     const maxForecastDate = addDays(today, 15);
 
     return tripStart >= today && tripEnd <= maxForecastDate;
@@ -1271,7 +1508,7 @@ async function fetchWeather() {
     const firstDay = appState.itinerary[0];
     const lastDay = appState.itinerary[appState.itinerary.length - 1];
 
-    if (!canFetchWeather(destination.id, appState.startDate, appState.itinerary.length)) {
+    if (!canFetchWeather(destination.id, appState.startDate, appState.endDate)) {
         appState.currentWeather = null;
         appState.weatherMode = 'range';
         renderWeatherStatus();
@@ -1304,32 +1541,6 @@ async function fetchWeather() {
     renderItinerary();
 }
 
-async function fetchExchangeRate() {
-    const destination = getDestination(appState.destinationId);
-
-    try {
-        const response = await fetch(`https://open.er-api.com/v6/latest/${destination.currency.code}`);
-        if (!response.ok) throw new Error('Exchange fetch failed');
-
-        const data = await response.json();
-        const rate = data?.rates?.KRW;
-        if (!rate) throw new Error('Missing KRW rate');
-
-        ui.rateToKrw.textContent = `${Math.round(rate).toLocaleString('ko-KR')} ₩`;
-
-        const reverseValue = 1000 / rate;
-        const decimals = destination.currency.code === 'JPY' ? 0 : 2;
-        ui.rateFromKrw.textContent = `${new Intl.NumberFormat(destination.currency.locale, {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals
-        }).format(reverseValue)} ${destination.currency.symbol}`;
-    } catch (error) {
-        console.error('Exchange rate fetch failed:', error);
-        ui.rateToKrw.textContent = 'Unavailable';
-        ui.rateFromKrw.textContent = 'Unavailable';
-    }
-}
-
 function buildDailyWeatherHtml(day) {
     if (!appState.currentWeather?.daily?.time) return '';
 
@@ -1359,7 +1570,7 @@ function buildHourlyWeatherHtml(day, activity) {
     const temp = Math.round(appState.currentWeather.hourly.temperature_2m[index]);
 
     return `
-        <div class="absolute -left-[48px] top-3.5 flex flex-col items-end justify-center w-[36px] z-10">
+        <div class="absolute -left-[48px] top-3.5 hidden md:flex flex-col items-end justify-center w-[36px] z-10">
             <i data-lucide="${weatherInfo.icon}" class="w-5 h-5 mb-0.5" style="color:${weatherInfo.color}"></i>
             <span class="text-[10px] font-bold text-white/90">${temp}°</span>
         </div>
@@ -1368,75 +1579,58 @@ function buildHourlyWeatherHtml(day, activity) {
 
 function renderItinerary() {
     const destination = getDestination(appState.destinationId);
-    const now = getLocalNow(destination.timeZone);
-    let nextItemFound = false;
 
     ui.itineraryContainer.innerHTML = '<div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-white/20"></div>';
 
     appState.itinerary.forEach((day, dayIndex) => {
-        let isCurrentDay = false;
         const dayElement = document.createElement('div');
         dayElement.className = 'relative pl-8 reveal';
 
-        const activitiesHtml = day.activities.map((activity) => {
-            const activityTime = new Date(`${day.date}T${activity.time}:00`);
-            const isNextItem = !nextItemFound && activityTime > now;
-
-            if (isNextItem) {
-                nextItemFound = true;
-                isCurrentDay = true;
-            }
-
-            return `
-                <div ${isNextItem ? 'id="next-schedule"' : ''} class="relative glass p-4 rounded-2xl flex items-center justify-between gap-3 mb-3 hover:bg-white/10 transition-colors ${isNextItem ? 'next-item' : ''}">
-                    ${buildHourlyWeatherHtml(day, activity)}
-                    <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <div class="p-2 rounded-xl accent-icon shrink-0">
-                            <i data-lucide="${activity.type}" class="w-4 h-4"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-sm font-bold text-white">${escapeHtml(activity.time)}</div>
-                            <div class="text-sm text-white/85">${escapeHtml(activity.title)}</div>
-                            <div class="text-xs text-white/46 truncate mt-1">${escapeHtml(activity.location)}</div>
-                            ${activity.memo ? `<div class="text-xs text-white/54 mt-1 leading-5">${escapeHtml(activity.memo)}</div>` : ''}
-                        </div>
+        const activitiesHtml = day.activities.map((activity) => `
+            <div class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3">
+                ${buildHourlyWeatherHtml(day, activity)}
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="p-2 rounded-xl accent-icon shrink-0">
+                        <i data-lucide="${activity.type}" class="w-4 h-4"></i>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.location)}"
-                            target="_blank"
-                            class="map-link p-2 text-white/30 transition-colors"
-                            title="구글 맵에서 보기">
-                            <i data-lucide="map-pin" class="w-5 h-5"></i>
-                        </a>
-                        <button
-                            type="button"
-                            class="rounded-full border border-white/10 bg-white/6 p-2 text-white/45 hover:text-white transition-colors"
-                            title="일정 편집"
-                            data-action="edit-activity"
-                            data-day-index="${dayIndex}"
-                            data-activity-id="${activity.id}">
-                            <i data-lucide="pencil" class="w-4 h-4"></i>
-                        </button>
+                    <div class="min-w-0">
+                        <div class="text-sm font-bold text-white">${escapeHtml(activity.time)}</div>
+                        <div class="text-sm text-white/88">${escapeHtml(activity.title)}</div>
+                        <div class="text-xs text-white/52 truncate mt-1">${escapeHtml(activity.location)}</div>
+                        ${activity.memo ? `<div class="text-xs text-white/62 mt-1 leading-5">${escapeHtml(activity.memo)}</div>` : ''}
                     </div>
                 </div>
-            `;
-        }).join('');
-
-        const dotStyle = isCurrentDay
-            ? `style="box-shadow:0 0 0 2px rgba(${destination.accentRgb},0.72), 0 0 24px rgba(${destination.accentRgb},0.42);"`
-            : '';
+                <div class="flex items-center gap-2 shrink-0">
+                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.location)}"
+                        target="_blank"
+                        class="map-link p-2 text-white/30 transition-colors"
+                        title="구글 맵에서 보기">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    </a>
+                    <button
+                        type="button"
+                        class="rounded-full border border-white/10 bg-white/6 p-2 text-white/45 hover:text-white transition-colors"
+                        title="일정 편집"
+                        data-action="edit-activity"
+                        data-day-index="${dayIndex}"
+                        data-activity-id="${activity.id}">
+                        <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
 
         dayElement.innerHTML = `
             <div class="flex items-start gap-3 mb-4">
                 <div class="w-6 h-6 rounded-full border-4 border-white/20 shadow-sm z-10 absolute left-0 flex items-center justify-center"
-                    style="background:rgba(${destination.inkRgb},0.9);" ${dotStyle}>
+                    style="background:rgba(${destination.inkRgb},0.9);">
                     <div class="w-1.5 h-1.5 rounded-full accent-dot"></div>
                 </div>
 
                 <div class="flex-1">
                     <div class="flex items-center gap-2">
-                        <h3 class="text-xl font-serif font-bold ${isCurrentDay ? 'accent-text' : 'text-white'}">${escapeHtml(day.day)}</h3>
-                        <span class="text-sm ${isCurrentDay ? 'text-white/86' : 'text-white/60'} font-medium">${formatMonthDay(parseYmd(day.date))}</span>
+                        <h3 class="text-2xl font-serif font-bold text-white">${escapeHtml(day.day)}</h3>
+                        <span class="text-sm text-white/70 font-medium">${formatMonthDay(parseYmd(day.date))}</span>
                     </div>
                     <div class="text-xs uppercase tracking-[0.22em] text-white/45 mt-2">${escapeHtml(day.title)}</div>
                 </div>
@@ -1473,64 +1667,98 @@ function renderItinerary() {
 
     lucide.createIcons();
     ui.itineraryContainer.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+}
 
-    const nextElement = document.getElementById('next-schedule');
-    if (nextElement && !userHasScrolled) {
-        setTimeout(() => {
-            if (userHasScrolled) return;
-            const header = document.getElementById('header-container');
-            const headerHeight = header ? header.offsetHeight : 0;
-            const rect = nextElement.getBoundingClientRect();
-            const absoluteTop = rect.top + window.scrollY;
-            const targetTop = absoluteTop - headerHeight - 28;
-
-            window.scrollTo({
-                top: Math.max(0, targetTop),
-                behavior: 'smooth'
-            });
-        }, 700);
-    }
+function buildShareUrl() {
+    const url = new URL(window.location.href);
+    url.search = '';
+    url.searchParams.set('destination', appState.destinationId);
+    url.searchParams.set('start', appState.startDate);
+    url.searchParams.set('end', appState.endDate);
+    url.searchParams.set('plan', encodePlan(buildSharePayload()));
+    return url.toString();
 }
 
 function syncUrl() {
-    const url = new URL(window.location.href);
-    url.searchParams.set('destination', appState.destinationId);
-    url.searchParams.set('start', appState.startDate);
-    window.history.replaceState({}, '', url.toString());
+    window.history.replaceState({}, '', buildShareUrl());
 }
 
 function refreshPlan() {
     applyTheme(getDestination(appState.destinationId));
+    renderDestinationSelector();
+    renderSetupInputs();
     renderStaticSummary();
     renderWeatherStatus();
-    renderDestinationSelector();
-    setRandomPhrase();
-    updateClocks();
     renderItinerary();
-    fetchExchangeRate();
-    fetchWeather();
     syncUrl();
+    fetchWeather();
 }
 
-function applySetupSelection(markStarted = true) {
+function applySetupSelection() {
     const destination = getDestination(setupSelection.destinationId);
-    const nextStartDate = normalizeStartDate(ui.setupStartDate.value, destination);
-    const isChangingCoreSetup = appState.destinationId !== setupSelection.destinationId || appState.startDate !== nextStartDate;
+    const rawStartDate = ui.setupStartDate.value;
+    const rawEndDate = ui.setupEndDate.value;
+
+    if (parseYmd(rawStartDate) && parseYmd(rawEndDate) && parseYmd(rawEndDate) < parseYmd(rawStartDate)) {
+        window.alert('종료일은 시작일보다 빠를 수 없습니다.');
+        ui.setupEndDate.focus();
+        return;
+    }
+
+    const { startDate, endDate } = normalizeDateRange(rawStartDate, rawEndDate, destination);
+    const isChangingCoreSetup = appState.destinationId !== setupSelection.destinationId
+        || appState.startDate !== startDate
+        || appState.endDate !== endDate;
 
     if (appState.customized && isChangingCoreSetup) {
-        const shouldContinue = window.confirm('지금까지 커스터마이징한 일정이 새 도시/날짜 템플릿으로 바뀝니다. 계속할까요?');
+        const shouldContinue = window.confirm('지금까지 커스터마이징한 일정이 새 도시/날짜 범위 템플릿으로 바뀝니다. 계속할까요?');
         if (!shouldContinue) return;
     }
 
+    setupSelection.startDate = startDate;
+    setupSelection.endDate = endDate;
     appState.destinationId = setupSelection.destinationId;
-    appState.startDate = nextStartDate;
-    appState.itinerary = buildItineraryFromTemplate(appState.destinationId, appState.startDate);
+    appState.startDate = startDate;
+    appState.endDate = endDate;
+    appState.itinerary = buildItineraryFromRange(appState.destinationId, appState.startDate, appState.endDate);
     appState.customized = false;
-    appState.hasStarted = markStarted || appState.hasStarted;
-    userHasScrolled = false;
 
-    closeSetup();
+    setShareStatus('');
     refreshPlan();
+}
+
+function scrollToSetupPanel() {
+    ui.setupPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(() => {
+        ui.setupStartDate.focus();
+    }, 220);
+}
+
+async function sharePlan() {
+    const shareUrl = buildShareUrl();
+    const destination = getDestination(appState.destinationId);
+
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: `${destination.city} Trip Plan`,
+                text: `${destination.city} 일정 공유 링크`,
+                url: shareUrl
+            });
+            setShareStatus('공유 창으로 링크를 보냈습니다.');
+            return;
+        } catch (error) {
+            if (error?.name === 'AbortError') return;
+        }
+    }
+
+    try {
+        await navigator.clipboard.writeText(shareUrl);
+        setShareStatus('공유 링크를 클립보드에 복사했습니다.');
+    } catch (error) {
+        window.prompt('이 링크를 복사해서 공유하세요.', shareUrl);
+        setShareStatus('공유 링크를 만들었습니다.');
+    }
 }
 
 function openActivityEditor(dayIndex, activityId = null) {
@@ -1557,6 +1785,12 @@ function closeActivityEditor() {
     setScrollLock(false);
     activityEditorState.dayIndex = null;
     activityEditorState.activityId = null;
+}
+
+function persistItineraryChanges() {
+    appState.customized = true;
+    renderItinerary();
+    syncUrl();
 }
 
 function saveActivityEditor() {
@@ -1589,9 +1823,8 @@ function saveActivityEditor() {
     }
 
     sortActivities(day);
-    appState.customized = true;
     closeActivityEditor();
-    renderItinerary();
+    persistItineraryChanges();
 }
 
 function deleteCurrentActivity() {
@@ -1602,9 +1835,8 @@ function deleteCurrentActivity() {
     if (!shouldDelete) return;
 
     day.activities = day.activities.filter((activity) => activity.id !== activityEditorState.activityId);
-    appState.customized = true;
     closeActivityEditor();
-    renderItinerary();
+    persistItineraryChanges();
 }
 
 function renameDay(dayIndex) {
@@ -1615,8 +1847,7 @@ function renameDay(dayIndex) {
     if (!nextTitle) return;
 
     day.title = nextTitle.trim() || day.title;
-    appState.customized = true;
-    renderItinerary();
+    persistItineraryChanges();
 }
 
 function handleItineraryClick(event) {
@@ -1639,74 +1870,89 @@ function handleItineraryClick(event) {
 }
 
 function resetPlanToTemplate() {
-    const shouldReset = window.confirm('현재 커스터마이징을 버리고 템플릿 상태로 되돌릴까요?');
+    const shouldReset = window.confirm('현재 커스터마이징을 버리고 현재 날짜 범위 템플릿으로 되돌릴까요?');
     if (!shouldReset) return;
 
-    appState.itinerary = buildItineraryFromTemplate(appState.destinationId, appState.startDate);
+    appState.itinerary = buildItineraryFromRange(appState.destinationId, appState.startDate, appState.endDate);
     appState.customized = false;
-    userHasScrolled = false;
-    refreshPlan();
+    setShareStatus('현재 날짜 범위 템플릿으로 되돌렸습니다.');
+    renderItinerary();
+    syncUrl();
+    fetchWeather();
 }
 
 function bootstrapFromUrl() {
     const url = new URL(window.location.href);
-    const destinationId = url.searchParams.get('destination');
-    const destination = getDestination(destinationId);
-    const startDate = normalizeStartDate(url.searchParams.get('start'), destination);
+    const planParam = url.searchParams.get('plan');
+
+    if (planParam) {
+        try {
+            const payload = decodePlan(planParam);
+            const destination = getDestination(payload.d);
+            const { startDate, endDate } = normalizeDateRange(payload.s, payload.e, destination);
+
+            appState.destinationId = destination.id;
+            appState.startDate = startDate;
+            appState.endDate = endDate;
+            appState.itinerary = buildItineraryFromSharedPayload(destination.id, startDate, endDate, Array.isArray(payload.i) ? payload.i : []);
+            appState.customized = true;
+
+            setupSelection.destinationId = destination.id;
+            setupSelection.startDate = startDate;
+            setupSelection.endDate = endDate;
+            return;
+        } catch (error) {
+            console.warn('Failed to decode shared plan:', error);
+        }
+    }
+
+    const destination = getDestination(url.searchParams.get('destination') || DEFAULT_DESTINATION_ID);
+    const { startDate, endDate } = normalizeDateRange(url.searchParams.get('start'), url.searchParams.get('end'), destination);
 
     appState.destinationId = destination.id;
     appState.startDate = startDate;
-    appState.itinerary = buildItineraryFromTemplate(appState.destinationId, appState.startDate);
-    appState.hasStarted = false;
+    appState.endDate = endDate;
+    appState.itinerary = buildItineraryFromRange(destination.id, startDate, endDate);
+    appState.customized = false;
 
-    setupSelection.destinationId = appState.destinationId;
-    setupSelection.startDate = appState.startDate;
+    setupSelection.destinationId = destination.id;
+    setupSelection.startDate = startDate;
+    setupSelection.endDate = endDate;
 }
-
-window.addEventListener('scroll', () => {
-    userHasScrolled = true;
-});
-
-ui.phraseRefreshBtn.addEventListener('click', () => {
-    setRandomPhrase();
-    lucide.createIcons();
-});
 
 ui.destinationSelector.addEventListener('click', (event) => {
     const button = event.target.closest('[data-destination]');
     if (!button) return;
 
     setupSelection.destinationId = button.dataset.destination;
-    openSetup(setupSelection.destinationId);
+    renderDestinationSelector();
 });
 
-ui.setupCityGrid.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-destination]');
-    if (!button) return;
-
-    setupSelection.destinationId = button.dataset.destination;
-    const destination = getDestination(setupSelection.destinationId);
-    ui.setupStartDate.value = normalizeStartDate(ui.setupStartDate.value, destination);
-    renderSetupCityGrid();
-    updateSetupMeta();
+ui.setupStartDate.addEventListener('input', () => {
+    setupSelection.startDate = ui.setupStartDate.value;
 });
 
-ui.setupStartDate.addEventListener('input', updateSetupMeta);
-ui.openSetupBtn.addEventListener('click', () => openSetup(appState.destinationId));
-ui.setupCloseBtn.addEventListener('click', closeSetup);
-ui.setupCancelBtn.addEventListener('click', closeSetup);
-ui.setupApplyBtn.addEventListener('click', () => applySetupSelection(true));
+ui.setupEndDate.addEventListener('input', () => {
+    setupSelection.endDate = ui.setupEndDate.value;
+});
+
+ui.applyPlanBtn.addEventListener('click', applySetupSelection);
+ui.focusSetupBtn.addEventListener('click', scrollToSetupPanel);
+ui.sharePlanBtn.addEventListener('click', sharePlan);
 ui.resetPlanBtn.addEventListener('click', resetPlanToTemplate);
 
 ui.activityCloseBtn.addEventListener('click', closeActivityEditor);
 ui.activityCancelBtn.addEventListener('click', closeActivityEditor);
 ui.activitySaveBtn.addEventListener('click', saveActivityEditor);
 ui.activityDeleteBtn.addEventListener('click', deleteCurrentActivity);
-
 ui.itineraryContainer.addEventListener('click', handleItineraryClick);
 
-setInterval(updateClocks, 1000);
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !ui.activityModal.classList.contains('hidden')) {
+        closeActivityEditor();
+    }
+});
+
 renderIconOptions();
 bootstrapFromUrl();
 refreshPlan();
-openSetup(appState.destinationId);
