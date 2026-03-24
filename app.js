@@ -310,27 +310,27 @@ const DESTINATIONS = {
         id: 'tokyo',
         city: 'Tokyo',
         country: 'Japan',
-        summary: '도쿄 핵심 구역을 빠르게 도는 도시형 템플릿입니다.',
-        footer: 'Tokyo is best when precision meets neon.',
-        heroImage: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=2071&auto=format&fit=crop',
-        accent: '#F472B6',
-        accentRgb: '244, 114, 182',
-        ink: '#3B0764',
-        inkRgb: '59, 7, 100',
-        overlayTop: 'rgba(59, 7, 100, 0.45)',
-        overlayBottom: 'rgba(17, 24, 39, 0.92)',
+        summary: '사원, 골목, 전망, 카페를 차분하게 엮은 도쿄 템플릿입니다.',
+        footer: 'Tokyo feels best when shrine, street, and skyline stay balanced.',
+        heroImage: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=2070&auto=format&fit=crop',
+        accent: '#D97757',
+        accentRgb: '217, 119, 87',
+        ink: '#4A2C2A',
+        inkRgb: '74, 44, 42',
+        overlayTop: 'rgba(74, 44, 42, 0.34)',
+        overlayBottom: 'rgba(15, 23, 42, 0.84)',
         timeZone: 'Asia/Tokyo',
         weather: { latitude: 35.6762, longitude: 139.6503 },
         currency: { code: 'JPY', symbol: '¥', locale: 'ja-JP' },
         startOffsetDays: 8,
-        phraseLabel: 'Japanese phrase',
+        phraseLabel: '日本語',
         phrases: [
-            { text: 'Sumimasen', pron: '[스미마셍]', meaning: '실례합니다 / 죄송합니다' },
-            { text: 'Arigatou gozaimasu', pron: '[아리가토 고자이마스]', meaning: '감사합니다' },
-            { text: 'Kore onegaishimasu', pron: '[코레 오네가이시마스]', meaning: '이걸로 부탁합니다' },
-            { text: 'Eki wa doko desu ka?', pron: '[에키와 도코 데스카]', meaning: '역이 어디인가요?' },
-            { text: 'Okaikei onegaishimasu', pron: '[오카이케이 오네가이시마스]', meaning: '계산 부탁합니다' },
-            { text: 'Daijoubu desu', pron: '[다이죠부 데스]', meaning: '괜찮습니다' }
+            { text: 'すみません', pron: 'スミマセン', meaning: '실례합니다 / 죄송합니다' },
+            { text: 'ありがとうございます', pron: 'アリガトウゴザイマス', meaning: '감사합니다' },
+            { text: 'これをお願いします', pron: 'コレヲオネガイシマス', meaning: '이걸로 부탁합니다' },
+            { text: '駅はどこですか？', pron: 'エキハドコデスカ', meaning: '역이 어디인가요?' },
+            { text: 'お会計お願いします', pron: 'オカイケイオネガイシマス', meaning: '계산 부탁합니다' },
+            { text: '大丈夫です', pron: 'ダイジョウブデス', meaning: '괜찮습니다' }
         ],
         itineraryTemplate: [
             {
@@ -1230,6 +1230,36 @@ const CURRENCY_DENOMINATIONS = {
     VND: [1000, 2000, 5000, 10000, 20000, 50000, 100000]
 };
 
+const CURRENCY_DISPLAY = {
+    EUR: '€',
+    GBP: '£',
+    USD: '$',
+    JPY: '円',
+    HKD: 'HK$',
+    SGD: 'S$',
+    THB: '฿',
+    AED: 'د.إ',
+    AUD: 'A$',
+    CNY: '元',
+    TWD: 'NT$',
+    VND: '₫'
+};
+
+const DEFAULT_BASE_AMOUNTS = {
+    EUR: 10,
+    GBP: 10,
+    USD: 10,
+    JPY: 1000,
+    HKD: 20,
+    SGD: 10,
+    THB: 100,
+    AED: 10,
+    AUD: 10,
+    CNY: 10,
+    TWD: 100,
+    VND: 10000
+};
+
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -1644,7 +1674,14 @@ function formatExchangeValue(value, locale, maximumFractionDigits = 2) {
     }).format(value);
 }
 
+function getCurrencyDisplay(code, fallbackSymbol = '') {
+    return CURRENCY_DISPLAY[code] || fallbackSymbol || code;
+}
+
 function getSuggestedBaseAmount(destination, exchangeRate) {
+    const curatedAmount = DEFAULT_BASE_AMOUNTS[destination.currency.code];
+    if (curatedAmount) return curatedAmount;
+
     const candidates = CURRENCY_DENOMINATIONS[destination.currency.code] || [1, 2, 5, 10, 20, 50, 100];
     const targetKrw = 1000;
 
@@ -1673,6 +1710,7 @@ function syncExchangeInputDefaults(force = false) {
 
 function updateExchangeOutputs() {
     const destination = getDestination(appState.destinationId);
+    const currencyDisplay = getCurrencyDisplay(destination.currency.code, destination.currency.symbol);
 
     if (!currentExchangeRate) {
         const loadingMessage = isExchangeLoading ? '실시간 환율을 불러오는 중입니다.' : '환율을 불러오지 못했습니다.';
@@ -1685,17 +1723,17 @@ function updateExchangeOutputs() {
     const krwAmount = parseAmountInput(ui.rateKrwInput.value);
 
     if (baseAmount === null) {
-        ui.rateToKrw.textContent = `${destination.currency.code} 금액을 입력하세요.`;
+        ui.rateToKrw.textContent = `${currencyDisplay} 금액을 입력하세요.`;
     } else {
         const convertedKrw = baseAmount * currentExchangeRate;
-        ui.rateToKrw.textContent = `${formatExchangeValue(baseAmount, destination.currency.locale, 0)} ${destination.currency.code} = ${formatExchangeValue(convertedKrw, 'ko-KR', 2)} ₩`;
+        ui.rateToKrw.textContent = `${formatExchangeValue(convertedKrw, 'ko-KR', 2)} ₩`;
     }
 
     if (krwAmount === null) {
         ui.rateFromKrw.textContent = '원화 금액을 입력하세요.';
     } else {
         const convertedCurrency = krwAmount / currentExchangeRate;
-        ui.rateFromKrw.textContent = `${formatExchangeValue(krwAmount, 'ko-KR', 0)} ₩ = ${formatExchangeValue(convertedCurrency, destination.currency.locale, 2)} ${destination.currency.code}`;
+        ui.rateFromKrw.textContent = `${formatExchangeValue(convertedCurrency, destination.currency.locale, 2)} ${currencyDisplay}`;
     }
 }
 
@@ -1820,7 +1858,7 @@ function renderPhrase() {
     const phrases = Array.isArray(destination.phrases) ? destination.phrases : [];
     const phrase = phrases[appState.phraseIndex] || phrases[0];
 
-    ui.phraseLabel.textContent = getCountryFlag(destination.country);
+    ui.phraseLabel.textContent = destination.phraseLabel || 'Phrase';
     ui.phraseText.textContent = phrase?.text || 'Hello';
     ui.phraseMeta.textContent = phrase ? `${phrase.pron} · ${phrase.meaning}` : `${destination.city} trip`;
 }
@@ -1828,7 +1866,7 @@ function renderPhrase() {
 function renderUtilityInfo() {
     const destination = getDestination(appState.destinationId);
     ui.destinationClockLabel.textContent = getCountryFlag(destination.country);
-    ui.baseCurrencyLabel.textContent = destination.currency.code;
+    ui.baseCurrencyLabel.textContent = getCurrencyDisplay(destination.currency.code, destination.currency.symbol);
     syncExchangeInputDefaults();
     updateExchangeOutputs();
     renderPhrase();
