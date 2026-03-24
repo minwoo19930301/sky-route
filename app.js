@@ -1194,6 +1194,8 @@ let isExchangeLoading = false;
 let mapPreviewTimer = null;
 let mapPreviewRequestId = 0;
 let utilityChromeTimer = null;
+let exchangeInputDestinationId = null;
+let exchangeInputsTouched = false;
 
 const COUNTRY_FLAGS = {
     France: '🇫🇷',
@@ -1211,6 +1213,21 @@ const COUNTRY_FLAGS = {
     China: '🇨🇳',
     Taiwan: '🇹🇼',
     Vietnam: '🇻🇳'
+};
+
+const CURRENCY_DENOMINATIONS = {
+    EUR: [5, 10, 20, 50, 100, 200],
+    GBP: [5, 10, 20, 50],
+    USD: [1, 5, 10, 20, 50, 100],
+    JPY: [100, 500, 1000, 5000, 10000],
+    HKD: [10, 20, 50, 100, 500, 1000],
+    SGD: [2, 5, 10, 50, 100],
+    THB: [20, 50, 100, 500, 1000],
+    AED: [5, 10, 20, 50, 100, 200],
+    AUD: [5, 10, 20, 50, 100],
+    CNY: [1, 5, 10, 20, 50, 100],
+    TWD: [10, 50, 100, 500, 1000],
+    VND: [1000, 2000, 5000, 10000, 20000, 50000, 100000]
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -1627,6 +1644,33 @@ function formatExchangeValue(value, locale, maximumFractionDigits = 2) {
     }).format(value);
 }
 
+function getSuggestedBaseAmount(destination, exchangeRate) {
+    const candidates = CURRENCY_DENOMINATIONS[destination.currency.code] || [1, 2, 5, 10, 20, 50, 100];
+    const targetKrw = 1000;
+
+    return candidates.reduce((best, candidate) => {
+        const currentDistance = Math.abs((candidate * exchangeRate) - targetKrw);
+        const bestDistance = Math.abs((best * exchangeRate) - targetKrw);
+        return currentDistance < bestDistance ? candidate : best;
+    }, candidates[0]);
+}
+
+function syncExchangeInputDefaults(force = false) {
+    const destination = getDestination(appState.destinationId);
+
+    if (exchangeInputDestinationId !== destination.id) {
+        exchangeInputDestinationId = destination.id;
+        exchangeInputsTouched = false;
+    }
+
+    if (exchangeInputsTouched && !force) return;
+
+    ui.rateKrwInput.value = '1000';
+    ui.rateBaseInput.value = currentExchangeRate
+        ? String(getSuggestedBaseAmount(destination, currentExchangeRate))
+        : '1';
+}
+
 function updateExchangeOutputs() {
     const destination = getDestination(appState.destinationId);
 
@@ -1641,17 +1685,17 @@ function updateExchangeOutputs() {
     const krwAmount = parseAmountInput(ui.rateKrwInput.value);
 
     if (baseAmount === null) {
-        ui.rateToKrw.textContent = '숫자를 입력하면 ₩로 계산됩니다.';
+        ui.rateToKrw.textContent = `${destination.currency.code} 금액을 입력하세요.`;
     } else {
         const convertedKrw = baseAmount * currentExchangeRate;
-        ui.rateToKrw.textContent = `= ${formatExchangeValue(convertedKrw, 'ko-KR', 2)} ₩`;
+        ui.rateToKrw.textContent = `${formatExchangeValue(baseAmount, destination.currency.locale, 0)} ${destination.currency.code} = ${formatExchangeValue(convertedKrw, 'ko-KR', 2)} ₩`;
     }
 
     if (krwAmount === null) {
-        ui.rateFromKrw.textContent = `숫자를 입력하면 ${destination.currency.code}로 계산됩니다.`;
+        ui.rateFromKrw.textContent = '원화 금액을 입력하세요.';
     } else {
         const convertedCurrency = krwAmount / currentExchangeRate;
-        ui.rateFromKrw.textContent = `= ${formatExchangeValue(convertedCurrency, destination.currency.locale, 2)} ${destination.currency.code}`;
+        ui.rateFromKrw.textContent = `${formatExchangeValue(krwAmount, 'ko-KR', 0)} ₩ = ${formatExchangeValue(convertedCurrency, destination.currency.locale, 2)} ${destination.currency.code}`;
     }
 }
 
@@ -1785,6 +1829,7 @@ function renderUtilityInfo() {
     const destination = getDestination(appState.destinationId);
     ui.destinationClockLabel.textContent = getCountryFlag(destination.country);
     ui.baseCurrencyLabel.textContent = destination.currency.code;
+    syncExchangeInputDefaults();
     updateExchangeOutputs();
     renderPhrase();
 }
@@ -1939,6 +1984,7 @@ async function fetchExchangeRate() {
         if (!rate) throw new Error('Missing KRW rate');
         isExchangeLoading = false;
         currentExchangeRate = rate;
+        syncExchangeInputDefaults();
         updateExchangeOutputs();
     } catch (error) {
         console.error('Exchange rate fetch failed:', error);
@@ -2526,8 +2572,14 @@ ui.iconPickerGrid.addEventListener('click', (event) => {
     applyActivityIconSelection(button.dataset.iconChoice || '');
     closeIconPicker();
 });
-ui.rateBaseInput.addEventListener('input', updateExchangeOutputs);
-ui.rateKrwInput.addEventListener('input', updateExchangeOutputs);
+ui.rateBaseInput.addEventListener('input', () => {
+    exchangeInputsTouched = true;
+    updateExchangeOutputs();
+});
+ui.rateKrwInput.addEventListener('input', () => {
+    exchangeInputsTouched = true;
+    updateExchangeOutputs();
+});
 ui.itineraryContainer.addEventListener('click', handleItineraryClick);
 
 window.addEventListener('keydown', (event) => {
