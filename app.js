@@ -407,7 +407,8 @@ const DESTINATIONS = {
         country: 'Japan',
         summary: '도쿄 핵심 동선 위에 탑, 사원, 후지산 무드를 얹은 클래식 재팬 톤 템플릿입니다.',
         footer: 'Japan feels strongest in vermilion, paper light, and a clean skyline.',
-        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Chuurei-tou_Fujiyoshida_17025277650_c59733d6ba_o.jpg',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chureito%20Pagoda%20and%20Mount%20Fuji.jpg',
+        heroPosition: '68% center',
         accent: '#C2410C',
         accentRgb: '194, 65, 12',
         ink: '#1F2A44',
@@ -718,7 +719,7 @@ const DESTINATIONS = {
         startOffsetDays: 7,
         phraseLabel: 'Bahasa Indonesia',
         phrases: [
-            { text: 'Halo', pron: '[할로]', meaning: '안녕하세요' },
+            { text: 'Selamat pagi', pron: '[슬라맛 빠기]', meaning: '좋은 아침입니다 / 안녕하세요' },
             { text: 'Terima kasih', pron: '[뜨리마 까시]', meaning: '감사합니다' },
             { text: 'Permisi', pron: '[쁘르미시]', meaning: '실례합니다' },
             { text: 'Berapa harganya?', pron: '[브라파 하르가냐?]', meaning: '이거 얼마예요?' }
@@ -756,14 +757,14 @@ const DESTINATIONS = {
         country: 'Indonesia',
         summary: '발리 사원, 우붓, 라이스 테라스, 선셋 스폿을 묶은 발리 템플릿입니다.',
         footer: 'Bali feels strongest when temple, rice terrace, and sunset stay in one flow.',
-        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bali%20pura%20tanah%20lot.jpg',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bali%20-%20Pura%20Tanah%20Lot,%2020220827%201003%201127.jpg',
         timeZone: 'Asia/Makassar',
         weather: { latitude: -8.6500, longitude: 115.2167 },
         currency: { code: 'IDR', symbol: 'Rp', locale: 'id-ID' },
         startOffsetDays: 8,
         phraseLabel: 'Bahasa Indonesia',
         phrases: [
-            { text: 'Halo', pron: '[할로]', meaning: '안녕하세요' },
+            { text: 'Selamat pagi', pron: '[슬라맛 빠기]', meaning: '좋은 아침입니다 / 안녕하세요' },
             { text: 'Terima kasih', pron: '[뜨리마 까시]', meaning: '감사합니다' },
             { text: 'Tolong', pron: '[똘롱]', meaning: '도와주세요 / 부탁합니다' },
             { text: 'Di mana pantainya?', pron: '[디 마나 빤따이냐?]', meaning: '해변이 어디예요?' }
@@ -1231,7 +1232,7 @@ const DESTINATIONS = {
         country: 'China',
         summary: '고궁, 후통, 공원, 야경을 묶은 베이징 템플릿입니다.',
         footer: 'Beijing works when imperial landmarks and hutong streets stay in one loop.',
-        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Shanghai_skyline_from_the_bund.jpg',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tiananmen%20Square%20(54137047250).jpg',
         accent: '#F87171',
         accentRgb: '248, 113, 113',
         ink: '#450A0A',
@@ -1381,7 +1382,7 @@ const DESTINATIONS = {
         country: 'Vietnam',
         summary: '호수, 올드쿼터, 카페, 야시장을 묶은 하노이 템플릿입니다.',
         footer: 'Hanoi feels best when lakes, old streets, and food stops move at an easy pace.',
-        heroImage: 'https://unsplash.com/photos/pllzIJ92XHM/download?force=true&w=1920',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ha%20Long%20Bay.jpg',
         accent: '#4ADE80',
         accentRgb: '74, 222, 128',
         ink: '#052E16',
@@ -1657,7 +1658,7 @@ const DESTINATIONS = {
         country: 'Canada',
         summary: '스카이라인, 수변 산책, 마켓, 타워 전망을 묶은 캐나다 템플릿입니다.',
         footer: 'Canada feels calmest when skyline, water, and markets stay in one sweep.',
-        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Toronto_Skyline_viewed_from_Algonquin_Island_%2816-9_crop%29.jpg',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Niagara%20Falls%20Panorama%20with%20Rainbow.jpg',
         timeZone: 'America/Toronto',
         weather: { latitude: 43.6532, longitude: -79.3832 },
         currency: { code: 'CAD', symbol: 'C$', locale: 'en-CA' },
@@ -1701,7 +1702,7 @@ const DESTINATIONS = {
         country: 'Canada',
         summary: '수변 스카이라인, 공원, 마켓, 전망을 묶은 밴쿠버 템플릿입니다.',
         footer: 'Vancouver works when forest edge and skyline stay in the same view.',
-        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Concord_Pacific_Master_Plan_Area.jpg',
+        heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Vancouver%20(BC,%20Canada),%20Skyline%20--%202022%20--%202080-92.jpg',
         timeZone: 'America/Vancouver',
         weather: { latitude: 49.2827, longitude: -123.1207 },
         currency: { code: 'CAD', symbol: 'C$', locale: 'en-CA' },
@@ -2342,7 +2343,7 @@ const COUNTRY_THEMES = {
 };
 
 const PREFERRED_GROUP_DESTINATIONS = {
-    China: 'shanghai',
+    China: 'beijing',
     Indonesia: 'bali'
 };
 
@@ -2370,7 +2371,6 @@ const ui = {
     setupEndDate: document.getElementById('setup-end-date'),
     setupStartDisplay: document.getElementById('setup-start-display'),
     setupEndDisplay: document.getElementById('setup-end-display'),
-    setupCalendarHint: document.getElementById('setup-calendar-hint'),
     setupCalendarMonthLabel: document.getElementById('setup-calendar-month-label'),
     setupCalendarGrid: document.getElementById('setup-calendar-grid'),
     setupCalendarPrevBtn: document.getElementById('setup-calendar-prev-btn'),
@@ -2765,6 +2765,7 @@ function applyTheme(destination) {
 
     ui.heroImage.src = destination.heroImage;
     ui.heroImage.alt = `${destination.city}, ${destination.country}`;
+    ui.heroImage.style.objectPosition = destination.heroPosition || 'center center';
     document.title = `${destination.country} Trip Plan`;
 }
 
@@ -3115,9 +3116,6 @@ function renderSetupInputs() {
     ui.setupEndDisplay.textContent = setupRangeSelectingEnd
         ? '종료일 선택 중'
         : formatSetupDate(setupSelection.endDate);
-    ui.setupCalendarHint.textContent = setupRangeSelectingEnd
-        ? '종료일을 한 번 더 눌러 범위를 마무리하세요.'
-        : '달력에서 시작일과 종료일을 차례로 눌러 범위를 정하세요.';
 
     const canApply = parseYmd(setupSelection.startDate) && parseYmd(setupSelection.endDate) && !setupRangeSelectingEnd;
     ui.applyPlanBtn.disabled = !canApply;
