@@ -3110,6 +3110,7 @@ function renderSetupCalendar() {
 }
 
 function renderSetupInputs() {
+    setupRangeSelectingEnd = Boolean(setupSelection.startDate) && !setupSelection.endDate;
     ui.setupStartDate.value = setupSelection.startDate || '';
     ui.setupEndDate.value = setupSelection.endDate || '';
     ui.setupStartDisplay.textContent = formatSetupDate(setupSelection.startDate);
@@ -3838,13 +3839,16 @@ ui.setupCalendarGrid.addEventListener('click', (event) => {
     const clickedDate = parseYmd(value);
     if (!clickedDate) return;
 
-    if (!setupSelection.startDate) {
+    const startDate = parseYmd(setupSelection.startDate);
+    const hasCompleteRange = Boolean(setupSelection.startDate && setupSelection.endDate);
+    const isWaitingForEndDate = Boolean(setupSelection.startDate && !setupSelection.endDate);
+
+    if (!startDate || hasCompleteRange) {
         setupSelection.startDate = value;
         setupSelection.endDate = '';
         setupRangeSelectingEnd = true;
-    } else if (setupRangeSelectingEnd) {
-        const startDate = parseYmd(setupSelection.startDate);
-        if (!startDate || clickedDate < startDate) {
+    } else if (isWaitingForEndDate) {
+        if (clickedDate < startDate) {
             setupSelection.startDate = value;
             setupSelection.endDate = '';
             setupRangeSelectingEnd = true;
@@ -3852,10 +3856,6 @@ ui.setupCalendarGrid.addEventListener('click', (event) => {
             setupSelection.endDate = value;
             setupRangeSelectingEnd = false;
         }
-    } else {
-        setupSelection.startDate = value;
-        setupSelection.endDate = '';
-        setupRangeSelectingEnd = true;
     }
 
     syncSetupCalendarMonth(value);
