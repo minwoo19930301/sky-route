@@ -51,6 +51,7 @@ const COUNTRY_SORT_ORDER = [
     'Singapore',
     'India',
     'Indonesia',
+    'Saudi Arabia',
     'United States',
     'Canada',
     'Mexico',
@@ -107,6 +108,7 @@ const COUNTRY_REGIONS = {
     Singapore: 'asia',
     India: 'asia',
     Indonesia: 'asia',
+    'Saudi Arabia': 'asia',
     'United States': 'north-america',
     Canada: 'north-america',
     Mexico: 'north-america',
@@ -763,8 +765,8 @@ const DESTINATIONS = {
         id: 'jakarta',
         city: 'Jakarta',
         country: 'Indonesia',
-        summary: '모나스, 구시가지, 스카이라인, 몰 산책을 묶은 자카르타 템플릿입니다.',
-        footer: 'Jakarta feels better when old town, skyline, and mall breaks stay balanced.',
+        summary: '따만 미니, 전통관, 전망 타워, 녹지 산책을 묶은 자카르타 템플릿입니다.',
+        footer: 'Jakarta feels better when Taman Mini scale and green walkways stay balanced.',
         heroImage: 'assets/heroes/jakarta.jpg',
         timeZone: 'Asia/Jakarta',
         weather: { latitude: -6.2088, longitude: 106.8456 },
@@ -779,26 +781,26 @@ const DESTINATIONS = {
         ],
         itineraryTemplate: [
             {
-                title: '도심 워밍업',
+                title: '따만 미니 워밍업',
                 activities: [
-                    { time: '10:00', title: '모나스', type: 'landmark', location: 'National Monument Jakarta' },
-                    { time: '13:30', title: '이슈티클랄 모스크', type: 'building', location: 'Istiqlal Mosque' },
-                    { time: '18:30', title: '스카이라인 뷰', type: 'binoculars', location: 'Skye Bar Jakarta' }
+                    { time: '10:00', title: '따만 미니 입장', type: 'landmark', location: 'Taman Mini Indonesia Indah' },
+                    { time: '13:30', title: '전통 가옥 존', type: 'map', location: 'Anjungan Daerah Taman Mini' },
+                    { time: '18:00', title: '사우자나 타워', type: 'binoculars', location: 'Saudjana Viewing Tower' }
                 ]
             },
             {
-                title: '올드타운 & 쇼핑',
+                title: '박물관 & 산책',
                 activities: [
-                    { time: '10:00', title: '코타 투아', type: 'map', location: 'Kota Tua Jakarta' },
-                    { time: '13:30', title: '파타힐라 광장', type: 'camera', location: 'Fatahillah Square' },
-                    { time: '18:30', title: '그랜드 인도네시아', type: 'shopping-cart', location: 'Grand Indonesia' }
+                    { time: '10:00', title: '인도네시아 박물관', type: 'building-2', location: 'Museum Indonesia' },
+                    { time: '13:30', title: '새 공원', type: 'camera', location: 'Taman Burung TMII' },
+                    { time: '18:00', title: '호수 산책', type: 'sun', location: 'Danau Archipelago TMII' }
                 ]
             },
             {
                 title: '카페 & 출발',
                 activities: [
-                    { time: '10:30', title: '멘텡 브런치', type: 'coffee', location: 'Menteng Jakarta' },
-                    { time: '13:30', title: '기념품 마지막 체크', type: 'gift', location: 'Sarinah' },
+                    { time: '10:30', title: '카페 브런치', type: 'coffee', location: 'Caping Gunung Restaurant' },
+                    { time: '13:30', title: '기념품 마지막 체크', type: 'gift', location: 'TMII Souvenir Center' },
                     { time: '17:30', title: '공항 이동', type: 'plane', location: 'Soekarno-Hatta International Airport' }
                 ]
             }
@@ -967,6 +969,50 @@ const DESTINATIONS = {
                     { time: '10:30', title: '미래박물관', type: 'building', location: 'Museum of the Future' },
                     { time: '13:30', title: '기념품 쇼핑', type: 'gift', location: 'City Walk Dubai' },
                     { time: '17:30', title: 'DXB 이동', type: 'plane', location: 'Dubai International Airport' }
+                ]
+            }
+        ]
+    },
+    saudi: {
+        id: 'saudi',
+        city: 'Mecca',
+        country: 'Saudi Arabia',
+        summary: '성지 풍경, 대모스크 실루엣, 탑 전망을 중심으로 짠 사우디아라비아 템플릿입니다.',
+        footer: 'Saudi Arabia feels strongest when marble scale and night lights stay calm together.',
+        heroImage: 'assets/heroes/saudi.jpg',
+        timeZone: 'Asia/Riyadh',
+        weather: { latitude: 21.3891, longitude: 39.8579 },
+        currency: { code: 'SAR', symbol: 'SAR', locale: 'ar-SA' },
+        startOffsetDays: 10,
+        phraseLabel: 'العربية',
+        phrases: [
+            { text: 'السلام عليكم', pron: '[앗살라무 알라이쿰]', meaning: '안녕하세요' },
+            { text: 'شكرا', pron: '[슈크란]', meaning: '감사합니다' },
+            { text: 'أين هذا المكان؟', pron: '[아이나 하다 알 마칸?]', meaning: '이 장소가 어디예요?' }
+        ],
+        itineraryTemplate: [
+            {
+                title: '메카 첫인상',
+                activities: [
+                    { time: '09:30', title: '마스지드 알하람 주변', type: 'landmark', location: 'Masjid al-Haram' },
+                    { time: '13:30', title: '아브라즈 알베이트 전망', type: 'tower-control', location: 'Abraj Al Bait Towers' },
+                    { time: '19:00', title: '야간 풍경', type: 'moon-star', location: 'Makkah Clock Royal Tower' }
+                ]
+            },
+            {
+                title: '언덕 & 박물관',
+                activities: [
+                    { time: '10:00', title: '자발 알누르', type: 'binoculars', location: 'Jabal al-Nour' },
+                    { time: '14:00', title: '메카 박물관', type: 'building-2', location: 'Makkah Museum' },
+                    { time: '18:30', title: '도심 산책', type: 'map', location: 'Ajyad Mecca' }
+                ]
+            },
+            {
+                title: '브런치 & 이동',
+                activities: [
+                    { time: '10:30', title: '카페 브런치', type: 'coffee', location: 'Al Aziziyah Mecca' },
+                    { time: '13:30', title: '기념품 체크', type: 'gift', location: 'Makkah City Center' },
+                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'King Abdulaziz International Airport' }
                 ]
             }
         ]
@@ -1753,8 +1799,8 @@ const DESTINATIONS = {
         id: 'vancouver',
         city: 'Vancouver',
         country: 'Canada',
-        summary: '수변 스카이라인, 공원, 마켓, 전망을 묶은 밴쿠버 템플릿입니다.',
-        footer: 'Vancouver works when forest edge and skyline stay in the same view.',
+        summary: '사이언스 월드, 수변 산책, 공원, 전망 포인트를 묶은 밴쿠버 템플릿입니다.',
+        footer: 'Vancouver works best when Science World and the waterfront stay in one skyline.',
         heroImage: 'assets/heroes/vancouver.jpg',
         timeZone: 'America/Vancouver',
         weather: { latitude: 49.2827, longitude: -123.1207 },
@@ -1770,9 +1816,9 @@ const DESTINATIONS = {
             {
                 title: '워터프런트 데이',
                 activities: [
-                    { time: '10:00', title: '캐나다 플레이스', type: 'ship', location: 'Canada Place' },
+                    { time: '10:00', title: '사이언스 월드', type: 'landmark', location: 'Science World Vancouver' },
                     { time: '13:30', title: '가스타운', type: 'map', location: 'Gastown' },
-                    { time: '18:30', title: '하버 야경', type: 'moon-star', location: 'Vancouver Waterfront' }
+                    { time: '18:30', title: '폴스 크릭 야경', type: 'moon-star', location: 'False Creek Vancouver' }
                 ]
             },
             {
@@ -2763,13 +2809,13 @@ const DESTINATIONS = {
     },
     greece: {
         id: 'greece',
-        city: 'Athens',
+        city: 'Santorini',
         country: 'Greece',
-        summary: '아크로폴리스, 플라카 골목, 언덕 전망을 묶은 그리스 템플릿입니다.',
-        footer: 'Greece works when stone ruins and sunset terraces stay in the same frame.',
+        summary: '오이아, 피라, 칼데라 전망, 하얀 돔 무드를 묶은 그리스 템플릿입니다.',
+        footer: 'Greece works best when white walls, blue domes, and caldera light stay clear.',
         heroImage: 'assets/heroes/greece.jpg',
         timeZone: 'Europe/Athens',
-        weather: { latitude: 37.9838, longitude: 23.7275 },
+        weather: { latitude: 36.3932, longitude: 25.4615 },
         currency: { code: 'EUR', symbol: '€', locale: 'el-GR' },
         startOffsetDays: 8,
         phraseLabel: 'Ελληνικά',
@@ -2780,27 +2826,27 @@ const DESTINATIONS = {
         ],
         itineraryTemplate: [
             {
-                title: '아테네 첫인상',
+                title: '오이아 첫인상',
                 activities: [
-                    { time: '10:00', title: '아크로폴리스', type: 'landmark', location: 'Acropolis of Athens' },
-                    { time: '13:30', title: '플라카 산책', type: 'map', location: 'Plaka Athens' },
-                    { time: '18:30', title: '리카비토스 언덕', type: 'binoculars', location: 'Mount Lycabettus' }
+                    { time: '10:00', title: '오이아 블루돔', type: 'landmark', location: 'Oia Santorini' },
+                    { time: '13:30', title: '피라 산책', type: 'map', location: 'Fira Santorini' },
+                    { time: '18:30', title: '칼데라 선셋', type: 'binoculars', location: 'Santorini Caldera Viewpoint' }
                 ]
             },
             {
-                title: '광장 & 박물관',
+                title: '비치 & 전망',
                 activities: [
-                    { time: '10:30', title: '신타그마 광장', type: 'sparkles', location: 'Syntagma Square' },
-                    { time: '13:30', title: '아크로폴리스 박물관', type: 'building-2', location: 'Acropolis Museum' },
-                    { time: '18:30', title: '모나스티라키', type: 'shopping-bag', location: 'Monastiraki' }
+                    { time: '10:30', title: '이아 언덕 전망', type: 'sparkles', location: 'Oia Castle' },
+                    { time: '13:30', title: '레드 비치', type: 'sun', location: 'Red Beach Santorini' },
+                    { time: '18:30', title: '피르고스', type: 'shopping-bag', location: 'Pyrgos Santorini' }
                 ]
             },
             {
                 title: '카페 & 출발',
                 activities: [
-                    { time: '10:00', title: '올림피아 제우스 신전', type: 'camera', location: 'Temple of Olympian Zeus' },
-                    { time: '13:30', title: '카페 브런치', type: 'coffee', location: 'Koukaki Athens' },
-                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'Athens International Airport' }
+                    { time: '10:00', title: '메갈로호리', type: 'camera', location: 'Megalochori Santorini' },
+                    { time: '13:30', title: '카페 브런치', type: 'coffee', location: 'Imerovigli' },
+                    { time: '17:30', title: '공항 이동', type: 'plane', location: 'Santorini International Airport' }
                 ]
             }
         ]
@@ -2809,8 +2855,8 @@ const DESTINATIONS = {
         id: 'turkey',
         city: 'Istanbul',
         country: 'Turkey',
-        summary: '보스포루스, 모스크, 바자르, 언덕 전망을 묶은 튀르키예 템플릿입니다.',
-        footer: 'Turkey feels richest when water, domes, and bazaars stay in one rhythm.',
+        summary: '아야 소피아, 블루 모스크, 바자르, 해협 전망을 묶은 튀르키예 템플릿입니다.',
+        footer: 'Turkey feels richest when Hagia Sophia, domes, and bazaars stay in one rhythm.',
         heroImage: 'assets/heroes/turkey.jpg',
         timeZone: 'Europe/Istanbul',
         weather: { latitude: 41.0082, longitude: 28.9784 },
@@ -2897,8 +2943,8 @@ const DESTINATIONS = {
         id: 'portugal',
         city: 'Lisbon',
         country: 'Portugal',
-        summary: '노란 트램, 전망대, 알파마 골목, 강변 무드를 묶은 포르투갈 템플릿입니다.',
-        footer: 'Portugal feels best when tram yellow and river light stay warm together.',
+        summary: '코메르시우 광장, 알파마, 벨렝, 강변 전망을 묶은 포르투갈 템플릿입니다.',
+        footer: 'Portugal feels best when plaza light and river wind stay warm together.',
         heroImage: 'assets/heroes/portugal.jpg',
         timeZone: 'Europe/Lisbon',
         weather: { latitude: 38.7223, longitude: -9.1393 },
@@ -3472,6 +3518,7 @@ const ACTIVITY_ICON_VALUES = new Set(ACTIVITY_ICON_OPTIONS.map((option) => optio
 
 const appState = {
     destinationId: DEFAULT_DESTINATION_ID,
+    segments: [],
     startDate: '',
     endDate: '',
     itinerary: [],
@@ -3479,7 +3526,9 @@ const appState = {
     weatherMode: 'loading',
     phraseIndex: 0,
     hasStarted: false,
-    customized: false
+    customized: false,
+    activeDayId: null,
+    activeActivityId: null
 };
 
 let activityEditorState = {
@@ -3493,6 +3542,7 @@ let setupSelection = {
     startDate: '',
     endDate: ''
 };
+let setupSegments = [];
 let setupCalendarMonth = '';
 let setupRangeSelectingEnd = false;
 
@@ -3527,6 +3577,7 @@ const COUNTRY_FLAGS = {
     Taiwan: '🇹🇼',
     Vietnam: '🇻🇳',
     India: '🇮🇳',
+    'Saudi Arabia': '🇸🇦',
     Philippines: '🇵🇭',
     Russia: '🇷🇺',
     Canada: '🇨🇦',
@@ -3583,6 +3634,7 @@ const CURRENCY_DENOMINATIONS = {
     THB: [20, 50, 100, 500, 1000],
     IDR: [1000, 2000, 5000, 10000, 20000, 50000, 100000],
     AED: [5, 10, 20, 50, 100, 200],
+    SAR: [1, 5, 10, 50, 100, 500],
     AUD: [5, 10, 20, 50, 100],
     CNY: [1, 5, 10, 20, 50, 100],
     TWD: [10, 50, 100, 500, 1000],
@@ -3628,6 +3680,7 @@ const CURRENCY_DISPLAY = {
     THB: '฿',
     IDR: 'Rp',
     AED: 'د.إ',
+    SAR: 'ر.س',
     AUD: 'A$',
     CNY: '元',
     TWD: 'NT$',
@@ -3674,6 +3727,7 @@ const LOCATION_LABELS = {
     Taiwan: '대만',
     Vietnam: '베트남',
     India: '인도',
+    'Saudi Arabia': '사우디아라비아',
     Philippines: '필리핀',
     Russia: '러시아',
     Canada: '캐나다',
@@ -3720,6 +3774,7 @@ const LOCATION_LABELS = {
     'Kuala Lumpur': '쿠알라룸푸르',
     Jakarta: '자카르타',
     Bali: '발리',
+    Mecca: '메카',
     Bangkok: '방콕',
     Dubai: '두바이',
     Amsterdam: '암스테르담',
@@ -3754,6 +3809,7 @@ const LOCATION_LABELS = {
     Dublin: '더블린',
     Reykjavik: '레이캬비크',
     Athens: '아테네',
+    Santorini: '산토리니',
     Istanbul: '이스탄불',
     Zermatt: '체르마트',
     Lisbon: '리스본',
@@ -3797,6 +3853,7 @@ const DEFAULT_BASE_AMOUNTS = {
     THB: 100,
     IDR: 100000,
     AED: 10,
+    SAR: 50,
     AUD: 10,
     CNY: 10,
     TWD: 100,
@@ -3843,6 +3900,7 @@ const COUNTRY_THEMES = {
     Taiwan: buildTheme('#38BDF8', '#083344', 0.42, 0.88),
     Vietnam: buildTheme('#84CC16', '#1A2E05', 0.40, 0.88),
     India: buildTheme('#FB8C00', '#4B1D06', 0.44, 0.90),
+    'Saudi Arabia': buildTheme('#22C55E', '#0F2F1F', 0.36, 0.82),
     Philippines: buildTheme('#2563EB', '#0B132B', 0.46, 0.90),
     Russia: buildTheme('#93C5FD', '#1E3A8A', 0.38, 0.88),
     Canada: buildTheme('#DC2626', '#4C0519', 0.40, 0.90),
@@ -3915,6 +3973,9 @@ const ui = {
     setupCalendarGrid: document.getElementById('setup-calendar-grid'),
     setupCalendarPrevBtn: document.getElementById('setup-calendar-prev-btn'),
     setupCalendarNextBtn: document.getElementById('setup-calendar-next-btn'),
+    setupSegmentList: document.getElementById('setup-segment-list'),
+    setupSegmentCount: document.getElementById('setup-segment-count'),
+    addSegmentBtn: document.getElementById('add-segment-btn'),
     applyPlanBtn: document.getElementById('apply-plan-btn'),
     destinationClockLabel: document.getElementById('destination-clock-label'),
     timeSeoul: document.getElementById('time-seoul'),
@@ -4032,6 +4093,88 @@ function formatSetupMonthLabel(date) {
 function syncSetupCalendarMonth(anchorValue = setupSelection.startDate || setupSelection.endDate) {
     const anchorDate = parseYmd(anchorValue) || new Date();
     setupCalendarMonth = formatYmd(startOfMonth(anchorDate));
+}
+
+function compareSegments(left, right) {
+    const startCompare = left.startDate.localeCompare(right.startDate);
+    if (startCompare !== 0) return startCompare;
+
+    const endCompare = left.endDate.localeCompare(right.endDate);
+    if (endCompare !== 0) return endCompare;
+
+    return left.destinationId.localeCompare(right.destinationId);
+}
+
+function sortSegments(segments = []) {
+    return [...segments].sort(compareSegments);
+}
+
+function cloneSegment(segment) {
+    return {
+        destinationId: segment.destinationId,
+        startDate: segment.startDate,
+        endDate: segment.endDate
+    };
+}
+
+function isSameSegment(left, right) {
+    return left.destinationId === right.destinationId
+        && left.startDate === right.startDate
+        && left.endDate === right.endDate;
+}
+
+function rangesOverlap(left, right) {
+    return !(left.endDate < right.startDate || right.endDate < left.startDate);
+}
+
+function findOverlappingSegment(segment, segments = []) {
+    return segments.find((entry) => !isSameSegment(entry, segment) && rangesOverlap(entry, segment)) || null;
+}
+
+function getOverallRange(segments = []) {
+    const sortedSegments = sortSegments(segments);
+    if (!sortedSegments.length) return { startDate: '', endDate: '' };
+
+    return {
+        startDate: sortedSegments[0].startDate,
+        endDate: sortedSegments[sortedSegments.length - 1].endDate
+    };
+}
+
+function syncAppDateBounds() {
+    const { startDate, endDate } = getOverallRange(appState.segments);
+    appState.startDate = startDate;
+    appState.endDate = endDate;
+}
+
+function getDayKey(day) {
+    return `${day.destinationId || appState.destinationId}::${day.date}`;
+}
+
+function getDraftSetupSegment() {
+    const destination = getDestination(setupSelection.destinationId);
+    if (!parseYmd(setupSelection.startDate) || !parseYmd(setupSelection.endDate) || setupRangeSelectingEnd) {
+        return null;
+    }
+
+    const { startDate, endDate } = normalizeDateRange(setupSelection.startDate, setupSelection.endDate, destination);
+    return {
+        destinationId: setupSelection.destinationId,
+        startDate,
+        endDate
+    };
+}
+
+function getPendingSetupSegments(includeDraft = false) {
+    const segments = setupSegments.map((segment) => cloneSegment(segment));
+    if (!includeDraft) return sortSegments(segments);
+
+    const draftSegment = getDraftSetupSegment();
+    if (draftSegment && !segments.some((segment) => isSameSegment(segment, draftSegment))) {
+        segments.push(draftSegment);
+    }
+
+    return sortSegments(segments);
 }
 
 function getSelectableDestinations() {
@@ -4172,6 +4315,7 @@ function buildItineraryFromRange(destinationId, startDate, endDate) {
 
         return {
             id: createId('day'),
+            destinationId,
             date: formatYmd(currentDate),
             day: DAY_LABELS[currentDate.getDay()],
             title: buildTemplateTitle(destination, dayIndex),
@@ -4180,8 +4324,14 @@ function buildItineraryFromRange(destinationId, startDate, endDate) {
     });
 }
 
-function buildItineraryFromSharedPayload(destinationId, startDate, endDate, serializedDays = []) {
-    const templateItinerary = buildItineraryFromRange(destinationId, startDate, endDate);
+function buildItineraryFromSegments(segments = []) {
+    return sortSegments(segments).flatMap((segment) =>
+        buildItineraryFromRange(segment.destinationId, segment.startDate, segment.endDate)
+    );
+}
+
+function buildItineraryFromSharedPayload(segments = [], serializedDays = []) {
+    const templateItinerary = buildItineraryFromSegments(segments);
 
     return templateItinerary.map((day, dayIndex) => {
         const sourceDay = serializedDays[dayIndex];
@@ -4210,10 +4360,12 @@ function buildItineraryFromSharedPayload(destinationId, startDate, endDate, seri
 
 function buildSharePayload() {
     return {
-        v: 2,
-        d: getSelectableDestinationId(appState.destinationId),
-        s: appState.startDate,
-        e: appState.endDate,
+        v: 3,
+        g: appState.segments.map((segment) => ({
+            d: getSelectableDestinationId(segment.destinationId),
+            s: segment.startDate,
+            e: segment.endDate
+        })),
         i: appState.itinerary.map((day) => ({
             a: day.activities.map((activity) => ({
                 h: activity.time,
@@ -4627,6 +4779,47 @@ function renderDestinationSelector() {
     }
 }
 
+function renderSetupSegmentList() {
+    const segments = getPendingSetupSegments(false);
+    ui.setupSegmentCount.textContent = `${segments.length}개`;
+
+    if (!segments.length) {
+        ui.setupSegmentList.innerHTML = `
+            <div class="rounded-[18px] border border-dashed border-white/12 bg-white/[0.03] px-4 py-3 text-sm text-white/54">
+                아직 추가된 일정이 없습니다.
+            </div>
+        `;
+        return;
+    }
+
+    ui.setupSegmentList.innerHTML = segments.map((segment, index) => {
+        const destination = getDestination(segment.destinationId);
+        const localizedCountry = getLocalizedLabel(destination.country, destination.country);
+        const localizedCity = getLocalizedLabel(destination.city, destination.city);
+        const secondary = getSelectableDestinations().find((entry) => entry.id === getSelectableDestinationId(destination.id))?.secondaryLabel
+            ? ` · ${localizedCity}`
+            : '';
+
+        return `
+            <div class="rounded-[18px] border border-white/10 bg-white/[0.05] px-4 py-3 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                    <div class="text-sm font-semibold text-white truncate">${index + 1}. ${escapeHtml(localizedCountry)}${escapeHtml(secondary)}</div>
+                    <div class="text-xs text-white/58 mt-1">${escapeHtml(formatSetupDate(segment.startDate))} - ${escapeHtml(formatSetupDate(segment.endDate))}</div>
+                </div>
+                <button
+                    type="button"
+                    class="shrink-0 rounded-full border border-white/10 bg-white/6 p-2 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
+                    data-remove-setup-segment="${index}"
+                    aria-label="추가한 일정 제거">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        `;
+    }).join('');
+
+    lucide.createIcons();
+}
+
 function renderSetupCalendar() {
     const monthDate = parseYmd(setupCalendarMonth) || startOfMonth(parseYmd(setupSelection.startDate) || new Date());
     const monthStart = startOfMonth(monthDate);
@@ -4673,12 +4866,23 @@ function renderSetupInputs() {
         ? '종료일 선택 중'
         : formatSetupDate(setupSelection.endDate);
 
-    const canApply = parseYmd(setupSelection.startDate) && parseYmd(setupSelection.endDate) && !setupRangeSelectingEnd;
+    const hasValidDraft = Boolean(getDraftSetupSegment());
+    const draftSegment = getDraftSetupSegment();
+    const hasDraftOverlap = draftSegment ? Boolean(findOverlappingSegment(draftSegment, setupSegments)) : false;
+    const pendingSegments = getPendingSetupSegments(hasValidDraft);
+    const hasPendingOverlap = pendingSegments.some((segment, index) =>
+        pendingSegments.slice(index + 1).some((other) => rangesOverlap(segment, other))
+    );
+    const canApply = pendingSegments.length > 0 && !hasPendingOverlap;
+    ui.addSegmentBtn.disabled = !hasValidDraft || hasDraftOverlap;
+    ui.addSegmentBtn.classList.toggle('opacity-50', !hasValidDraft || hasDraftOverlap);
+    ui.addSegmentBtn.classList.toggle('pointer-events-none', !hasValidDraft || hasDraftOverlap);
     ui.applyPlanBtn.disabled = !canApply;
     ui.applyPlanBtn.classList.toggle('opacity-50', !canApply);
     ui.applyPlanBtn.classList.toggle('pointer-events-none', !canApply);
 
     renderSetupCalendar();
+    renderSetupSegmentList();
 }
 
 function syncDestinationDropdownPosition() {
@@ -4728,10 +4932,86 @@ function hideSetupOverlay() {
     updateBodyScrollLock();
 }
 
+function getDayDestination(day) {
+    return getDestination(day?.destinationId || appState.destinationId);
+}
+
+function getClockTimeValue(timeZone) {
+    const now = getLocalNow(timeZone);
+    return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+}
+
+function findActiveContext() {
+    if (!appState.itinerary.length) {
+        return {
+            destinationId: setupSelection.destinationId,
+            dayId: null,
+            activityId: null
+        };
+    }
+
+    let fallbackUpcomingDay = null;
+    let fallbackPastDay = null;
+
+    for (const day of appState.itinerary) {
+        const destination = getDayDestination(day);
+        const localNow = getLocalNow(destination.timeZone);
+        localNow.setHours(0, 0, 0, 0);
+        const localDateValue = formatYmd(localNow);
+
+        if (day.date === localDateValue) {
+            const nowTime = getClockTimeValue(destination.timeZone);
+            const activities = [...day.activities].sort((left, right) => left.time.localeCompare(right.time));
+            const activeActivity = activities.find((activity) => activity.time >= nowTime) || activities[activities.length - 1] || null;
+
+            return {
+                destinationId: day.destinationId,
+                dayId: day.id,
+                activityId: activeActivity?.id || null
+            };
+        }
+
+        if (!fallbackUpcomingDay && day.date > localDateValue) {
+            fallbackUpcomingDay = day;
+        }
+
+        fallbackPastDay = day;
+    }
+
+    const fallbackDay = fallbackUpcomingDay || fallbackPastDay || appState.itinerary[0];
+    return {
+        destinationId: fallbackDay.destinationId,
+        dayId: fallbackDay.id,
+        activityId: fallbackDay.activities[0]?.id || null
+    };
+}
+
+function applyActiveContext(context, { refreshPhrase = false } = {}) {
+    const nextDestinationId = context.destinationId || appState.destinationId;
+    const destinationChanged = nextDestinationId !== appState.destinationId;
+    const dayChanged = context.dayId !== appState.activeDayId;
+    const activityChanged = context.activityId !== appState.activeActivityId;
+
+    appState.destinationId = nextDestinationId;
+    appState.activeDayId = context.dayId;
+    appState.activeActivityId = context.activityId;
+
+    if (destinationChanged && refreshPhrase) {
+        setRandomPhrase(appState.destinationId);
+    }
+
+    return {
+        destinationChanged,
+        dayChanged,
+        activityChanged
+    };
+}
+
 function renderStaticSummary() {
     const destination = getDestination(appState.destinationId);
     const firstDay = appState.itinerary[0];
     const lastDay = appState.itinerary[appState.itinerary.length - 1];
+    if (!firstDay || !lastDay) return;
 
     ui.tripCountryChip.textContent = `${destination.country} · ${destination.city}`;
     ui.tripTitle.textContent = destination.city;
@@ -4761,7 +5041,24 @@ function renderWeatherStatus() {
 }
 
 function updateClocks() {
-    const destination = getDestination(appState.hasStarted ? appState.destinationId : setupSelection.destinationId);
+    const context = appState.hasStarted ? findActiveContext() : {
+        destinationId: setupSelection.destinationId,
+        dayId: null,
+        activityId: null
+    };
+    const { destinationChanged, dayChanged, activityChanged } = applyActiveContext(context, { refreshPhrase: true });
+    const destination = getDestination(appState.destinationId);
+
+    if (appState.hasStarted && (destinationChanged || dayChanged || activityChanged)) {
+        applyTheme(destination);
+        renderUtilityInfo();
+        renderStaticSummary();
+        renderItinerary();
+        if (destinationChanged) {
+            fetchExchangeRate();
+        }
+    }
+
     const now = new Date();
 
     ui.timeSeoul.textContent = now.toLocaleTimeString('en-US', {
@@ -4840,37 +5137,59 @@ function canFetchWeather(destinationId, startDate, endDate) {
 }
 
 async function fetchWeather() {
-    const destination = getDestination(appState.destinationId);
-    const firstDay = appState.itinerary[0];
-    const lastDay = appState.itinerary[appState.itinerary.length - 1];
+    const dailyByKey = {};
+    const hourlyByKey = {};
+    let hasLive = false;
+    let hasRange = false;
+    let hasError = false;
 
-    if (!canFetchWeather(destination.id, appState.startDate, appState.endDate)) {
-        appState.currentWeather = null;
-        appState.weatherMode = 'range';
-        renderWeatherStatus();
-        renderItinerary();
-        return;
+    for (const segment of appState.segments) {
+        const destination = getDestination(segment.destinationId);
+        if (!canFetchWeather(destination.id, segment.startDate, segment.endDate)) {
+            hasRange = true;
+            continue;
+        }
+
+        try {
+            const params = new URLSearchParams({
+                latitude: destination.weather.latitude,
+                longitude: destination.weather.longitude,
+                daily: 'weather_code,temperature_2m_max,temperature_2m_min',
+                hourly: 'temperature_2m,weather_code',
+                timezone: destination.timeZone,
+                start_date: segment.startDate,
+                end_date: segment.endDate
+            });
+            const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
+            if (!response.ok) throw new Error('Weather fetch failed');
+
+            const data = await response.json();
+            hasLive = true;
+
+            (data?.daily?.time || []).forEach((date, index) => {
+                dailyByKey[`${destination.id}|${date}`] = {
+                    weatherCode: data.daily.weather_code[index],
+                    maxTemp: data.daily.temperature_2m_max[index],
+                    minTemp: data.daily.temperature_2m_min[index]
+                };
+            });
+
+            (data?.hourly?.time || []).forEach((entry, index) => {
+                hourlyByKey[`${destination.id}|${entry}`] = {
+                    weatherCode: data.hourly.weather_code[index],
+                    temp: data.hourly.temperature_2m[index]
+                };
+            });
+        } catch (error) {
+            console.error('Weather fetch failed:', error);
+            hasError = true;
+        }
     }
 
-    try {
-        const params = new URLSearchParams({
-            latitude: destination.weather.latitude,
-            longitude: destination.weather.longitude,
-            daily: 'weather_code,temperature_2m_max,temperature_2m_min',
-            hourly: 'temperature_2m,weather_code',
-            timezone: destination.timeZone,
-            start_date: firstDay.date,
-            end_date: lastDay.date
-        });
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
-        if (!response.ok) throw new Error('Weather fetch failed');
-
-        appState.currentWeather = await response.json();
-        appState.weatherMode = 'live';
-    } catch (error) {
-        console.error('Weather fetch failed:', error);
-        appState.currentWeather = null;
-        appState.weatherMode = 'error';
+    appState.currentWeather = { dailyByKey, hourlyByKey };
+    appState.weatherMode = hasError ? 'error' : (hasLive ? 'live' : 'range');
+    if (!hasLive && hasRange && !hasError) {
+        appState.weatherMode = 'range';
     }
 
     renderWeatherStatus();
@@ -4878,14 +5197,12 @@ async function fetchWeather() {
 }
 
 function buildDailyWeatherHtml(day) {
-    if (!appState.currentWeather?.daily?.time) return '';
+    const weather = appState.currentWeather?.dailyByKey?.[`${day.destinationId}|${day.date}`];
+    if (!weather) return '';
 
-    const index = appState.currentWeather.daily.time.findIndex((entry) => entry === day.date);
-    if (index === -1) return '';
-
-    const weatherInfo = getWeatherInfo(appState.currentWeather.daily.weather_code[index]);
-    const maxTemp = Math.round(appState.currentWeather.daily.temperature_2m_max[index]);
-    const minTemp = Math.round(appState.currentWeather.daily.temperature_2m_min[index]);
+    const weatherInfo = getWeatherInfo(weather.weatherCode);
+    const maxTemp = Math.round(weather.maxTemp);
+    const minTemp = Math.round(weather.minTemp);
 
     return `
         <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
@@ -4896,14 +5213,12 @@ function buildDailyWeatherHtml(day) {
 }
 
 function buildHourlyWeatherHtml(day, activity) {
-    if (!appState.currentWeather?.hourly?.time) return '';
-
     const hourLabel = `${day.date}T${activity.time.split(':')[0]}:00`;
-    const index = appState.currentWeather.hourly.time.findIndex((entry) => entry === hourLabel);
-    if (index === -1) return '';
+    const weather = appState.currentWeather?.hourlyByKey?.[`${day.destinationId}|${hourLabel}`];
+    if (!weather) return '';
 
-    const weatherInfo = getWeatherInfo(appState.currentWeather.hourly.weather_code[index]);
-    const temp = Math.round(appState.currentWeather.hourly.temperature_2m[index]);
+    const weatherInfo = getWeatherInfo(weather.weatherCode);
+    const temp = Math.round(weather.temp);
 
     return `
         <div class="absolute -left-[40px] top-1/2 -translate-y-1/2 flex flex-col items-center justify-center w-[32px] z-10">
@@ -4914,17 +5229,33 @@ function buildHourlyWeatherHtml(day, activity) {
 }
 
 function renderItinerary() {
-    const destination = getDestination(appState.destinationId);
-
     ui.itineraryContainer.innerHTML = '<div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-white/20"></div>';
 
     appState.itinerary.forEach((day, dayIndex) => {
+        const dayDestination = getDayDestination(day);
+        const previousDay = appState.itinerary[dayIndex - 1];
+        const isSegmentBoundary = !previousDay
+            || previousDay.destinationId !== day.destinationId
+            || countDaysInclusive(parseYmd(previousDay.date), parseYmd(day.date)) > 1;
         const dayElement = document.createElement('div');
         dayElement.className = 'relative pl-8 reveal';
         const dayDirectionsUrl = getDayDirectionsUrl(day.activities);
+        const countryLabel = getLocalizedLabel(dayDestination.country, dayDestination.country);
+        const cityLabel = getLocalizedLabel(dayDestination.city, dayDestination.city);
+        const segmentChipHtml = isSegmentBoundary ? `
+            <div class="mb-2">
+                <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-semibold tracking-[0.24em] uppercase text-white/84"
+                    style="border-color: rgba(${dayDestination.accentRgb}, 0.42); background: rgba(${dayDestination.accentRgb}, 0.16);">
+                    <span>${escapeHtml(countryLabel)}</span>
+                    <span class="text-white/45">·</span>
+                    <span>${escapeHtml(cityLabel)}</span>
+                </div>
+            </div>
+        ` : '';
 
         const activitiesHtml = day.activities.map((activity, activityIndex) => {
             const nextActivity = day.activities[activityIndex + 1];
+            const isActiveActivity = activity.id === appState.activeActivityId;
             const betweenStopsHtml = nextActivity ? `
                 <div class="relative h-5 -mt-1 -mb-1 z-20">
                     <div class="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/18"></div>
@@ -4945,7 +5276,7 @@ function renderItinerary() {
             return `
             <div>
                 <div
-                    class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3 cursor-pointer hover:bg-white/[0.08] transition-colors"
+                    class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3 cursor-pointer hover:bg-white/[0.08] transition-colors ${isActiveActivity ? 'next-item' : ''}"
                     data-action="edit-activity"
                     data-day-index="${dayIndex}"
                     data-activity-id="${activity.id}">
@@ -4979,11 +5310,12 @@ function renderItinerary() {
         dayElement.innerHTML = `
             <div class="flex items-start gap-3 mb-4">
                 <div class="w-6 h-6 rounded-full border-4 border-white/20 shadow-sm z-10 absolute left-0 flex items-center justify-center"
-                    style="background:rgba(${destination.inkRgb},0.9);">
+                    style="background:rgba(${dayDestination.inkRgb},0.9);">
                     <div class="w-1.5 h-1.5 rounded-full accent-dot"></div>
                 </div>
 
                 <div class="flex-1">
+                    ${segmentChipHtml}
                     <div class="flex items-center gap-2">
                         <h3 class="text-2xl font-serif font-bold text-white">${escapeHtml(day.day)}</h3>
                         <span class="text-sm text-white/70 font-medium">${formatMonthDay(parseYmd(day.date))}</span>
@@ -5041,6 +5373,38 @@ function syncUrl() {
     window.history.replaceState({}, '', buildShareUrl());
 }
 
+function addSetupSegmentFromSelection({ silent = false } = {}) {
+    const draftSegment = getDraftSetupSegment();
+    if (!draftSegment) {
+        if (!silent) {
+            window.alert('달력에서 시작일과 종료일을 먼저 고르세요.');
+        }
+        return false;
+    }
+
+    const overlap = findOverlappingSegment(draftSegment, setupSegments);
+    if (overlap) {
+        if (!silent) {
+            window.alert('추가한 일정끼리는 날짜가 겹칠 수 없습니다.');
+        }
+        return false;
+    }
+
+    if (!setupSegments.some((segment) => isSameSegment(segment, draftSegment))) {
+        setupSegments = sortSegments([...setupSegments, draftSegment]);
+    }
+
+    const destination = getDestination(setupSelection.destinationId);
+    const nextStartDate = formatYmd(addDays(parseYmd(draftSegment.endDate), 1));
+    const nextEndDate = formatYmd(addDays(parseYmd(nextStartDate), Math.max(destination.itineraryTemplate.length - 1, 0)));
+    setupSelection.startDate = nextStartDate;
+    setupSelection.endDate = nextEndDate;
+    setupRangeSelectingEnd = false;
+    syncSetupCalendarMonth(nextStartDate);
+    renderSetupInputs();
+    return true;
+}
+
 function refreshPlan() {
     if (!appState.hasStarted) {
         applyTheme(getDestination(setupSelection.destinationId));
@@ -5053,6 +5417,7 @@ function refreshPlan() {
     }
 
     hideSetupOverlay();
+    applyActiveContext(findActiveContext(), { refreshPhrase: true });
     applyTheme(getDestination(appState.destinationId));
     renderUtilityInfo();
     updateClocks();
@@ -5067,69 +5432,77 @@ function refreshPlan() {
 }
 
 async function applySetupSelection() {
-    const destination = getDestination(setupSelection.destinationId);
-    const rawStartDate = setupSelection.startDate;
-    const rawEndDate = setupSelection.endDate;
-
-    if (!parseYmd(rawStartDate) || !parseYmd(rawEndDate) || setupRangeSelectingEnd) {
-        window.alert('달력에서 시작일과 종료일을 차례로 선택해 주세요.');
+    const pendingSegments = getPendingSetupSegments(true);
+    if (!pendingSegments.length) {
+        window.alert('먼저 국가와 날짜를 고르세요.');
         return;
     }
 
-    if (parseYmd(rawStartDate) && parseYmd(rawEndDate) && parseYmd(rawEndDate) < parseYmd(rawStartDate)) {
-        window.alert('종료일은 시작일보다 빠를 수 없습니다.');
+    const overlap = pendingSegments.find((segment, index) =>
+        pendingSegments.slice(index + 1).some((other) => rangesOverlap(segment, other))
+    );
+    if (overlap) {
+        window.alert('추가한 일정끼리는 날짜가 겹칠 수 없습니다.');
         return;
     }
 
-    const { startDate, endDate } = normalizeDateRange(rawStartDate, rawEndDate, destination);
-    const isChangingCoreSetup = appState.destinationId !== setupSelection.destinationId
-        || appState.startDate !== startDate
-        || appState.endDate !== endDate;
+    const nextSegments = sortSegments(pendingSegments);
+    const isChangingCoreSetup = JSON.stringify(appState.segments.map(cloneSegment)) !== JSON.stringify(nextSegments.map(cloneSegment));
 
     if (appState.customized && isChangingCoreSetup) {
         const shouldContinue = window.confirm('지금까지 커스터마이징한 일정이 새 도시/날짜 범위 템플릿으로 바뀝니다. 계속할까요?');
         if (!shouldContinue) return;
     }
 
-    setupSelection.startDate = startDate;
-    setupSelection.endDate = endDate;
-    setupRangeSelectingEnd = false;
-    syncSetupCalendarMonth(startDate);
-    appState.destinationId = setupSelection.destinationId;
-    appState.startDate = startDate;
-    appState.endDate = endDate;
-    appState.itinerary = buildItineraryFromRange(appState.destinationId, appState.startDate, appState.endDate);
-    setRandomPhrase(appState.destinationId);
+    setupSegments = nextSegments.map(cloneSegment);
+    appState.segments = nextSegments.map(cloneSegment);
+    syncAppDateBounds();
+    appState.itinerary = buildItineraryFromSegments(appState.segments);
     appState.hasStarted = true;
     appState.customized = false;
+    appState.currentWeather = null;
+    appState.weatherMode = 'loading';
 
     ui.applyPlanBtn.disabled = true;
-    await preloadHeroImage(destination.heroImage);
-    applyTheme(destination);
+    await Promise.all(appState.segments.map((segment) => preloadHeroImage(getDestination(segment.destinationId).heroImage)));
+    applyActiveContext(findActiveContext(), { refreshPhrase: true });
+    applyTheme(getDestination(appState.destinationId));
     setShareStatus('');
     refreshPlan();
 }
 
-function rebuildItineraryWithExisting(newStartDate, newEndDate) {
-    const existingDaysByDate = new Map(appState.itinerary.map((day) => [day.date, day]));
-    const nextTemplate = buildItineraryFromRange(appState.destinationId, newStartDate, newEndDate);
+function rebuildItineraryWithSegments(nextSegments) {
+    const existingDaysByKey = new Map(appState.itinerary.map((day) => [getDayKey(day), day]));
+    const sortedSegments = sortSegments(nextSegments);
+    const nextTemplate = buildItineraryFromSegments(sortedSegments);
 
-    appState.startDate = newStartDate;
-    appState.endDate = newEndDate;
-    appState.itinerary = nextTemplate.map((day) => existingDaysByDate.get(day.date) || day);
+    appState.segments = sortedSegments.map(cloneSegment);
+    syncAppDateBounds();
+    appState.itinerary = nextTemplate.map((day) => existingDaysByKey.get(getDayKey(day)) || day);
     appState.customized = true;
 
     refreshPlan();
 }
 
 function prependDay() {
-    const nextStartDate = formatYmd(addDays(parseYmd(appState.startDate), -1));
-    rebuildItineraryWithExisting(nextStartDate, appState.endDate);
+    if (!appState.segments.length) return;
+    const segments = sortSegments(appState.segments);
+    segments[0] = {
+        ...segments[0],
+        startDate: formatYmd(addDays(parseYmd(segments[0].startDate), -1))
+    };
+    rebuildItineraryWithSegments(segments);
 }
 
 function appendDay() {
-    const nextEndDate = formatYmd(addDays(parseYmd(appState.endDate), 1));
-    rebuildItineraryWithExisting(appState.startDate, nextEndDate);
+    if (!appState.segments.length) return;
+    const segments = sortSegments(appState.segments);
+    const lastIndex = segments.length - 1;
+    segments[lastIndex] = {
+        ...segments[lastIndex],
+        endDate: formatYmd(addDays(parseYmd(segments[lastIndex].endDate), 1))
+    };
+    rebuildItineraryWithSegments(segments);
 }
 
 function removeFirstDay() {
@@ -5138,8 +5511,17 @@ function removeFirstDay() {
         return;
     }
 
-    const nextStartDate = formatYmd(addDays(parseYmd(appState.startDate), 1));
-    rebuildItineraryWithExisting(nextStartDate, appState.endDate);
+    const segments = sortSegments(appState.segments);
+    const first = segments[0];
+    if (first.startDate === first.endDate) {
+        segments.shift();
+    } else {
+        segments[0] = {
+            ...first,
+            startDate: formatYmd(addDays(parseYmd(first.startDate), 1))
+        };
+    }
+    rebuildItineraryWithSegments(segments);
 }
 
 function removeLastDay() {
@@ -5148,8 +5530,18 @@ function removeLastDay() {
         return;
     }
 
-    const nextEndDate = formatYmd(addDays(parseYmd(appState.endDate), -1));
-    rebuildItineraryWithExisting(appState.startDate, nextEndDate);
+    const segments = sortSegments(appState.segments);
+    const lastIndex = segments.length - 1;
+    const last = segments[lastIndex];
+    if (last.startDate === last.endDate) {
+        segments.pop();
+    } else {
+        segments[lastIndex] = {
+            ...last,
+            endDate: formatYmd(addDays(parseYmd(last.endDate), -1))
+        };
+    }
+    rebuildItineraryWithSegments(segments);
 }
 
 function resetToSetup() {
@@ -5162,10 +5554,12 @@ function resetToSetup() {
     setupSelection.destinationId = destination.id;
     setupSelection.startDate = startDate;
     setupSelection.endDate = endDate;
+    setupSegments = [];
     setupRangeSelectingEnd = false;
     syncSetupCalendarMonth(startDate);
 
     appState.destinationId = destination.id;
+    appState.segments = [];
     appState.startDate = startDate;
     appState.endDate = endDate;
     appState.itinerary = [];
@@ -5173,6 +5567,8 @@ function resetToSetup() {
     appState.weatherMode = 'loading';
     appState.hasStarted = false;
     appState.customized = false;
+    appState.activeDayId = null;
+    appState.activeActivityId = null;
     setRandomPhrase(destination.id);
 
     const cleanUrl = window.location.pathname;
@@ -5184,12 +5580,15 @@ function resetToSetup() {
 async function sharePlan() {
     const shareUrl = buildShareUrl();
     const destination = getDestination(appState.destinationId);
+    const isMultiCountryPlan = new Set(appState.segments.map((segment) => getDestination(segment.destinationId).country)).size > 1;
+    const shareTitle = isMultiCountryPlan ? 'Multi-country Trip Plan' : `${destination.city} Trip Plan`;
+    const shareText = isMultiCountryPlan ? '여러 나라 일정 공유 링크' : `${destination.city} 일정 공유 링크`;
 
     if (navigator.share) {
         try {
             await navigator.share({
-                title: `${destination.city} Trip Plan`,
-                text: `${destination.city} 일정 공유 링크`,
+                title: shareTitle,
+                text: shareText,
                 url: shareUrl
             });
             setShareStatus('공유 창으로 링크를 보냈습니다.');
@@ -5240,7 +5639,9 @@ function closeActivityEditor() {
 
 function persistItineraryChanges() {
     appState.customized = true;
+    applyActiveContext(findActiveContext());
     renderItinerary();
+    renderStaticSummary();
     syncUrl();
 }
 
@@ -5330,22 +5731,45 @@ function bootstrapFromUrl() {
     if (planParam) {
         try {
             const payload = decodePlan(planParam);
-            const destination = getDestination(getSelectableDestinationId(payload.d));
-            const { startDate, endDate } = normalizeDateRange(payload.s, payload.e, destination);
+            const segments = Array.isArray(payload.g) && payload.g.length
+                ? payload.g.map((segment) => {
+                    const destination = getDestination(getSelectableDestinationId(segment.d));
+                    const { startDate, endDate } = normalizeDateRange(segment.s, segment.e, destination);
+                    return {
+                        destinationId: destination.id,
+                        startDate,
+                        endDate
+                    };
+                })
+                : (() => {
+                    const destination = getDestination(getSelectableDestinationId(payload.d));
+                    const { startDate, endDate } = normalizeDateRange(payload.s, payload.e, destination);
+                    return [{
+                        destinationId: destination.id,
+                        startDate,
+                        endDate
+                    }];
+                })();
 
-            appState.destinationId = destination.id;
-            appState.startDate = startDate;
-            appState.endDate = endDate;
-            appState.itinerary = buildItineraryFromSharedPayload(destination.id, startDate, endDate, Array.isArray(payload.i) ? payload.i : []);
-            setRandomPhrase(destination.id);
+            appState.segments = sortSegments(segments);
+            syncAppDateBounds();
+            appState.destinationId = appState.segments[0]?.destinationId || DEFAULT_DESTINATION_ID;
+            appState.itinerary = buildItineraryFromSharedPayload(appState.segments, Array.isArray(payload.i) ? payload.i : []);
+            setRandomPhrase(appState.destinationId);
             appState.hasStarted = true;
             appState.customized = true;
 
-            setupSelection.destinationId = destination.id;
-            setupSelection.startDate = startDate;
-            setupSelection.endDate = endDate;
+            setupSegments = appState.segments.map(cloneSegment);
+            const draftSegment = setupSegments[setupSegments.length - 1] || {
+                destinationId: DEFAULT_DESTINATION_ID,
+                startDate: '',
+                endDate: ''
+            };
+            setupSelection.destinationId = draftSegment.destinationId;
+            setupSelection.startDate = draftSegment.startDate;
+            setupSelection.endDate = draftSegment.endDate;
             setupRangeSelectingEnd = false;
-            syncSetupCalendarMonth(startDate);
+            syncSetupCalendarMonth(draftSegment.startDate);
             return;
         } catch (error) {
             console.warn('Failed to decode shared plan:', error);
@@ -5356,16 +5780,20 @@ function bootstrapFromUrl() {
     const { startDate, endDate } = normalizeDateRange(url.searchParams.get('start'), url.searchParams.get('end'), destination);
 
     appState.destinationId = destination.id;
+    appState.segments = [];
     appState.startDate = startDate;
     appState.endDate = endDate;
-    appState.itinerary = buildItineraryFromRange(destination.id, startDate, endDate);
+    appState.itinerary = [];
     setRandomPhrase(destination.id);
     appState.hasStarted = false;
     appState.customized = false;
+    appState.activeDayId = null;
+    appState.activeActivityId = null;
 
     setupSelection.destinationId = destination.id;
     setupSelection.startDate = startDate;
     setupSelection.endDate = endDate;
+    setupSegments = [];
     setupRangeSelectingEnd = false;
     syncSetupCalendarMonth(startDate);
 }
@@ -5380,7 +5808,14 @@ ui.destinationSelector.addEventListener('click', (event) => {
 
     setupSelection.destinationId = button.dataset.destination;
     const destination = getDestination(setupSelection.destinationId);
-    const { startDate, endDate } = getSuggestedDateRange(destination);
+    const nextAfterLastSegment = getOverallRange(setupSegments).endDate
+        ? formatYmd(addDays(parseYmd(getOverallRange(setupSegments).endDate), 1))
+        : '';
+    const { startDate: suggestedStartDate, endDate: suggestedEndDate } = getSuggestedDateRange(destination);
+    const startDate = nextAfterLastSegment || suggestedStartDate;
+    const endDate = nextAfterLastSegment
+        ? formatYmd(addDays(parseYmd(startDate), Math.max(destination.itineraryTemplate.length - 1, 0)))
+        : suggestedEndDate;
     setupSelection.startDate = startDate;
     setupSelection.endDate = endDate;
     setupRangeSelectingEnd = false;
@@ -5390,6 +5825,14 @@ ui.destinationSelector.addEventListener('click', (event) => {
     renderSetupInputs();
     renderDestinationSelector();
     closeDestinationDropdown();
+});
+ui.setupSegmentList.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-setup-segment]');
+    if (!button) return;
+
+    const index = Number(button.dataset.removeSetupSegment);
+    setupSegments = setupSegments.filter((_, segmentIndex) => segmentIndex !== index);
+    renderSetupInputs();
 });
 ui.setupCalendarGrid.addEventListener('click', (event) => {
     const button = event.target.closest('[data-calendar-date]');
@@ -5432,6 +5875,9 @@ ui.setupCalendarNextBtn.addEventListener('click', () => {
     renderSetupCalendar();
 });
 
+ui.addSegmentBtn.addEventListener('click', () => {
+    addSetupSegmentFromSelection();
+});
 ui.applyPlanBtn.addEventListener('click', applySetupSelection);
 ui.sharePlanBtn.addEventListener('click', sharePlan);
 ui.resetPlanBtn.addEventListener('click', resetToSetup);
