@@ -338,7 +338,7 @@ const DESTINATIONS = {
         country: 'Japan',
         summary: '도쿄 핵심 동선 위에 탑, 사원, 후지산 무드를 얹은 클래식 재팬 톤 템플릿입니다.',
         footer: 'Japan feels strongest in vermilion, paper light, and a clean skyline.',
-        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/f/f8/View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg',
+        heroImage: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Chuurei-tou_Fujiyoshida_17025277650_c59733d6ba_o.jpg',
         accent: '#C2410C',
         accentRgb: '194, 65, 12',
         ink: '#1F2A44',
@@ -1934,7 +1934,7 @@ const DESTINATIONS = {
     }
 };
 
-const DEFAULT_DESTINATION_ID = DESTINATIONS['hong-kong'] ? 'hong-kong' : Object.keys(DESTINATIONS)[0];
+const DEFAULT_DESTINATION_ID = DESTINATIONS.tokyo ? 'tokyo' : Object.keys(DESTINATIONS)[0];
 const ACTIVITY_ICON_VALUES = new Set(ACTIVITY_ICON_OPTIONS.map((option) => option.value));
 
 const appState = {
