@@ -3557,6 +3557,8 @@ let mapPreviewRequestId = 0;
 let utilityChromeTimer = null;
 let exchangeInputDestinationId = null;
 let exchangeInputsTouched = false;
+let currentFocusDismissedActivityId = null;
+let isAutoScrollingToCurrentFocus = false;
 const heroImagePreloadCache = new Map();
 
 const COUNTRY_FLAGS = {
@@ -3662,6 +3664,7 @@ const CURRENCY_DENOMINATIONS = {
     NZD: [5, 10, 20, 50, 100],
     MVR: [10, 20, 50, 100, 500]
 };
+const GENERAL_SMALL_AMOUNT_CANDIDATES = [1, 2, 5, 10, 20, 50, 100];
 
 const CURRENCY_DISPLAY = {
     EUR: '€',
@@ -4008,6 +4011,7 @@ const ui = {
     removeLastDayBtn: document.getElementById('remove-last-day-btn'),
     appendDayBtn: document.getElementById('append-day-btn'),
     itineraryContainer: document.getElementById('itinerary-container'),
+    currentFocusBtn: document.getElementById('current-focus-btn'),
     footerNote: document.getElementById('footer-note'),
     activityModal: document.getElementById('activity-modal'),
     activityCloseBtn: document.getElementById('activity-close-btn'),
@@ -4831,11 +4835,23 @@ function getCurrencyDisplay(code, fallbackSymbol = '') {
     return CURRENCY_DISPLAY[code] || fallbackSymbol || code;
 }
 
+function getAmountCandidates(code) {
+    const currencyCandidates = CURRENCY_DENOMINATIONS[code] || [];
+    return [...new Set([...GENERAL_SMALL_AMOUNT_CANDIDATES, ...currencyCandidates])]
+        .filter((value) => Number.isFinite(value) && value > 0)
+        .sort((left, right) => left - right);
+}
+
 function getSuggestedBaseAmount(destination, exchangeRate) {
     const curatedAmount = DEFAULT_BASE_AMOUNTS[destination.currency.code];
-    if (curatedAmount) return curatedAmount;
+    if (curatedAmount) {
+        const curatedKrw = curatedAmount * exchangeRate;
+        if (curatedKrw >= 500 && curatedKrw <= 2500) {
+            return curatedAmount;
+        }
+    }
 
-    const candidates = CURRENCY_DENOMINATIONS[destination.currency.code] || [1, 2, 5, 10, 20, 50, 100];
+    const candidates = getAmountCandidates(destination.currency.code);
     const targetKrw = 1000;
 
     return candidates.reduce((best, candidate) => {
@@ -4994,6 +5010,75 @@ function applyActivityIconSelection(value) {
     activityEditorState.icon = ACTIVITY_ICON_VALUES.has(value) ? value : '';
     renderActivityIconSelection();
     renderIconPicker();
+}
+
+function getActiveActivityCard() {
+    if (!appState.activeActivityId) return null;
+    return ui.itineraryContainer.querySelector(`[data-activity-card-id="${appState.activeActivityId}"]`);
+}
+
+function setCurrentFocusButtonVisible(visible) {
+    ui.currentFocusBtn.classList.toggle('hidden', !visible);
+}
+
+function updateCurrentFocusButton() {
+    if (!appState.hasStarted || !appState.activeActivityId || ui.tripShell.classList.contains('hidden')) {
+        setCurrentFocusButtonVisible(false);
+        return;
+    }
+
+    if (!ui.activityModal.classList.contains('hidden') || !ui.setupOverlay.classList.contains('hidden')) {
+        setCurrentFocusButtonVisible(false);
+        return;
+    }
+
+    const activeCard = getActiveActivityCard();
+    if (!activeCard) {
+        setCurrentFocusButtonVisible(false);
+        return;
+    }
+
+    const rect = activeCard.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    const isVisible = rect.bottom > 72 && rect.top < viewportHeight - 72;
+    const isBelowViewport = rect.top >= viewportHeight - 72;
+
+    if (isVisible || !isBelowViewport || currentFocusDismissedActivityId === appState.activeActivityId) {
+        setCurrentFocusButtonVisible(false);
+        return;
+    }
+
+    setCurrentFocusButtonVisible(true);
+}
+
+function scrollToCurrentFocus() {
+    const activeCard = getActiveActivityCard();
+    if (!activeCard) return;
+
+    isAutoScrollingToCurrentFocus = true;
+    setCurrentFocusButtonVisible(false);
+    activeCard.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+    });
+
+    window.setTimeout(() => {
+        isAutoScrollingToCurrentFocus = false;
+        updateCurrentFocusButton();
+    }, 900);
+}
+
+function handleCurrentFocusScrollDismiss() {
+    if (isAutoScrollingToCurrentFocus) {
+        updateCurrentFocusButton();
+        return;
+    }
+
+    if (!ui.currentFocusBtn.classList.contains('hidden') && appState.activeActivityId) {
+        currentFocusDismissedActivityId = appState.activeActivityId;
+    }
+
+    updateCurrentFocusButton();
 }
 
 function setRandomPhrase(destinationId) {
@@ -5303,6 +5388,10 @@ function applyActiveContext(context, { refreshPhrase = false } = {}) {
     appState.activeDayId = context.dayId;
     appState.activeActivityId = context.activityId;
 
+    if (activityChanged) {
+        currentFocusDismissedActivityId = null;
+    }
+
     if (destinationChanged && refreshPhrase) {
         setRandomPhrase(appState.destinationId);
     }
@@ -5595,6 +5684,7 @@ function renderItinerary() {
                     class="relative glass-panel p-4 rounded-3xl flex items-center justify-between gap-3 mb-3 cursor-pointer hover:bg-white/[0.08] transition-colors ${isActiveActivity ? 'next-item' : ''}"
                     data-action="edit-activity"
                     data-day-index="${dayIndex}"
+                    data-activity-card-id="${activity.id}"
                     data-activity-id="${activity.id}">
                     ${buildHourlyWeatherHtml(day, activity)}
                     <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -5675,6 +5765,7 @@ function renderItinerary() {
 
     lucide.createIcons();
     ui.itineraryContainer.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+    updateCurrentFocusButton();
 }
 
 function buildShareUrl() {
@@ -6227,6 +6318,7 @@ ui.rateKrwInput.addEventListener('input', () => {
     updateExchangeOutputs();
 });
 ui.itineraryContainer.addEventListener('click', handleItineraryClick);
+ui.currentFocusBtn.addEventListener('click', scrollToCurrentFocus);
 
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !ui.iconPickerModal.classList.contains('hidden')) {
@@ -6259,7 +6351,9 @@ document.addEventListener('click', (event) => {
 });
 
 window.addEventListener('resize', syncDestinationDropdownPosition);
+window.addEventListener('resize', updateCurrentFocusButton);
 window.addEventListener('scroll', syncDestinationDropdownPosition, { passive: true });
+window.addEventListener('scroll', handleCurrentFocusScrollDismiss, { passive: true });
 ui.setupOverlay.addEventListener('scroll', syncDestinationDropdownPosition, { passive: true });
 
 window.setInterval(updateClocks, 1000);

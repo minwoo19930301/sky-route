@@ -302,22 +302,68 @@
         }
 
         .next-item {
-            background: rgba(var(--accent-rgb), 0.12);
-            border: 1px solid rgba(var(--accent-rgb), 0.8);
-            animation: pulse-glow 2.2s infinite;
+            position: relative;
+            isolation: isolate;
+            background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(var(--accent-rgb), 0.92);
+            box-shadow:
+                0 0 0 1px rgba(var(--accent-rgb), 0.28) inset,
+                0 16px 40px rgba(var(--accent-rgb), 0.2),
+                0 0 28px rgba(var(--accent-rgb), 0.16);
+            animation: pulse-glow 2.2s ease-in-out infinite;
+        }
+
+        .next-item::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            border: 1px solid rgba(var(--accent-rgb), 0.5);
+            opacity: 0.72;
+            pointer-events: none;
+            animation: pulse-ring 2.2s ease-in-out infinite;
         }
 
         @keyframes pulse-glow {
             0% {
-                box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35);
+                transform: translateY(0) scale(1);
+                box-shadow:
+                    0 0 0 1px rgba(var(--accent-rgb), 0.22) inset,
+                    0 12px 28px rgba(var(--accent-rgb), 0.16),
+                    0 0 18px rgba(var(--accent-rgb), 0.12);
             }
 
             50% {
-                box-shadow: 0 0 24px 0 rgba(var(--accent-rgb), 0.48);
+                transform: translateY(-1px) scale(1.01);
+                box-shadow:
+                    0 0 0 1px rgba(var(--accent-rgb), 0.44) inset,
+                    0 20px 46px rgba(var(--accent-rgb), 0.28),
+                    0 0 34px rgba(var(--accent-rgb), 0.24);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35);
+                transform: translateY(0) scale(1);
+                box-shadow:
+                    0 0 0 1px rgba(var(--accent-rgb), 0.22) inset,
+                    0 12px 28px rgba(var(--accent-rgb), 0.16),
+                    0 0 18px rgba(var(--accent-rgb), 0.12);
+            }
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                opacity: 0.28;
+                transform: scale(0.995);
+            }
+
+            50% {
+                opacity: 0.82;
+                transform: scale(1.01);
+            }
+
+            100% {
+                opacity: 0.28;
+                transform: scale(0.995);
             }
         }
     </style>
@@ -443,6 +489,14 @@
             </div>
         </main>
     </div>
+
+    <button id="current-focus-btn" type="button"
+        class="hidden fixed left-1/2 bottom-5 z-40 -translate-x-1/2 rounded-full border border-white/12 bg-[rgba(15,23,42,0.86)] px-4 py-3 text-sm font-semibold text-white shadow-2xl backdrop-blur-md transition-colors hover:bg-[rgba(15,23,42,0.96)]">
+        <span class="inline-flex items-center gap-2">
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+            <span>현재 시점으로 가기</span>
+        </span>
+    </button>
 
     <div id="setup-overlay" class="fixed inset-0 z-[80] hidden overflow-y-auto">
         <div class="absolute inset-0 bg-slate-950/34"></div>
