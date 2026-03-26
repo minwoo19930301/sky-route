@@ -456,18 +456,6 @@
                     </div>
                 </div>
 
-                <div class="mb-5 rounded-[24px] border border-white/10 bg-white/[0.04] p-3 sm:p-4">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div class="text-[11px] uppercase tracking-[0.24em] text-white/48">추가된 일정</div>
-                        <div id="setup-segment-count" class="text-xs font-semibold text-white/54">0개</div>
-                    </div>
-                    <div id="setup-segment-list" class="space-y-2">
-                        <div class="rounded-[18px] border border-dashed border-white/12 bg-white/[0.03] px-4 py-3 text-sm text-white/54">
-                            아직 추가된 일정이 없습니다.
-                        </div>
-                    </div>
-                </div>
-
                 <div class="flex flex-col gap-5 flex-1">
                     <div class="rounded-[28px] border border-white/10 bg-white/[0.04] p-4 sm:p-5">
                         <div class="flex items-center justify-center gap-2 mb-4">
@@ -509,6 +497,17 @@
                     <div class="grid grid-cols-2 gap-3 mt-auto">
                         <button id="add-segment-btn" type="button" class="rounded-full border border-white/12 bg-white/6 px-5 py-4 text-sm font-semibold text-white hover:bg-white/10 transition-colors">일정 추가하기</button>
                         <button id="apply-plan-btn" type="button" class="action-btn primary px-6 py-4 text-sm font-semibold">이 일정으로 시작</button>
+                    </div>
+                    <div id="setup-segment-panel" class="hidden rounded-[24px] border border-white/10 bg-white/[0.04] p-3 sm:p-4">
+                        <div class="flex items-center justify-between gap-3 mb-3">
+                            <div class="text-[11px] uppercase tracking-[0.24em] text-white/48">추가된 일정</div>
+                            <div id="setup-segment-count" class="text-xs font-semibold text-white/54">0개</div>
+                        </div>
+                        <div id="setup-segment-list" class="space-y-2">
+                            <div class="rounded-[18px] border border-dashed border-white/12 bg-white/[0.03] px-4 py-3 text-sm text-white/54">
+                                아직 추가된 일정이 없습니다.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

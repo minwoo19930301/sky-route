@@ -35,7 +35,7 @@ const REGION_LABELS = {
     'north-america': '북미',
     europe: '유럽',
     africa: '아프리카',
-    resort: '휴양지',
+    resort: '오세아니아',
     'south-america': '남미'
 };
 const COUNTRY_SORT_ORDER = [
@@ -135,7 +135,7 @@ const COUNTRY_REGIONS = {
     Australia: 'resort',
     'New Zealand': 'resort',
     Maldives: 'resort',
-    'United Arab Emirates': 'resort',
+    'United Arab Emirates': 'asia',
     Egypt: 'africa',
     Morocco: 'africa',
     Tanzania: 'africa',
@@ -325,6 +325,7 @@ const DESTINATIONS = {
         summary: '뉴욕 대표 스폿을 밀도 있게 묶은 도심형 템플릿입니다.',
         footer: 'New York rewards dense days and late walks.',
         heroImage: 'assets/heroes/new-york.jpg',
+        heroPosition: 'center 22%',
         accent: '#60A5FA',
         accentRgb: '96, 165, 250',
         ink: '#0B1120',
@@ -3973,6 +3974,7 @@ const ui = {
     setupCalendarGrid: document.getElementById('setup-calendar-grid'),
     setupCalendarPrevBtn: document.getElementById('setup-calendar-prev-btn'),
     setupCalendarNextBtn: document.getElementById('setup-calendar-next-btn'),
+    setupSegmentPanel: document.getElementById('setup-segment-panel'),
     setupSegmentList: document.getElementById('setup-segment-list'),
     setupSegmentCount: document.getElementById('setup-segment-count'),
     addSegmentBtn: document.getElementById('add-segment-btn'),
@@ -4148,7 +4150,7 @@ function syncAppDateBounds() {
 }
 
 function getDayKey(day) {
-    return `${day.destinationId || appState.destinationId}::${day.date}`;
+    return day.date;
 }
 
 function getDraftSetupSegment() {
@@ -4254,19 +4256,105 @@ function countDaysInclusive(startDate, endDate) {
     return Math.floor((endDate.getTime() - startDate.getTime()) / 86400000) + 1;
 }
 
+function timeToMinutes(value = '00:00') {
+    const [hours, minutes] = value.split(':').map(Number);
+    return (hours * 60) + minutes;
+}
+
+function minutesToTime(totalMinutes) {
+    const normalized = Math.max(0, Math.min(1439, Math.round(totalMinutes)));
+    const hours = String(Math.floor(normalized / 60)).padStart(2, '0');
+    const minutes = String(normalized % 60).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function roundMinutes(value, step = 5) {
+    return Math.round(value / step) * step;
+}
+
 function sortActivities(day) {
     day.activities.sort((left, right) => left.time.localeCompare(right.time));
+}
+
+function syncDayDestinations(day) {
+    const destinationIds = [...new Set(day.activities.map((activity) => activity.destinationId).filter(Boolean))];
+    day.destinationIds = destinationIds.length ? destinationIds : (day.destinationIds?.length ? day.destinationIds : [day.destinationId].filter(Boolean));
+    day.destinationId = day.destinationIds[0] || appState.destinationId;
 }
 
 function cloneTemplateActivity(activity) {
     return {
         id: createId('activity'),
+        destinationId: activity.destinationId || '',
         time: activity.time,
         title: activity.title,
         location: activity.location,
         type: activity.type,
         memo: activity.memo || ''
     };
+}
+
+function getAirportLocation(destination) {
+    for (const template of [...destination.itineraryTemplate].reverse()) {
+        const airportActivity = [...template.activities].reverse().find((activity) => activity.type === 'plane');
+        if (airportActivity?.location) {
+            return airportActivity.location;
+        }
+    }
+
+    return `${destination.city} Airport`;
+}
+
+function getTemplateFocusActivity(destination, dayIndex) {
+    const templateLength = Math.max(destination.itineraryTemplate.length, 1);
+    const template = destination.itineraryTemplate[dayIndex % templateLength];
+    return template.activities.find((activity) => activity.type !== 'plane') || template.activities[0];
+}
+
+function buildGeneratedActivitiesForDestination(destinationId, dayIndex, slotIndex = 0, slotCount = 1) {
+    const destination = getDestination(destinationId);
+    const airportLocation = getAirportLocation(destination);
+    const focusActivity = getTemplateFocusActivity(destination, dayIndex);
+    const localizedCountry = getLocalizedLabel(destination.country, destination.country);
+
+    const windowStart = 360;
+    const windowEnd = 1260;
+    const slotSpan = (windowEnd - windowStart) / Math.max(slotCount, 1);
+    const slotStart = windowStart + (slotSpan * slotIndex);
+    const slotEnd = windowStart + (slotSpan * (slotIndex + 1));
+    const arrivalTime = minutesToTime(roundMinutes(slotStart + Math.min(20, slotSpan * 0.08)));
+    const focusTime = minutesToTime(roundMinutes(slotStart + (slotSpan * 0.5)));
+    const departureTime = minutesToTime(roundMinutes(slotEnd - Math.min(20, slotSpan * 0.08)));
+
+    return [
+        {
+            id: createId('activity'),
+            destinationId,
+            time: arrivalTime,
+            title: `${localizedCountry} 공항 도착`,
+            location: airportLocation,
+            type: 'plane',
+            memo: ''
+        },
+        {
+            id: createId('activity'),
+            destinationId,
+            time: focusTime,
+            title: focusActivity?.title || `${localizedCountry} 핵심 동선`,
+            location: focusActivity?.location || destination.city,
+            type: focusActivity?.type || 'map',
+            memo: ''
+        },
+        {
+            id: createId('activity'),
+            destinationId,
+            time: departureTime,
+            title: `${localizedCountry} 공항 출발`,
+            location: airportLocation,
+            type: 'plane',
+            memo: ''
+        }
+    ];
 }
 
 function getSuggestedStartDate(destination) {
@@ -4307,27 +4395,71 @@ function buildItineraryFromRange(destinationId, startDate, endDate) {
     const baseDate = parseYmd(startDate);
     const finalDate = parseYmd(endDate);
     const dayCount = countDaysInclusive(baseDate, finalDate);
-    const templateLength = destination.itineraryTemplate.length;
 
     return Array.from({ length: dayCount }, (_, dayIndex) => {
         const currentDate = addDays(baseDate, dayIndex);
-        const template = destination.itineraryTemplate[dayIndex % templateLength];
+        const activities = buildGeneratedActivitiesForDestination(destinationId, dayIndex, 0, 1);
 
         return {
             id: createId('day'),
             destinationId,
+            destinationIds: [destinationId],
             date: formatYmd(currentDate),
             day: DAY_LABELS[currentDate.getDay()],
             title: buildTemplateTitle(destination, dayIndex),
-            activities: template.activities.map((activity) => cloneTemplateActivity(activity))
+            activities
         };
     });
 }
 
 function buildItineraryFromSegments(segments = []) {
-    return sortSegments(segments).flatMap((segment) =>
-        buildItineraryFromRange(segment.destinationId, segment.startDate, segment.endDate)
-    );
+    const dayContextMap = new Map();
+
+    sortSegments(segments).forEach((segment) => {
+        const baseDate = parseYmd(segment.startDate);
+        const finalDate = parseYmd(segment.endDate);
+        const dayCount = countDaysInclusive(baseDate, finalDate);
+
+        Array.from({ length: dayCount }, (_, dayIndex) => {
+            const date = formatYmd(addDays(baseDate, dayIndex));
+            if (!dayContextMap.has(date)) {
+                dayContextMap.set(date, []);
+            }
+            dayContextMap.get(date).push({
+                destinationId: segment.destinationId,
+                dayIndex,
+                startDate: segment.startDate,
+                endDate: segment.endDate
+            });
+        });
+    });
+
+    return Array.from(dayContextMap.entries())
+        .sort(([leftDate], [rightDate]) => leftDate.localeCompare(rightDate))
+        .map(([date, contexts]) => {
+            const sortedContexts = [...contexts].sort((left, right) => {
+                const startCompare = left.startDate.localeCompare(right.startDate);
+                if (startCompare !== 0) return startCompare;
+                return left.destinationId.localeCompare(right.destinationId);
+            });
+            const destinationIds = [...new Set(sortedContexts.map((context) => context.destinationId))];
+            const activities = sortedContexts.flatMap((context, slotIndex) =>
+                buildGeneratedActivitiesForDestination(context.destinationId, context.dayIndex, slotIndex, sortedContexts.length)
+            );
+            const primaryDestination = getDestination(destinationIds[0]);
+
+            return {
+                id: createId('day'),
+                destinationId: destinationIds[0],
+                destinationIds,
+                date,
+                day: DAY_LABELS[parseYmd(date).getDay()],
+                title: destinationIds.length > 1
+                    ? `${destinationIds.length}개 국가 일정`
+                    : buildTemplateTitle(primaryDestination, sortedContexts[0].dayIndex),
+                activities
+            };
+        });
 }
 
 function buildItineraryFromSharedPayload(segments = [], serializedDays = []) {
@@ -4340,6 +4472,11 @@ function buildItineraryFromSharedPayload(segments = [], serializedDays = []) {
         const nextActivities = Array.isArray(sourceDay.a) && sourceDay.a.length
             ? sourceDay.a.map((activity) => ({
                 id: createId('activity'),
+                destinationId: getSelectableDestinationId(
+                    typeof activity.d === 'string' && activity.d
+                        ? activity.d
+                        : (day.activities[0]?.destinationId || day.destinationId)
+                ),
                 time: typeof activity.h === 'string' && activity.h ? activity.h : '09:00',
                 title: typeof activity.n === 'string' && activity.n
                     ? activity.n
@@ -4352,6 +4489,8 @@ function buildItineraryFromSharedPayload(segments = [], serializedDays = []) {
 
         return {
             ...day,
+            destinationId: nextActivities[0]?.destinationId || day.destinationId,
+            destinationIds: [...new Set(nextActivities.map((activity) => activity.destinationId).filter(Boolean))],
             title: typeof sourceDay.t === 'string' && sourceDay.t.trim() ? sourceDay.t.trim() : day.title,
             activities: nextActivities
         };
@@ -4368,6 +4507,7 @@ function buildSharePayload() {
         })),
         i: appState.itinerary.map((day) => ({
             a: day.activities.map((activity) => ({
+                d: getSelectableDestinationId(activity.destinationId || day.destinationId),
                 h: activity.time,
                 l: activity.location,
                 k: activity.type,
@@ -4782,6 +4922,7 @@ function renderDestinationSelector() {
 function renderSetupSegmentList() {
     const segments = getPendingSetupSegments(false);
     ui.setupSegmentCount.textContent = `${segments.length}개`;
+    ui.setupSegmentPanel.classList.toggle('hidden', !segments.length);
 
     if (!segments.length) {
         ui.setupSegmentList.innerHTML = `
@@ -4867,16 +5008,11 @@ function renderSetupInputs() {
         : formatSetupDate(setupSelection.endDate);
 
     const hasValidDraft = Boolean(getDraftSetupSegment());
-    const draftSegment = getDraftSetupSegment();
-    const hasDraftOverlap = draftSegment ? Boolean(findOverlappingSegment(draftSegment, setupSegments)) : false;
     const pendingSegments = getPendingSetupSegments(hasValidDraft);
-    const hasPendingOverlap = pendingSegments.some((segment, index) =>
-        pendingSegments.slice(index + 1).some((other) => rangesOverlap(segment, other))
-    );
-    const canApply = pendingSegments.length > 0 && !hasPendingOverlap;
-    ui.addSegmentBtn.disabled = !hasValidDraft || hasDraftOverlap;
-    ui.addSegmentBtn.classList.toggle('opacity-50', !hasValidDraft || hasDraftOverlap);
-    ui.addSegmentBtn.classList.toggle('pointer-events-none', !hasValidDraft || hasDraftOverlap);
+    const canApply = pendingSegments.length > 0;
+    ui.addSegmentBtn.disabled = !hasValidDraft;
+    ui.addSegmentBtn.classList.toggle('opacity-50', !hasValidDraft);
+    ui.addSegmentBtn.classList.toggle('pointer-events-none', !hasValidDraft);
     ui.applyPlanBtn.disabled = !canApply;
     ui.applyPlanBtn.classList.toggle('opacity-50', !canApply);
     ui.applyPlanBtn.classList.toggle('pointer-events-none', !canApply);
@@ -4933,7 +5069,30 @@ function hideSetupOverlay() {
 }
 
 function getDayDestination(day) {
-    return getDestination(day?.destinationId || appState.destinationId);
+    const primaryDestinationId = day?.destinationIds?.[0] || day?.destinationId || appState.destinationId;
+    return getDestination(primaryDestinationId);
+}
+
+function getDayChipLabel(day) {
+    const destinationIds = day.destinationIds?.length ? day.destinationIds : [day.destinationId];
+
+    if (destinationIds.length > 1) {
+        const labels = destinationIds.map((destinationId) => {
+            const destination = getDestination(destinationId);
+            return getLocalizedLabel(destination.country, destination.country);
+        });
+        return labels.length <= 2
+            ? labels.join(' · ')
+            : `${labels.slice(0, 2).join(' · ')} +${labels.length - 2}`;
+    }
+
+    const destination = getDestination(destinationIds[0]);
+    const selectableEntry = getSelectableDestinations().find((entry) => entry.id === getSelectableDestinationId(destination.id));
+    if (selectableEntry?.secondaryLabel) {
+        return `${getLocalizedLabel(destination.country, destination.country)} · ${getLocalizedLabel(destination.city, destination.city)}`;
+    }
+
+    return getLocalizedLabel(destination.country, destination.country);
 }
 
 function getClockTimeValue(timeZone) {
@@ -4965,7 +5124,7 @@ function findActiveContext() {
             const activeActivity = activities.find((activity) => activity.time >= nowTime) || activities[activities.length - 1] || null;
 
             return {
-                destinationId: day.destinationId,
+                destinationId: activeActivity?.destinationId || day.destinationId,
                 dayId: day.id,
                 activityId: activeActivity?.id || null
             };
@@ -4980,7 +5139,7 @@ function findActiveContext() {
 
     const fallbackDay = fallbackUpcomingDay || fallbackPastDay || appState.itinerary[0];
     return {
-        destinationId: fallbackDay.destinationId,
+        destinationId: fallbackDay.activities[0]?.destinationId || fallbackDay.destinationId,
         dayId: fallbackDay.id,
         activityId: fallbackDay.activities[0]?.id || null
     };
@@ -5197,24 +5356,31 @@ async function fetchWeather() {
 }
 
 function buildDailyWeatherHtml(day) {
-    const weather = appState.currentWeather?.dailyByKey?.[`${day.destinationId}|${day.date}`];
-    if (!weather) return '';
+    const destinationIds = [...new Set((day.destinationIds?.length ? day.destinationIds : [day.destinationId]).filter(Boolean))];
+    const chips = destinationIds.map((destinationId) => {
+        const weather = appState.currentWeather?.dailyByKey?.[`${destinationId}|${day.date}`];
+        if (!weather) return '';
 
-    const weatherInfo = getWeatherInfo(weather.weatherCode);
-    const maxTemp = Math.round(weather.maxTemp);
-    const minTemp = Math.round(weather.minTemp);
+        const weatherInfo = getWeatherInfo(weather.weatherCode);
+        const maxTemp = Math.round(weather.maxTemp);
+        const minTemp = Math.round(weather.minTemp);
+        const destination = getDestination(destinationId);
+        const prefix = destinationIds.length > 1 ? `${getCountryFlag(destination.country)} ` : '';
 
-    return `
-        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
-            <i data-lucide="${weatherInfo.icon}" class="w-4 h-4" style="color:${weatherInfo.color}"></i>
-            <span class="text-xs font-bold text-white">${maxTemp}° <span class="text-white/45">/ ${minTemp}°</span></span>
-        </div>
-    `;
+        return `
+            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
+                <i data-lucide="${weatherInfo.icon}" class="w-4 h-4" style="color:${weatherInfo.color}"></i>
+                <span class="text-xs font-bold text-white">${prefix}${maxTemp}° <span class="text-white/45">/ ${minTemp}°</span></span>
+            </div>
+        `;
+    }).filter(Boolean);
+
+    return chips.join('');
 }
 
 function buildHourlyWeatherHtml(day, activity) {
     const hourLabel = `${day.date}T${activity.time.split(':')[0]}:00`;
-    const weather = appState.currentWeather?.hourlyByKey?.[`${day.destinationId}|${hourLabel}`];
+    const weather = appState.currentWeather?.hourlyByKey?.[`${activity.destinationId || day.destinationId}|${hourLabel}`];
     if (!weather) return '';
 
     const weatherInfo = getWeatherInfo(weather.weatherCode);
@@ -5240,15 +5406,11 @@ function renderItinerary() {
         const dayElement = document.createElement('div');
         dayElement.className = 'relative pl-8 reveal';
         const dayDirectionsUrl = getDayDirectionsUrl(day.activities);
-        const countryLabel = getLocalizedLabel(dayDestination.country, dayDestination.country);
-        const cityLabel = getLocalizedLabel(dayDestination.city, dayDestination.city);
         const segmentChipHtml = isSegmentBoundary ? `
             <div class="mb-2">
                 <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-semibold tracking-[0.24em] uppercase text-white/84"
                     style="border-color: rgba(${dayDestination.accentRgb}, 0.42); background: rgba(${dayDestination.accentRgb}, 0.16);">
-                    <span>${escapeHtml(countryLabel)}</span>
-                    <span class="text-white/45">·</span>
-                    <span>${escapeHtml(cityLabel)}</span>
+                    <span>${escapeHtml(getDayChipLabel(day))}</span>
                 </div>
             </div>
         ` : '';
@@ -5256,6 +5418,8 @@ function renderItinerary() {
         const activitiesHtml = day.activities.map((activity, activityIndex) => {
             const nextActivity = day.activities[activityIndex + 1];
             const isActiveActivity = activity.id === appState.activeActivityId;
+            const activityDestination = getDestination(activity.destinationId || day.destinationId);
+            const showActivityCountry = (day.destinationIds?.length || 0) > 1;
             const betweenStopsHtml = nextActivity ? `
                 <div class="relative h-5 -mt-1 -mb-1 z-20">
                     <div class="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/18"></div>
@@ -5286,6 +5450,7 @@ function renderItinerary() {
                             <i data-lucide="${getRenderableActivityIcon(activity.type)}" class="w-4 h-4"></i>
                         </div>
                         <div class="min-w-0">
+                            ${showActivityCountry ? `<div class="text-[10px] uppercase tracking-[0.22em] text-white/46 mb-1">${escapeHtml(getLocalizedLabel(activityDestination.country, activityDestination.country))}</div>` : ''}
                             <div class="text-sm font-bold text-white">${escapeHtml(activity.time)}</div>
                             <div class="text-sm text-white/88 mt-1">${escapeHtml(activity.location)}</div>
                             ${activity.memo ? `<div class="text-xs text-white/62 mt-1 leading-5">${escapeHtml(activity.memo)}</div>` : ''}
@@ -5382,14 +5547,6 @@ function addSetupSegmentFromSelection({ silent = false } = {}) {
         return false;
     }
 
-    const overlap = findOverlappingSegment(draftSegment, setupSegments);
-    if (overlap) {
-        if (!silent) {
-            window.alert('추가한 일정끼리는 날짜가 겹칠 수 없습니다.');
-        }
-        return false;
-    }
-
     if (!setupSegments.some((segment) => isSameSegment(segment, draftSegment))) {
         setupSegments = sortSegments([...setupSegments, draftSegment]);
     }
@@ -5438,14 +5595,6 @@ async function applySetupSelection() {
         return;
     }
 
-    const overlap = pendingSegments.find((segment, index) =>
-        pendingSegments.slice(index + 1).some((other) => rangesOverlap(segment, other))
-    );
-    if (overlap) {
-        window.alert('추가한 일정끼리는 날짜가 겹칠 수 없습니다.');
-        return;
-    }
-
     const nextSegments = sortSegments(pendingSegments);
     const isChangingCoreSetup = JSON.stringify(appState.segments.map(cloneSegment)) !== JSON.stringify(nextSegments.map(cloneSegment));
 
@@ -5478,7 +5627,14 @@ function rebuildItineraryWithSegments(nextSegments) {
 
     appState.segments = sortedSegments.map(cloneSegment);
     syncAppDateBounds();
-    appState.itinerary = nextTemplate.map((day) => existingDaysByKey.get(getDayKey(day)) || day);
+    appState.itinerary = nextTemplate.map((day) => {
+        const existingDay = existingDaysByKey.get(getDayKey(day));
+        if (!existingDay) return day;
+
+        const existingDestinations = JSON.stringify(existingDay.destinationIds || [existingDay.destinationId].filter(Boolean));
+        const nextDestinations = JSON.stringify(day.destinationIds || [day.destinationId].filter(Boolean));
+        return existingDestinations === nextDestinations ? existingDay : day;
+    });
     appState.customized = true;
 
     refreshPlan();
@@ -5662,6 +5818,7 @@ function saveActivityEditor() {
 
     const nextActivity = {
         id: activityEditorState.activityId || createId('activity'),
+        destinationId: existingActivity?.destinationId || day.destinationIds?.[0] || day.destinationId || appState.destinationId,
         time,
         title: existingActivity?.title || location || '일정',
         location,
@@ -5677,6 +5834,7 @@ function saveActivityEditor() {
     }
 
     sortActivities(day);
+    syncDayDestinations(day);
     closeActivityEditor();
     persistItineraryChanges();
 }
@@ -5689,6 +5847,7 @@ function deleteCurrentActivity() {
     if (!shouldDelete) return;
 
     day.activities = day.activities.filter((activity) => activity.id !== activityEditorState.activityId);
+    syncDayDestinations(day);
     closeActivityEditor();
     persistItineraryChanges();
 }
