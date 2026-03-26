@@ -4786,13 +4786,7 @@ function getDayDirectionsUrl(activities = [], fallbackDestinationId = '') {
 }
 
 function getGoogleMapsEmbedUrl(query) {
-    const url = new URL('https://www.google.com/maps');
-    url.searchParams.set('q', query);
-    url.searchParams.set('z', '15');
-    url.searchParams.set('output', 'embed');
-    url.searchParams.set('hl', 'ko');
-    url.searchParams.set('gl', 'kr');
-    return url.toString();
+    return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=15&output=embed`;
 }
 
 function parseAmountInput(value) {
@@ -4969,7 +4963,7 @@ function updateActivityMapPreview() {
 
     mapPreviewTimer = window.setTimeout(() => {
         if (requestId !== mapPreviewRequestId) return;
-        const query = String(lookupValue || getLocationSearchQuery(location, destinationId)).trim();
+        const query = String(location || lookupValue || getLocationSearchQuery(location, destinationId)).trim();
         ui.activityMapFrame.src = getGoogleMapsEmbedUrl(query);
         ui.activityMapStatus.textContent = `"${location}" 주변을 구글 지도 기준으로 보여줍니다.`;
     }, 320);
