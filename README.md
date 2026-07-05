@@ -1,15 +1,15 @@
-# Sky Route - Travel Planner
+# Tour City Planner - Travel Route Planner
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://minwoo19930301.github.io/sky-route/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://minwoo19930301.github.io/tour-city-planner/)
 
 
 도시별 추천 일정 템플릿을 바탕으로 여행 루트를 만들고, 날씨와 환율, 지도 미리보기까지 한 화면에서 확인할 수 있는 정적 여행 플래너입니다. 단일 도시 일정뿐 아니라 여러 나라를 이어 붙인 멀티 세그먼트 일정도 URL로 공유할 수 있습니다.
 
 ## 링크
 
-- 서비스: [Sky Route](https://minwoo19930301.github.io/sky-route/)
-- 예시 페이지: [Paris Trip](https://minwoo19930301.github.io/sky-route/paris_trip.html)
-- GitHub: [minwoo19930301/sky-route](https://github.com/minwoo19930301/sky-route)
+- 서비스: [Tour City Planner](https://minwoo19930301.github.io/tour-city-planner/)
+- 예시 페이지: [Paris Trip](https://minwoo19930301.github.io/tour-city-planner/paris_trip.html)
+- GitHub: [minwoo19930301/tour-city-planner](https://github.com/minwoo19930301/tour-city-planner)
 
 ## 주요 기능
 
@@ -43,8 +43,8 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory "/Users/minwokim/Docume
 
 ## 배포
 
-- 메인 페이지: [https://minwoo19930301.github.io/sky-route/](https://minwoo19930301.github.io/sky-route/)
-- 예시 진입 페이지: [https://minwoo19930301.github.io/sky-route/paris_trip.html](https://minwoo19930301.github.io/sky-route/paris_trip.html)
+- 메인 페이지: [https://minwoo19930301.github.io/tour-city-planner/](https://minwoo19930301.github.io/tour-city-planner/)
+- 예시 진입 페이지: [https://minwoo19930301.github.io/tour-city-planner/paris_trip.html](https://minwoo19930301.github.io/tour-city-planner/paris_trip.html)
 - GitHub Pages 정적 배포
 
 ## 데이터와 외부 연동
