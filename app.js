@@ -4019,7 +4019,19 @@ const ui = {
     iconPickerModal: document.getElementById('icon-picker-modal'),
     iconPickerGrid: document.getElementById('icon-picker-grid'),
     iconPickerCloseBtn: document.getElementById('icon-picker-close-btn'),
-    iconPickerCancelBtn: document.getElementById('icon-picker-cancel-btn')
+    iconPickerCancelBtn: document.getElementById('icon-picker-cancel-btn'),
+    
+    // 신규 모달 요소 등록
+    startOptionsModal: document.getElementById('start-options-modal'),
+    optTemplateBtn: document.getElementById('opt-template-btn'),
+    optBlankBtn: document.getElementById('opt-blank-btn'),
+    optAiBtn: document.getElementById('opt-ai-btn'),
+    optCancelBtn: document.getElementById('opt-cancel-btn'),
+    aiPromptModal: document.getElementById('ai-prompt-modal'),
+    aiPromptText: document.getElementById('ai-prompt-text'),
+    aiPromptCopyBtn: document.getElementById('ai-prompt-copy-btn'),
+    aiPromptCloseBtn: document.getElementById('ai-prompt-close-btn'),
+    aiPromptOkBtn: document.getElementById('ai-prompt-ok-btn')
 };
 
 function createId(prefix) {
@@ -5913,6 +5925,75 @@ function refreshPlan() {
     showUtilityChrome();
 }
 
+let pendingSetupSegmentsData = null;
+
+function generateAIPromptText(destinationId, startDate, endDate) {
+    const destination = getDestination(destinationId);
+    const cityKo = destination.cityKo || destination.city || destinationId;
+    const countryKo = destination.countryKo || destination.country || '';
+    const baseDomain = window.location.origin + window.location.pathname;
+
+    return `내가 [${cityKo} (${countryKo})] 여행 일정을 계획하고 있어.
+날짜: ${startDate} ~ ${endDate}
+
+아래 제공하는 엄격한 JSON 스펙 규격에 맞춰서 여행 일정을 하나 구성해 줘. 그리고 다른 부가 설명이나 서론/결론 텍스트는 절대 작성하지 말고, 오직 최종 결과인 URL 해시 링크 하나만 딱 한 줄로 텍스트로 리턴해 줘.
+
+[최종 답변 출력 포맷]
+${baseDomain}#plan=<BASE64_ENCODED_JSON>
+
+[JSON 설계 스펙 가이드]
+{
+  "v": 3,
+  "g": [{"d": "${destinationId}", "s": "${startDate}", "e": "${endDate}"}],
+  "i": [
+    {
+      "a": [
+        {"d": "${destinationId}", "h": "09:00", "l": "가볼만한 장소 또는 활동명 1", "k": "lucide-icon-name", "m": "선택사항 메모"},
+        {"d": "${destinationId}", "h": "13:30", "l": "가볼만한 장소 또는 활동명 2", "k": "lucide-icon-name", "m": ""}
+      ]
+    }
+  ]
+}
+
+* 참고사항:
+1. "i" 배열의 크기는 총 여행 일수(날짜 차이)와 정확히 일치해야 해. 각 원소는 1일차, 2일차, 3일차 순서의 일정이야.
+2. "k" 값에는 Lucide 아이콘 명칭들을 적극 활용해줘. 사용 가능한 권장 아이콘 값: "plane", "sparkles", "luggage", "landmark", "compass", "utensils", "coffee", "hotel", "camera", "shopping-bag", "train", "car", "map-pin", "moon-star", "sun", "ticket", "beer".
+3. 작성한 최종 JSON을 Base64(UTF-8 대응)로 빈칸 없이 완벽히 인코딩해서 #plan= 뒤에 붙여서 링크 하나만 딱 완성해줘.`;
+}
+
+async function executeItineraryStart(creationMode) {
+    if (!pendingSetupSegmentsData) return;
+
+    setupSegments = pendingSetupSegmentsData.map(cloneSegment);
+    appState.segments = pendingSetupSegmentsData.map(cloneSegment);
+    syncAppDateBounds();
+
+    if (creationMode === 'blank') {
+        const template = buildItineraryFromSegments(appState.segments);
+        appState.itinerary = template.map(day => ({
+            ...day,
+            activities: []
+        }));
+    } else {
+        appState.itinerary = buildItineraryFromSegments(appState.segments);
+    }
+
+    appState.hasStarted = true;
+    appState.customized = (creationMode === 'blank');
+    appState.currentWeather = null;
+    appState.weatherMode = 'loading';
+
+    ui.startOptionsModal.classList.add('hidden');
+    hideSetupOverlay();
+
+    ui.applyPlanBtn.disabled = true;
+    await Promise.all(appState.segments.map((segment) => preloadHeroImage(getDestination(segment.destinationId).heroImage)));
+    applyActiveContext(findActiveContext(), { refreshPhrase: true });
+    applyTheme(getDestination(appState.destinationId));
+    setShareStatus('');
+    refreshPlan();
+}
+
 async function applySetupSelection() {
     const pendingSegments = getPendingSetupSegments(true);
     if (!pendingSegments.length) {
@@ -5928,21 +6009,8 @@ async function applySetupSelection() {
         if (!shouldContinue) return;
     }
 
-    setupSegments = nextSegments.map(cloneSegment);
-    appState.segments = nextSegments.map(cloneSegment);
-    syncAppDateBounds();
-    appState.itinerary = buildItineraryFromSegments(appState.segments);
-    appState.hasStarted = true;
-    appState.customized = false;
-    appState.currentWeather = null;
-    appState.weatherMode = 'loading';
-
-    ui.applyPlanBtn.disabled = true;
-    await Promise.all(appState.segments.map((segment) => preloadHeroImage(getDestination(segment.destinationId).heroImage)));
-    applyActiveContext(findActiveContext(), { refreshPhrase: true });
-    applyTheme(getDestination(appState.destinationId));
-    setShareStatus('');
-    refreshPlan();
+    pendingSetupSegmentsData = nextSegments.map(cloneSegment);
+    ui.startOptionsModal.classList.remove('hidden');
 }
 
 function rebuildItineraryWithSegments(nextSegments) {
@@ -6366,6 +6434,46 @@ ui.addSegmentBtn.addEventListener('click', () => {
     addSetupSegmentFromSelection();
 });
 ui.applyPlanBtn.addEventListener('click', applySetupSelection);
+
+// 시작 옵션 모달 리스너들
+ui.optTemplateBtn.addEventListener('click', () => {
+    executeItineraryStart('template');
+});
+ui.optBlankBtn.addEventListener('click', () => {
+    executeItineraryStart('blank');
+});
+ui.optCancelBtn.addEventListener('click', () => {
+    ui.startOptionsModal.classList.add('hidden');
+});
+ui.optAiBtn.addEventListener('click', () => {
+    if (!pendingSetupSegmentsData || !pendingSetupSegmentsData.length) return;
+    const seg = pendingSetupSegmentsData[0];
+    const promptText = generateAIPromptText(seg.destinationId, seg.startDate, seg.endDate);
+    
+    ui.aiPromptText.value = promptText;
+    ui.startOptionsModal.classList.add('hidden');
+    ui.aiPromptModal.classList.remove('hidden');
+    
+    navigator.clipboard.writeText(promptText).then(() => {
+        window.alert('프롬프트가 클립보드에 자동으로 복사되었습니다! 원하시는 AI 서비스에 붙여넣어주세요.');
+    }).catch((err) => {
+        console.warn('Clipboard write failed: ', err);
+    });
+});
+
+// AI 프롬프트 안내 모달 리스너들
+ui.aiPromptCloseBtn.addEventListener('click', () => {
+    ui.aiPromptModal.classList.add('hidden');
+});
+ui.aiPromptOkBtn.addEventListener('click', () => {
+    ui.aiPromptModal.classList.add('hidden');
+});
+ui.aiPromptCopyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(ui.aiPromptText.value).then(() => {
+        window.alert('프롬프트가 복사되었습니다!');
+    });
+});
+
 ui.sharePlanBtn.addEventListener('click', sharePlan);
 ui.resetPlanBtn.addEventListener('click', resetToSetup);
 ui.prependDayBtn.addEventListener('click', prependDay);

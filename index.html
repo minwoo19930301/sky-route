@@ -679,6 +679,111 @@
         </div>
     </div>
 
+    <!-- 일정 생성 옵션 모달 -->
+    <div id="start-options-modal" class="fixed inset-0 z-[96] hidden overflow-y-auto">
+        <div class="absolute inset-0 bg-slate-950/76 backdrop-blur-md"></div>
+        <div class="relative z-10 max-w-md mx-auto min-h-screen flex items-center px-4 py-8">
+            <div class="glass-panel rounded-[32px] p-6 w-full relative">
+                <div class="text-center mb-6">
+                    <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-2">Select Planning Mode</div>
+                    <h2 class="text-2xl font-serif font-bold text-white mb-2">일정을 어떻게 시작할까요?</h2>
+                    <p class="text-sm text-white/60">선택하신 도시와 날짜로 여행 계획을 준비합니다.</p>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- 예시 일정 -->
+                    <button id="opt-template-btn" type="button" class="w-full flex items-center justify-between p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-left group">
+                        <div>
+                            <div class="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors">✨ 추천 예시 일정</div>
+                            <div class="text-xs text-white/50 mt-1">도시별 기본 템플릿으로 가득 채워진 일정 로드</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-white/40 group-hover:text-white transition-colors"></i>
+                    </button>
+
+                    <!-- 빈 일정 -->
+                    <button id="opt-blank-btn" type="button" class="w-full flex items-center justify-between p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-left group">
+                        <div>
+                            <div class="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors">📁 완전 비어있는 일정</div>
+                            <div class="text-xs text-white/50 mt-1">추천 일정 없이 본인만의 계획을 새로 작성</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-white/40 group-hover:text-white transition-colors"></i>
+                    </button>
+
+                    <!-- AI한테 시키기 -->
+                    <button id="opt-ai-btn" type="button" class="w-full flex items-center justify-between p-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/18 hover:border-purple-500/50 transition-all text-left group">
+                        <div>
+                            <div class="text-sm font-semibold text-purple-200 group-hover:text-purple-100 transition-colors">🤖 AI 플래너에게 시키기</div>
+                            <div class="text-xs text-purple-300/60 mt-1">ChatGPT, Claude, Gemini, Grok용 맞춤 프롬프트 생성</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-purple-400 group-hover:text-purple-200 transition-colors"></i>
+                    </button>
+                </div>
+
+                <div class="flex justify-end mt-6">
+                    <button id="opt-cancel-btn" type="button" class="rounded-2xl border border-white/12 bg-white/6 px-4 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition-colors">
+                        취소
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI 프롬프트 가이드 모달 -->
+    <div id="ai-prompt-modal" class="fixed inset-0 z-[97] hidden overflow-y-auto">
+        <div class="absolute inset-0 bg-slate-950/76 backdrop-blur-md"></div>
+        <div class="relative z-10 max-w-xl mx-auto min-h-screen flex items-center px-4 py-8">
+            <div class="glass-panel rounded-[32px] p-6 w-full relative">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-1">AI Prompt Copier</div>
+                        <h2 class="text-xl font-serif font-bold text-white">AI 플래너 프롬프트 복사</h2>
+                    </div>
+                    <button id="ai-prompt-close-btn" class="shrink-0 rounded-full bg-white/5 border border-white/10 p-2 text-white/45 hover:text-white transition-colors" aria-label="닫기">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <p class="text-xs text-white/60 mb-3 leading-relaxed">
+                    아래 프롬프트 텍스트를 복사한 뒤, 원하시는 AI 서비스에 붙여넣어 완벽한 여행 레시피 해시 링크를 받으세요! AI가 뱉어주는 최종 링크를 주소창에 치고 들어오시면 일정이 연동됩니다.
+                </p>
+
+                <!-- 프롬프트 텍스트 에어리어 -->
+                <div class="relative mb-4">
+                    <textarea id="ai-prompt-text" readonly rows="8" class="w-full p-3.5 rounded-2xl border border-white/10 bg-black/40 text-xs font-mono text-white/80 leading-relaxed focus:outline-none focus:border-purple-500/50 resize-none hide-scrollbar"></textarea>
+                    <button id="ai-prompt-copy-btn" type="button" class="absolute right-3 bottom-3 rounded-xl bg-purple-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-purple-500 transition-all flex items-center gap-1.5 shadow-lg active:scale-95">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        <span>복사하기</span>
+                    </button>
+                </div>
+
+                <!-- AI 링크 4종 세트 -->
+                <div class="mb-5">
+                    <div class="text-[11px] uppercase tracking-[0.24em] text-white/45 mb-2.5">AI Services</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://chatgpt.com" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-white/8 bg-white/4 hover:bg-white/8 text-xs font-semibold text-white/90 hover:text-white transition-colors">
+                            <span>💬 ChatGPT</span>
+                        </a>
+                        <a href="https://claude.ai" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-white/8 bg-white/4 hover:bg-white/8 text-xs font-semibold text-white/90 hover:text-white transition-colors">
+                            <span>🎨 Claude</span>
+                        </a>
+                        <a href="https://gemini.google.com" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-white/8 bg-white/4 hover:bg-white/8 text-xs font-semibold text-white/90 hover:text-white transition-colors">
+                            <span>✨ Gemini</span>
+                        </a>
+                        <a href="https://grok.com" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-white/8 bg-white/4 hover:bg-white/8 text-xs font-semibold text-white/90 hover:text-white transition-colors">
+                            <span>🔮 Grok</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-3 border-t border-white/8">
+                    <button id="ai-prompt-ok-btn" type="button" class="rounded-2xl border border-white/12 bg-white/6 px-4 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition-colors w-full sm:w-auto">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="./app.js?v=1d9b3fe" defer></script>
 </body>
 
